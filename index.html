@@ -2190,6 +2190,117 @@ main#top > #shop ~ section {
 })();
 </script>
 
+
+<script id="squish-commerce-interaction-repair">
+(function(){
+  'use strict';
+  const shop = document.getElementById('shop');
+  const grid = document.getElementById('products');
+  const backdrop = document.getElementById('config-backdrop');
+  const addConfig = document.getElementById('config-add');
+  if (!shop || !grid || !backdrop || !addConfig) return;
+
+  // Rebind category tabs through delegation so category switching survives re-rendering.
+  shop.addEventListener('click', function(ev){
+    const tab = ev.target.closest('.category-submenu [data-cat]');
+    if (!tab) return;
+    ev.preventDefault();
+    ev.stopImmediatePropagation();
+    const next = tab.dataset.cat;
+    if (typeof products === 'undefined' || !products[next]) return;
+    category = next;
+    shop.querySelectorAll('.category-submenu [data-cat]').forEach(btn=>{
+      const active = btn === tab;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    renderProducts();
+  }, true);
+
+  // Capture add-button taps before any stale or duplicated product listeners.
+  grid.addEventListener('click', function(ev){
+    const button = ev.target.closest('button.add');
+    if (!button) return;
+    ev.preventDefault();
+    ev.stopImmediatePropagation();
+    const card = button.closest('.product');
+    if (!card) return;
+    const name = card.querySelector('.name')?.textContent?.trim();
+    const priceText = card.querySelector('.price')?.textContent || '';
+    const price = Number(priceText.replace(/[^\d.]/g,''));
+    if (!name || !Number.isFinite(price)) return;
+    openProductSheet(name, price);
+  }, true);
+
+  function hideSheet(){
+    backdrop.hidden = true;
+    backdrop.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    if (typeof sheetProduct !== 'undefined') sheetProduct = null;
+  }
+  function showSheet(){
+    backdrop.hidden = false;
+    backdrop.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+  // Ensure close controls always release the overlay immediately.
+  document.getElementById('config-close')?.addEventListener('click', function(ev){
+    ev.preventDefault(); ev.stopImmediatePropagation(); hideSheet();
+  }, true);
+  backdrop.addEventListener('click', function(ev){
+    if (ev.target === backdrop) hideSheet();
+  }, true);
+  document.addEventListener('keydown', function(ev){
+    if (ev.key === 'Escape' && !backdrop.hidden) hideSheet();
+  }, true);
+
+  // Replace the add-to-cart action with one deterministic path.
+  addConfig.addEventListener('click', function(ev){
+    ev.preventDefault();
+    ev.stopImmediatePropagation();
+    if (!sheetProduct) return;
+    const crust = document.querySelector('input[name="config-crust"]:checked')?.value;
+    if (!crust) { alert('請選擇脆皮厚度。'); return; }
+    const isBasic = sheetProduct.level === 'basic';
+    const colors = isBasic ? document.getElementById('config-colors').value.trim() : '';
+    const notes = isBasic ? document.getElementById('config-notes').value.trim() : '';
+    if (isBasic && !colors) {
+      document.getElementById('config-colors').focus();
+      alert('請填寫區域配色要求。');
+      return;
+    }
+    const same = cart.find(item =>
+      item.name === sheetProduct.name &&
+      item.level === sheetProduct.level &&
+      item.crust === crust &&
+      item.colors === colors &&
+      item.notes === notes
+    );
+    if (same) same.qty += 1;
+    else cart.push({
+      name: sheetProduct.name, price: sheetProduct.price, qty: 1,
+      level: sheetProduct.level, crust, colors, notes
+    });
+    renderCart();
+    hideSheet();
+    document.getElementById('cart')?.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }, true);
+
+  // Keep the existing open function but enforce modal visibility and current product state.
+  const originalOpen = window.openProductSheet;
+  if (typeof originalOpen === 'function') {
+    window.openProductSheet = function(name, price) {
+      originalOpen(name, price);
+      showSheet();
+    };
+  }
+  // Initial render ensures visible cards and cart are synchronized on first load.
+  if (typeof renderProducts === 'function') renderProducts();
+  if (typeof renderCart === 'function') renderCart();
+})();
+</script>
 </body>
 </html>
 
