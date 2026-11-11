@@ -1937,8 +1937,26 @@ motionObserver.observe(document.body,{childList:true,subtree:true});
 
 let sheetProduct=null,sheetQuantity=1;
 const productBackdrop=document.getElementById("product-sheet-backdrop");
-function openProductSheet(name,price){sheetProduct={name,price,level:category};sheetQuantity=1;document.getElementById("sheet-name").textContent=name;document.getElementById("sheet-price").textContent=money(price);document.getElementById("sheet-qty").textContent=sheetQuantity;productBackdrop.classList.remove("is-closing");productBackdrop.classList.add("is-open");productBackdrop.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";}
-function closeProductSheet(){if(!productBackdrop.classList.contains("is-open"))return;productBackdrop.classList.remove("is-open");productBackdrop.classList.add("is-closing");productBackdrop.setAttribute("aria-hidden","true");document.body.style.overflow="";window.setTimeout(()=>{productBackdrop.classList.remove("is-closing");sheetProduct=null;},740);}
+function openProductSheet(name,price){
+ sheetProduct={name,price,level:category};sheetQuantity=1;
+ document.getElementById("sheet-name").textContent=name;
+ document.getElementById("sheet-price").textContent=money(price);
+ document.getElementById("sheet-qty").textContent=sheetQuantity;
+ productBackdrop.classList.remove("is-closing");
+ productBackdrop.style.pointerEvents="auto";
+ productBackdrop.classList.add("is-open");
+ productBackdrop.setAttribute("aria-hidden","false");
+ document.body.style.overflow="hidden";
+}
+function closeProductSheet(){
+ if(!productBackdrop.classList.contains("is-open"))return;
+ /* Release the page immediately: the fading sheet must never intercept taps. */
+ productBackdrop.style.pointerEvents="none";
+ productBackdrop.classList.remove("is-open","is-closing");
+ productBackdrop.setAttribute("aria-hidden","true");
+ document.body.style.overflow="";
+ sheetProduct=null;
+}
 document.getElementById("sheet-close").addEventListener("click",closeProductSheet);productBackdrop.addEventListener("click",e=>{if(e.target===productBackdrop)closeProductSheet();});document.getElementById("sheet-minus").addEventListener("click",()=>{sheetQuantity=Math.max(1,sheetQuantity-1);document.getElementById("sheet-qty").textContent=sheetQuantity;});document.getElementById("sheet-plus").addEventListener("click",()=>{sheetQuantity=Math.min(99,sheetQuantity+1);document.getElementById("sheet-qty").textContent=sheetQuantity;});document.getElementById("sheet-add").addEventListener("click",()=>{if(!sheetProduct)return;cart.push({name:sheetProduct.name,price:sheetProduct.price,qty:sheetQuantity,crust:"標準脆皮",level:sheetProduct.level});renderCart();closeProductSheet();});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeProductSheet();});
 
 renderProducts();renderCart();
@@ -1999,13 +2017,32 @@ main#top{position:relative;overflow:visible!important;isolation:isolate}
 }
 @media(prefers-reduced-motion:reduce){.stack-card{scroll-behavior:auto}}
 </style>
+<style id="stack-stop-before-shop">
+/* Keep the original stacked introduction, but return to normal scrolling at the shop. */
+main#top > #shop,
+main#top > #shop ~ section {
+  position:relative!important;
+  top:auto!important;
+  transform:none!important;
+  overflow:visible!important;
+}
+</style>
 <script id="squish-original-stack-controller">
 (function(){
  const main=document.querySelector('main#top');
  if(!main || main.dataset.stackReady==='shared') return;
  main.dataset.stackReady='shared';
- const sections=[...main.children].filter(el=>el.tagName==='SECTION');
+
+ // Only sections before the product shop participate in the sticky page stack.
+ const shop=main.querySelector(':scope > #shop');
+ if(!shop) return;
+ const sections=[];
+ for(const el of [...main.children]){
+   if(el===shop) break;
+   if(el.tagName==='SECTION') sections.push(el);
+ }
  if(!sections.length) return;
+
  const track=document.createElement('div');
  track.className='stack-track';
  main.insertBefore(track,sections[0]);
@@ -2021,8 +2058,16 @@ main#top{position:relative;overflow:visible!important;isolation:isolate}
      track.appendChild(spacer);
    }
  });
+ main.dataset.stackReady='before-shop';
 })();
 </script>
 
+<style id="product-sheet-interaction-fix">
+/* Closed product sheet is removed from hit-testing immediately. */
+#product-sheet-backdrop{pointer-events:none!important;visibility:hidden!important;opacity:0!important;display:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;transition:none!important}
+#product-sheet-backdrop.is-open{display:flex!important;pointer-events:auto!important;visibility:visible!important;opacity:1!important}
+#product-sheet-backdrop.is-open #product-sheet{filter:none!important}
+</style>
 </body>
 </html>
+
