@@ -1504,6 +1504,38 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
 .brand-extra-page p{font-size:14px!important;line-height:2!important;color:#657186!important;max-width:760px!important;}
 @media(max-width:700px){#shop .category-submenu{display:flex!important;flex-direction:row!important;gap:8px!important;}#shop .category-submenu .tab{font-size:11px!important;padding:10px 7px!important;}}
 </style>
+
+<style id="squish-config-sheet-restored">
+.config-backdrop{position:fixed;inset:0;z-index:9999;background:rgba(19,29,40,.36);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;align-items:flex-end;justify-content:center;padding:18px}
+.config-backdrop[hidden]{display:none!important}
+.config-sheet{width:min(100%,560px);max-height:90dvh;overflow:auto;border:1px solid rgba(255,255,255,.92);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(235,241,248,.96));box-shadow:0 30px 100px rgba(20,34,50,.24),inset 0 1px 0 #fff;padding:16px 26px 26px}
+.config-grabber{width:42px;height:5px;border-radius:8px;background:#c4ced8;margin:0 auto 22px}
+.config-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.config-kicker{font-size:10px;letter-spacing:.25em;color:#8996a4}
+.config-top h3{font-size:25px;font-weight:650;letter-spacing:-.04em;margin:8px 0 18px}
+.config-close{border:1px solid rgba(130,147,165,.2);border-radius:50%;width:48px;height:48px;background:rgba(255,255,255,.72);font-size:28px;color:#647180;flex:none}
+.config-product{font-size:17px;font-weight:600;padding:20px 17px;margin:0 0 28px;border:1px solid rgba(255,255,255,.95);border-radius:22px;background:rgba(255,255,255,.6);color:#354352}
+.config-sheet .field{margin-bottom:24px}
+.config-sheet .field>label{display:block;font-size:13px;color:#687685;margin-bottom:12px}
+.config-crust{display:flex;gap:8px}
+.config-crust label{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;text-align:center;padding:14px 7px;border-radius:999px}
+.config-crust input{width:18px;height:18px;accent-color:#343b42;margin:0}
+.config-sheet textarea{min-height:100px;border-radius:20px;background:rgba(255,255,255,.7);border-color:rgba(130,147,165,.24);font-size:15px;padding:16px}
+.config-summary{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-top:1px solid rgba(123,140,158,.2);color:#778391;font-size:14px}
+.config-summary strong{font-size:27px;color:#263340}
+.config-sheet .primary{min-height:58px;border-radius:999px!important}
+.config-footnote{font-size:11px;line-height:1.9;color:#8793a0;margin:16px 2px 0}
+#shop .category-submenu{display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;position:relative!important;z-index:150!important}
+#shop .category-submenu .tab{pointer-events:auto!important;position:relative!important;z-index:151!important}
+#shop .add{pointer-events:auto!important;position:relative!important;z-index:152!important;touch-action:manipulation}
+@media(max-width:700px){
+ .config-backdrop{padding:0;align-items:flex-end}
+ .config-sheet{width:100%;max-height:92dvh;border-radius:28px 28px 0 0;padding:13px 21px calc(22px + env(safe-area-inset-bottom))}
+ .config-top h3{font-size:25px}
+ .config-crust label{font-size:12px;padding:13px 5px;flex-direction:column}
+}
+</style>
+
 </head>
 <body>
 <div class="wrap">
@@ -1674,6 +1706,39 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
 
 </main>
 <footer>捏物研室 · SQUISH LAB<br><br>INSTAGRAM&nbsp; @squishlab.my</footer>
+</div>
+<div class="config-backdrop" id="config-backdrop" hidden aria-hidden="true">
+  <section class="config-sheet" role="dialog" aria-modal="true" aria-labelledby="config-title">
+    <div class="config-grabber"></div>
+    <div class="config-top">
+      <div>
+        <div class="config-kicker">SQUISH LAB / PERSONALIZE</div>
+        <h3 id="config-title">商品規格</h3>
+      </div>
+      <button class="config-close" id="config-close" type="button" aria-label="關閉">×</button>
+    </div>
+    <div class="config-product" id="config-product-name"></div>
+    <div class="field">
+      <label>選擇脆皮厚度 *</label>
+      <div class="choice config-crust" id="config-crust">
+        <label><input type="radio" name="config-crust" value="薄脆"> 薄脆</label>
+        <label><input type="radio" name="config-crust" value="標準脆皮" checked> 標準脆皮</label>
+        <label><input type="radio" name="config-crust" value="厚脆"> 厚脆</label>
+      </div>
+    </div>
+    <div class="field" id="basic-color-field" hidden>
+      <label for="config-colors">區域配色要求 *</label>
+      <textarea id="config-colors" placeholder="請寫明各部位想要的顏色，例如：蛋黃要白色，蛋白要黃色。"></textarea>
+      <p class="notice">基礎捏捏可指定不同部位的顏色，請盡量寫清楚部位與顏色。</p>
+    </div>
+    <div class="field" id="basic-notes-field" hidden>
+      <label for="config-notes">其他備註（選填）</label>
+      <textarea id="config-notes" placeholder="其他製作要求，可在這裡補充。"></textarea>
+    </div>
+    <div class="config-summary"><span>商品價格</span><strong id="config-price">RM 0.00</strong></div>
+    <button class="primary" id="config-add" type="button">確認規格並加入購物車</button>
+    <p class="config-footnote">基礎系列可指定不同部位的顏色；高級系列只需選擇脆皮等級。每件商品的設定會分開保存。</p>
+  </section>
 </div>
 <script>
 const products = {
@@ -1935,29 +2000,52 @@ const motionObserver = new MutationObserver(records => {
 });
 motionObserver.observe(document.body,{childList:true,subtree:true});
 
-let sheetProduct=null,sheetQuantity=1;
-const productBackdrop=document.getElementById("product-sheet-backdrop");
+
+let sheetProduct=null;
+const configBackdrop=document.getElementById("config-backdrop");
+const configSheet=configBackdrop.querySelector(".config-sheet");
 function openProductSheet(name,price){
- sheetProduct={name,price,level:category};sheetQuantity=1;
- document.getElementById("sheet-name").textContent=name;
- document.getElementById("sheet-price").textContent=money(price);
- document.getElementById("sheet-qty").textContent=sheetQuantity;
- productBackdrop.classList.remove("is-closing");
- productBackdrop.style.pointerEvents="auto";
- productBackdrop.classList.add("is-open");
- productBackdrop.setAttribute("aria-hidden","false");
- document.body.style.overflow="hidden";
+  sheetProduct={name,price,level:category};
+  document.getElementById("config-product-name").textContent=name;
+  document.getElementById("config-title").textContent=category==="premium"?"高級捏捏規格":"基礎捏捏客製化";
+  document.getElementById("config-price").textContent=money(price);
+  document.getElementById("basic-color-field").hidden=category!=="basic";
+  document.getElementById("basic-notes-field").hidden=category!=="basic";
+  document.getElementById("config-colors").value="";
+  document.getElementById("config-notes").value="";
+  document.querySelectorAll('input[name="config-crust"]').forEach(x=>x.checked=x.value==="標準脆皮");
+  configBackdrop.hidden=false;
+  configBackdrop.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
 }
 function closeProductSheet(){
- if(!productBackdrop.classList.contains("is-open"))return;
- /* Release the page immediately: the fading sheet must never intercept taps. */
- productBackdrop.style.pointerEvents="none";
- productBackdrop.classList.remove("is-open","is-closing");
- productBackdrop.setAttribute("aria-hidden","true");
- document.body.style.overflow="";
- sheetProduct=null;
+  configBackdrop.hidden=true;
+  configBackdrop.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+  sheetProduct=null;
 }
-document.getElementById("sheet-close").addEventListener("click",closeProductSheet);productBackdrop.addEventListener("click",e=>{if(e.target===productBackdrop)closeProductSheet();});document.getElementById("sheet-minus").addEventListener("click",()=>{sheetQuantity=Math.max(1,sheetQuantity-1);document.getElementById("sheet-qty").textContent=sheetQuantity;});document.getElementById("sheet-plus").addEventListener("click",()=>{sheetQuantity=Math.min(99,sheetQuantity+1);document.getElementById("sheet-qty").textContent=sheetQuantity;});document.getElementById("sheet-add").addEventListener("click",()=>{if(!sheetProduct)return;cart.push({name:sheetProduct.name,price:sheetProduct.price,qty:sheetQuantity,crust:"標準脆皮",level:sheetProduct.level});renderCart();closeProductSheet();});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeProductSheet();});
+document.getElementById("config-close").addEventListener("click",closeProductSheet);
+configBackdrop.addEventListener("click",e=>{if(e.target===configBackdrop)closeProductSheet();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!configBackdrop.hidden)closeProductSheet();});
+document.getElementById("config-add").addEventListener("click",()=>{
+  if(!sheetProduct)return;
+  const crust=document.querySelector('input[name="config-crust"]:checked')?.value;
+  if(!crust){alert("請選擇脆皮厚度。");return;}
+  const colors=sheetProduct.level==="basic"?document.getElementById("config-colors").value.trim():"";
+  const notes=sheetProduct.level==="basic"?document.getElementById("config-notes").value.trim():"";
+  if(sheetProduct.level==="basic"&&!colors){
+    document.getElementById("config-colors").focus();
+    alert("請填寫區域配色要求。");
+    return;
+  }
+  // Keep separate cart lines when the same product has different specifications.
+  const existing=cart.find(x=>x.name===sheetProduct.name&&x.level===sheetProduct.level&&x.crust===crust&&x.colors===colors&&x.notes===notes);
+  if(existing)existing.qty+=1;
+  else cart.push({name:sheetProduct.name,price:sheetProduct.price,qty:1,crust,level:sheetProduct.level,colors,notes});
+  renderCart();
+  closeProductSheet();
+  document.getElementById("cart")?.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
 
 renderProducts();renderCart();
 
@@ -1974,8 +2062,6 @@ renderProducts();renderCart();
 
 
 
-
-<div id="product-sheet-backdrop" aria-hidden="true"><section id="product-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-name"><div class="sheet-grabber"></div><div class="sheet-top"><div><div class="sheet-kicker">SQUISH LAB · PRODUCT DETAIL</div><div class="sheet-name" id="sheet-name">商品名稱</div><div class="sheet-price" id="sheet-price">RM 0.00</div></div><button class="sheet-close" id="sheet-close" type="button" aria-label="關閉">×</button></div><div class="sheet-spec"><span>商品規格</span><strong>標準脆皮 · 固定款式</strong></div><div class="sheet-spec"><span>數量</span><div style="display:flex;align-items:center;gap:18px"><button id="sheet-minus" type="button" aria-label="減少數量">−</button><strong id="sheet-qty">1</strong><button id="sheet-plus" type="button" aria-label="增加數量">＋</button></div></div><div class="sheet-actions"><button id="sheet-add" class="primary" type="button">加入購物車</button></div></section></div>
 
 
 <style id="squish-original-stack-restored">
@@ -2069,104 +2155,38 @@ main#top > #shop ~ section {
 #product-sheet-backdrop.is-open #product-sheet{filter:none!important}
 </style>
 
-
-<!-- SQUISH LAB FIX: stack only the introduction through the product-category section. -->
-<style id="squish-final-layout-fix">
-/* The shop remains part of the normal page flow; all following sections must scroll normally. */
-main#top > #shop,
-main#top > #shop ~ section,
-main#top > #shop ~ .stack-spacer,
-main#top > #shop ~ .stack-card {
-  position: relative !important;
-  top: auto !important;
-  z-index: auto !important;
-  transform: none !important;
-  filter: none !important;
-  overflow: visible !important;
-  isolation: auto !important;
-}
-main#top > #shop ~ .stack-card { display: contents !important; }
-#product-sheet-backdrop {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transition: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-#product-sheet-backdrop.is-open {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
+<style id="post-order-product-intro-stack-style">
+/* Product-introduction pages after order/tracking use their own bounded sticky stack. */
+#post-order-product-stack{position:relative!important;display:flow-root!important;overflow:visible!important;isolation:isolate!important;}
+#post-order-product-stack .stack-card{position:sticky!important;top:84px!important;}
+#post-order-product-stack .stack-card>section{position:relative!important;margin:0!important;}
+#post-order-product-stack .stack-spacer{height:13vh;min-height:76px;pointer-events:none;}
+@media(max-width:700px){#post-order-product-stack .stack-card{top:78px!important;}#post-order-product-stack .stack-spacer{height:10vh;min-height:60px;}}
 </style>
-<script id="squish-final-layout-and-sheet-fix">
-(function () {
-  const main = document.querySelector('main#top');
-  if (main) {
-    const shop = main.querySelector(':scope > #shop');
-    if (shop) {
-      // Move every post-shop section out of any accidental sticky wrapper.
-      let node = shop.nextElementSibling;
-      while (node) {
-        const next = node.nextElementSibling;
-        if (node.classList && node.classList.contains('stack-spacer')) {
-          node.remove();
-        } else if (node.classList && node.classList.contains('stack-card')) {
-          const section = node.querySelector(':scope > section');
-          if (section) main.insertBefore(section, node);
-          node.remove();
-        } else if (node.tagName === 'SECTION' && node.closest('.stack-card')) {
-          main.insertBefore(node, node.closest('.stack-card').nextSibling);
-        }
-        node = next;
-      }
+<script id="post-order-product-intro-stack-controller">
+(function(){
+  const main=document.querySelector('main#top');
+  if(!main || main.dataset.postOrderProductStackReady==='1') return;
+  const ids=['material-quality','base-formula','craft-process'];
+  const pages=ids.map(id=>main.querySelector(':scope > #'+id)).filter(Boolean);
+  if(pages.length!==ids.length) return;
+  const track=document.createElement('div');
+  track.className='stack-track';
+  track.id='post-order-product-stack';
+  main.insertBefore(track,pages[0]);
+  pages.forEach((section,index)=>{
+    const card=document.createElement('div');
+    card.className='stack-card';
+    card.style.zIndex=String(index+1);
+    track.appendChild(card);
+    card.appendChild(section);
+    if(index<pages.length-1){
+      const spacer=document.createElement('div');
+      spacer.className='stack-spacer';
+      track.appendChild(spacer);
     }
-  }
-
-  const backdrop = document.getElementById('product-sheet-backdrop');
-  const closeButton = document.getElementById('sheet-close');
-  if (!backdrop || !closeButton) return;
-
-  function closeImmediately(event) {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      event.stopImmediatePropagation();
-    }
-    backdrop.classList.remove('is-open', 'is-closing');
-    backdrop.setAttribute('aria-hidden', 'true');
-    backdrop.style.display = 'none';
-    backdrop.style.visibility = 'hidden';
-    backdrop.style.opacity = '0';
-    backdrop.style.pointerEvents = 'none';
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-    if (typeof sheetProduct !== 'undefined') sheetProduct = null;
-  }
-
-  // Capture the close action before older handlers can start a lingering fade layer.
-  closeButton.addEventListener('click', closeImmediately, true);
-  backdrop.addEventListener('click', function (event) {
-    if (event.target === backdrop) closeImmediately(event);
-  }, true);
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape' && backdrop.classList.contains('is-open')) closeImmediately(event);
-  }, true);
-
-  // Keep the sheet fully interactive only while it is explicitly open.
-  const originalOpen = window.openProductSheet;
-  if (typeof originalOpen === 'function') {
-    window.openProductSheet = function () {
-      backdrop.style.display = 'flex';
-      backdrop.style.visibility = 'visible';
-      backdrop.style.opacity = '1';
-      backdrop.style.pointerEvents = 'auto';
-      return originalOpen.apply(this, arguments);
-    };
-  }
+  });
+  main.dataset.postOrderProductStackReady='1';
 })();
 </script>
 
