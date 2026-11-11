@@ -2068,6 +2068,108 @@ main#top > #shop ~ section {
 #product-sheet-backdrop.is-open{display:flex!important;pointer-events:auto!important;visibility:visible!important;opacity:1!important}
 #product-sheet-backdrop.is-open #product-sheet{filter:none!important}
 </style>
+
+
+<!-- SQUISH LAB FIX: stack only the introduction through the product-category section. -->
+<style id="squish-final-layout-fix">
+/* The shop remains part of the normal page flow; all following sections must scroll normally. */
+main#top > #shop,
+main#top > #shop ~ section,
+main#top > #shop ~ .stack-spacer,
+main#top > #shop ~ .stack-card {
+  position: relative !important;
+  top: auto !important;
+  z-index: auto !important;
+  transform: none !important;
+  filter: none !important;
+  overflow: visible !important;
+  isolation: auto !important;
+}
+main#top > #shop ~ .stack-card { display: contents !important; }
+#product-sheet-backdrop {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+#product-sheet-backdrop.is-open {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+</style>
+<script id="squish-final-layout-and-sheet-fix">
+(function () {
+  const main = document.querySelector('main#top');
+  if (main) {
+    const shop = main.querySelector(':scope > #shop');
+    if (shop) {
+      // Move every post-shop section out of any accidental sticky wrapper.
+      let node = shop.nextElementSibling;
+      while (node) {
+        const next = node.nextElementSibling;
+        if (node.classList && node.classList.contains('stack-spacer')) {
+          node.remove();
+        } else if (node.classList && node.classList.contains('stack-card')) {
+          const section = node.querySelector(':scope > section');
+          if (section) main.insertBefore(section, node);
+          node.remove();
+        } else if (node.tagName === 'SECTION' && node.closest('.stack-card')) {
+          main.insertBefore(node, node.closest('.stack-card').nextSibling);
+        }
+        node = next;
+      }
+    }
+  }
+
+  const backdrop = document.getElementById('product-sheet-backdrop');
+  const closeButton = document.getElementById('sheet-close');
+  if (!backdrop || !closeButton) return;
+
+  function closeImmediately(event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    }
+    backdrop.classList.remove('is-open', 'is-closing');
+    backdrop.setAttribute('aria-hidden', 'true');
+    backdrop.style.display = 'none';
+    backdrop.style.visibility = 'hidden';
+    backdrop.style.opacity = '0';
+    backdrop.style.pointerEvents = 'none';
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    if (typeof sheetProduct !== 'undefined') sheetProduct = null;
+  }
+
+  // Capture the close action before older handlers can start a lingering fade layer.
+  closeButton.addEventListener('click', closeImmediately, true);
+  backdrop.addEventListener('click', function (event) {
+    if (event.target === backdrop) closeImmediately(event);
+  }, true);
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && backdrop.classList.contains('is-open')) closeImmediately(event);
+  }, true);
+
+  // Keep the sheet fully interactive only while it is explicitly open.
+  const originalOpen = window.openProductSheet;
+  if (typeof originalOpen === 'function') {
+    window.openProductSheet = function () {
+      backdrop.style.display = 'flex';
+      backdrop.style.visibility = 'visible';
+      backdrop.style.opacity = '1';
+      backdrop.style.pointerEvents = 'auto';
+      return originalOpen.apply(this, arguments);
+    };
+  }
+})();
+</script>
+
 </body>
 </html>
 
