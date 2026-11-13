@@ -2434,7 +2434,7 @@ body:before{content:"";position:fixed;z-index:-1;inset:0;pointer-events:none;bac
 #shop .product{transition:transform .32s cubic-bezier(.2,.7,.2,1),box-shadow .32s ease,border-color .32s ease!important}
 #shop .product:hover{transform:translateY(-5px)!important;box-shadow:0 18px 36px rgba(130,99,50,.12),inset 0 1px 0 #fff!important;border-color:rgba(181,138,74,.42)!important}
 #shop .blindbox-product{position:relative}
-#shop .blindbox-product:after{content:"✦ 精選搭配";position:absolute;right:16px;top:13px;font-size:9px;letter-spacing:.12em;color:#9a7848;background:rgba(255,255,255,.7);border:1px solid rgba(181,138,74,.22);border-radius:99px;padding:5px 8px}
+#shop .blindbox-product:after{content:none!important;display:none!important}
 #shop .launch-notice{position:relative}
 #shop .launch-notice:after{content:"";position:absolute;top:-60%;left:-35%;width:24%;height:220%;transform:rotate(24deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:sl-shimmer 5.8s ease-in-out infinite;pointer-events:none}
 @keyframes sl-orbit{to{transform:rotate(360deg)}}
@@ -2667,6 +2667,66 @@ const SL_TRANSLATIONS = {"商品種類": "Products", "買前須知": "Before You
   setLanguage(['zh-Hant','zh-Hans','en'].includes(saved)?saved:'zh-Hant');
 })();
 </script>
+
+
+
+<style id="squish-mobile-tracking-overflow-and-blindbox-label-fix">
+/* Remove the decorative blind-box badge without changing the product title. */
+#shop .blindbox-product::after{content:none!important;display:none!important}
+
+/* iPhone Safari: prevent long order IDs and grid min-content sizing from
+   expanding the tracking result beyond the viewport. */
+#tracking,
+#tracking .tracking-card,
+#tracking .tracking-intro,
+#tracking .tracking-form,
+#tracking #tracking-status,
+#tracking .tracking-result,
+#tracking .tracking-result h4,
+#tracking .tracking-result .track-kind,
+#tracking .tracking-result .notice,
+#tracking .tracking-result .track-steps,
+#tracking .tracking-result .track-step,
+#tracking .tracking-foot{
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+#tracking .tracking-card{
+  width:100%!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+}
+#tracking .tracking-form,
+#tracking #tracking-status,
+#tracking .tracking-result{
+  width:100%!important;
+}
+#tracking .tracking-result h4,
+#tracking .tracking-result .track-kind,
+#tracking .tracking-result .notice,
+#tracking .tracking-foot{
+  overflow-wrap:anywhere!important;
+  word-break:break-word!important;
+}
+#tracking .tracking-form input{
+  display:block;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+}
+@media(max-width:700px){
+  #tracking .tracking-card{
+    grid-template-columns:minmax(0,1fr)!important;
+    padding:22px 16px!important;
+    gap:16px!important;
+  }
+  #tracking .tracking-foot{grid-column:1!important}
+  #tracking .tracking-result{padding:15px!important}
+  #tracking .tracking-result h4{font-size:clamp(13px,4vw,16px)!important;line-height:1.5}
+  #tracking .tracking-result .track-kind{letter-spacing:.08em!important;line-height:1.6}
+  #tracking .track-step{font-size:13px;line-height:1.5}
+}
+</style>
 
 </body>
 </html>
