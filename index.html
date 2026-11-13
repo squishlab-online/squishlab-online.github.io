@@ -2594,6 +2594,48 @@ body:before{content:"";position:fixed;z-index:-1;inset:0;pointer-events:none;bac
 })();
 </script>
 
+
+<style id="squish-global-ios-scroll-stability-v2">
+/* Stability fix: disable the site's nested sticky page-stack on every viewport.
+   iOS Safari can repeatedly snap nested sticky/transformed cards during touch scroll.
+   Keep the Saturn artwork animation; only remove sticky stacking and spacer jumps. */
+html, body { scroll-behavior: auto !important; }
+.stack-track, #post-order-product-stack {
+  position: relative !important;
+  display: flow-root !important;
+  overflow: visible !important;
+  transform: none !important;
+  contain: none !important;
+}
+.stack-card, #post-order-product-stack .stack-card {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  will-change: auto !important;
+  contain: none !important;
+  isolation: isolate !important;
+}
+.stack-card + .stack-spacer, #post-order-product-stack .stack-spacer {
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.stack-card .hero, .stack-card .story, .stack-card .promo, .stack-card .section {
+  min-height: 0 !important;
+}
+.stack-card:has(> #brand-orbit) {
+  position: relative !important; top: auto !important;
+  transform: none !important; will-change: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sl-ring-back, .sl-ring-front { animation: none !important; }
+}
+</style>
+
 </body>
 </html>
 
