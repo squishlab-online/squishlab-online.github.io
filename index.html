@@ -2055,17 +2055,28 @@ function renderTrackingResult(data){
  const rawStatus=String(data.status||"待確認").trim();
  const aliases={"待確認":"預購","已確認":"預購","處理中":"待製作","製作中":"待製作","待發貨":"待發貨","已寄出":"郵寄中","運送中":"郵寄中","已送達":"已到貨","完成":"已取貨"};
  const normalizedStatus=aliases[rawStatus]||rawStatus;
- const current=Math.max(0,steps.indexOf(normalizedStatus));
+ const current=steps.indexOf(normalizedStatus);
+ const nextDescriptions=deliveryKey==="郵寄"?{
+  "預購":"訂單確認後會安排備貨，準備寄出時狀態會更新為「待發貨」。",
+  "待發貨":"我們正在準備包裝及寄件，寄出後會更新物流單號與運送狀態。",
+  "郵寄中":"包裹已進入郵寄流程，請留意物流更新；送達後狀態會更新為「已到貨」。",
+  "已到貨":"郵寄流程已完成，請確認收到商品。"
+ }:{
+  "預購":"訂單確認後會安排製作，開始製作時狀態會更新為「待製作」。",
+  "待製作":"我們正在製作你的商品。製作完成後，狀態會更新為「已製作完成」，再安排面交取貨。",
+  "已製作完成":"商品已製作完成，接下來會安排詩巫面交時間；完成交付後狀態會更新為「已取貨」。",
+  "已取貨":"面交流程已完成，謝謝你的支持！"
+ };
  const result=document.createElement("div");result.className="tracking-result";
  const title=document.createElement("h4");title.textContent="訂單 "+data.orderId;result.appendChild(title);
  const kind=document.createElement("div");kind.className="track-kind";kind.textContent=deliveryKey==="郵寄"?"DELIVERY · 郵寄訂單":"SIBU PICKUP · 詩巫面交";result.appendChild(kind);
- const state=document.createElement("p");state.className="notice";state.textContent="目前狀態："+rawStatus;result.appendChild(state);
- const list=document.createElement("div");list.className="track-steps";
- steps.forEach((label,index)=>{
-  const row=document.createElement("div");row.className="track-step"+(index<current?" done":index===current?" current":"");
-  row.textContent=label;list.appendChild(row);
- });
- result.appendChild(list);
+ const state=document.createElement("p");state.className="tracking-current-state";
+ const stateLabel=document.createElement("span");stateLabel.textContent="目前狀態";
+ const stateValue=document.createElement("strong");stateValue.textContent=rawStatus;
+ state.append(stateLabel,stateValue);result.appendChild(state);
+ const next=document.createElement("p");next.className="tracking-next-step";
+ next.textContent="接下來："+(nextDescriptions[normalizedStatus]||"訂單流程將依實際安排更新，請留意此頁面的最新狀態。");
+ result.appendChild(next);
  if(data.trackingNumber){const tn=document.createElement("p");tn.className="notice";tn.textContent="物流單號："+data.trackingNumber;result.appendChild(tn);}
  status.replaceChildren(result);
 }
@@ -2731,3 +2742,11 @@ const SL_TRANSLATIONS = {"商品種類": "Products", "買前須知": "Before You
 </body>
 </html>
 
+
+<style id="tracking-plain-language-status">
+/* Replace the old step-by-step graphic with a clear live status and next-action explanation. */
+.tracking-current-state{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:22px 0 12px;padding:14px 16px;border:1px solid rgba(115,137,160,.2);border-radius:15px;background:rgba(255,255,255,.66);color:#718091;font-size:13px;line-height:1.6}
+.tracking-current-state strong{display:inline-block;padding:6px 13px;border-radius:999px;background:rgba(80,105,130,.12);color:#344b61;font-size:14px;font-weight:650}
+.tracking-next-step{margin:0;padding:15px 16px;border-left:3px solid #b99a68;border-radius:0 13px 13px 0;background:rgba(255,255,255,.42);color:#687685;font-size:13px;line-height:1.9;overflow-wrap:anywhere}
+@media(max-width:700px){.tracking-current-state{font-size:12px;padding:12px 13px}.tracking-current-state strong{font-size:13px}.tracking-next-step{font-size:12px;padding:13px;line-height:1.85}}
+</style>
