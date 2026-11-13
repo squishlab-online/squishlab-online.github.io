@@ -1536,6 +1536,103 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
 }
 </style>
 
+
+<style id="warm-gold-refresh">
+
+/* Warm golden details: retain the existing page structure and glass identity */
+:root{
+  --gold:#b58a4a;
+  --gold-deep:#96703a;
+  --gold-soft:#ead9b9;
+  --gold-wash:#fbf5e9;
+  --warm-paper:#f8f6f1;
+  --warm-ink:#25221d;
+}
+body{
+  background:
+    radial-gradient(ellipse at 8% 9%, rgba(229,204,158,.20), transparent 30%),
+    radial-gradient(ellipse at 92% 34%, rgba(231,211,178,.18), transparent 28%),
+    var(--warm-paper);
+  color:var(--warm-ink);
+}
+header{border-bottom-color:rgba(181,138,74,.24)}
+.logo span{color:var(--gold-deep)}
+.eyebrow,.story-index,.section-head small,.story-meta{color:var(--gold-deep)}
+.hero .rule{background:linear-gradient(90deg,transparent,var(--gold-soft),transparent)}
+.promo{
+  border-color:rgba(181,138,74,.35);
+  border-radius:22px;
+  background:linear-gradient(125deg,rgba(255,252,245,.96),rgba(247,237,218,.78));
+  box-shadow:0 16px 42px rgba(145,111,59,.09),inset 0 1px 0 #fff;
+  position:relative;overflow:hidden;
+}
+.promo:after{
+  content:"✦";position:absolute;right:22px;top:12px;color:rgba(181,138,74,.42);
+  font-size:25px;pointer-events:none;
+}
+.promo strong,.red,.price{color:var(--gold-deep)}
+.section-head{border-bottom-color:rgba(181,138,74,.48)}
+.tabs{gap:12px}
+.grid{gap:13px;border:0;background:transparent}
+.product{
+  border:1px solid rgba(181,138,74,.19)!important;
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(250,246,238,.88));
+  box-shadow:0 8px 22px rgba(112,88,49,.045),inset 0 1px 0 rgba(255,255,255,.96);
+  position:relative;overflow:hidden;
+}
+.product:before{
+  content:"";position:absolute;left:18px;top:0;width:34px;height:2px;
+  background:linear-gradient(90deg,var(--gold),rgba(181,138,74,0));opacity:.75;
+}
+.product .desc{color:#8c8171}
+.price{font-weight:700}
+.story-inner{
+  border-color:rgba(181,138,74,.26);
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(250,244,233,.94));
+  box-shadow:0 18px 48px rgba(133,103,57,.07),inset 0 1px 0 #fff;
+  position:relative;overflow:hidden;
+}
+.story-inner:after{
+  content:"✧";position:absolute;right:clamp(18px,5vw,52px);bottom:18px;
+  color:rgba(181,138,74,.22);font-size:58px;line-height:1;pointer-events:none;
+}
+.story h2{color:#26231e}
+.story-meta{border-top-color:rgba(181,138,74,.28)}
+.panel{border-color:rgba(181,138,74,.25);border-radius:18px;background:rgba(255,253,248,.9)}
+.notice-list{border-top-color:rgba(181,138,74,.36)}
+.notice-item{border-bottom-color:rgba(181,138,74,.22)}
+.notice-item b{color:#70552f}
+footer{border-top-color:rgba(181,138,74,.3);color:#78674d}
+.tab,.add,.primary,.qty button,.remove,.choice label{
+  border-color:rgba(181,138,74,.34)!important;
+  box-shadow:0 6px 18px rgba(130,99,50,.075),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+button.tab.active,.choice label:has(input:checked),button.primary{
+  background:linear-gradient(135deg,#b58a4a,#96703a)!important;
+  color:#fff!important;border-color:rgba(255,255,255,.65)!important;
+  box-shadow:0 8px 20px rgba(150,112,58,.22),inset 0 1px 0 rgba(255,255,255,.28)!important;
+}
+button.add:hover,button.tab:not(.active):hover,.choice label:hover{
+  background:rgba(251,245,233,.98)!important;border-color:rgba(181,138,74,.55)!important;
+}
+button.primary:hover{background:linear-gradient(135deg,#c29a5c,#96703a)!important}
+input:focus,textarea:focus,select:focus{border-color:var(--gold)!important;box-shadow:0 0 0 3px rgba(181,138,74,.12)}
+#status{color:var(--gold-deep)}
+.launch-notice{
+  background:linear-gradient(120deg,#fff9ed,#f2e4cc)!important;
+  border-color:rgba(181,138,74,.48)!important;
+}
+.launch-notice .name{color:#75552a}
+.launch-notice .desc{color:#8a7453}
+.launch-mark{color:var(--gold-deep)!important;letter-spacing:.18em}
+@media(max-width:700px){
+  .grid{gap:11px}
+  .product{border-radius:16px;min-height:164px}
+  .story-inner:after{font-size:44px;right:16px;bottom:12px}
+}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -1558,13 +1655,7 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
   </div>
   <div class="hero-bottom"><span>SCROLL TO EXPLORE</span><span>01 — 05</span></div>
 </section>
-<section class="story">
-  <div class="story-inner">
-    <div class="story-index">SQUISH LAB / 01 — THE IDEA</div>
-    <div class="story-quote">把日常的小空隙，留給一點柔軟與觸感。</div>
-    <div class="story-meta">A SMALL OBJECT · A QUIET MOMENT</div>
-  </div>
-</section>
+
 <section class="story">
   <div class="story-inner">
     <div class="story-index">SQUISH LAB / 02 — MADE BY HAND</div>
@@ -1573,13 +1664,13 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
     <div class="story-meta">HANDMADE IN SIBU, MALAYSIA</div>
   </div>
 </section>
+
 <section class="promo">
   <div class="eyebrow red">FIRST-BATCH OFFER</div>
   <strong>與朋友一起拼單</strong>
   <p>兩人各購買一個高階級脆皮捏捏<br><b class="red">即可獲贈一個自選基礎脆皮捏捏</b></p>
   <p class="notice">優惠需由兩位購買者共同下單或聯絡確認，贈品請在備註中填寫。</p>
 </section>
-
 
 <section class="section" id="shop">
   <div class="section-head"><h2>商品種類</h2><small>COLLECTION / 01</small></div>
@@ -1588,14 +1679,18 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
     <button class="tab" id="tab-basic" type="button" role="tab" aria-selected="false" data-cat="basic">基礎捏捏</button>
   </div>
   <div class="grid" id="products">
-    <article class="product"><div><div class="name">脆皮花朵</div><div class="desc">基礎系列</div></div><div><div class="price">RM 1.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-    <article class="product"><div><div class="name">脆皮大餅</div><div class="desc">基礎系列</div></div><div><div class="price">RM 1.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-    <article class="product"><div><div class="name">脆皮圓球</div><div class="desc">基礎系列</div></div><div><div class="price">RM 1.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-    <article class="product"><div><div class="name">脆皮荷包蛋</div><div class="desc">基礎系列</div></div><div><div class="price">RM 1.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-    <article class="product"><div><div class="name">脆皮芝士條</div><div class="desc">基礎系列</div></div><div><div class="price">RM 1.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-    <article class="product"><div><div class="name">脆皮棉花糖</div><div class="desc">基礎系列</div></div><div><div class="price">RM 1.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-    <article class="product"><div><div class="name">脆皮白面饅頭</div><div class="desc">基礎系列</div></div><div><div class="price">RM 1.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-     <article class="product launch-notice"><div><div class="name">12月10日上新通知</div><div class="desc">新品即將上架 · 敬請期待</div></div><div class="launch-mark">COMING SOON</div></article>
+    <article class="product"><div><div class="name">脆皮韓式辣炒年糕</div><div class="desc">高級系列</div></div><div><div class="price">RM 6.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product"><div><div class="name">脆皮桂花酒釀</div><div class="desc">高級系列</div></div><div><div class="price">RM 6.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product"><div><div class="name">脆皮抹茶條</div><div class="desc">高級系列</div></div><div><div class="price">RM 6.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product"><div><div class="name">脆皮冰沙球（4粒裝）</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.60</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product"><div><div class="name">脆皮芝士條（一袋三個）</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.60</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product"><div><div class="name">脆皮爆漿球</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.60</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product"><div><div class="name">脆皮冰面包</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.40</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product"><div><div class="name">脆皮可可薄荷冰球</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.40</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product"><div><div class="name">脆皮大餅（一套三個）</div><div class="desc">高級系列</div></div><div><div class="price">RM 3.20</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product"><div><div class="name">脆皮小球（一袋三個）</div><div class="desc">高級系列</div></div><div><div class="price">RM 3.20</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+    <article class="product blindbox-product"><div><div class="name">捏捏隨配（盲盒）</div><div class="desc">隨機搭配 · 自選預算與比例</div></div><div><div class="price">RM 12.08 起</div><button class="add" type="button">選擇盲盒 ＋</button></div></article>
+    <article class="product launch-notice"><div><div class="name">12月10日上新通知</div><div class="desc">新品即將上架 · 敬請期待</div></div><div class="launch-mark">COMING SOON</div></article>
   </div>
 </section>
 
@@ -1607,6 +1702,15 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
     <div class="story-meta">DISCOVER YOUR FAVOURITE</div>
   </div>
 </section>
+
+<section class="story">
+  <div class="story-inner">
+    <div class="story-index">SQUISH LAB / 01 — THE IDEA</div>
+    <div class="story-quote">把日常的小空隙，留給一點柔軟與觸感。</div>
+    <div class="story-meta">A SMALL OBJECT · A QUIET MOMENT</div>
+  </div>
+</section>
+
 <section class="section" id="guide">
   <div class="section-head"><h2>買前須知</h2><small>PLEASE READ BEFORE ORDERING</small></div>
   <div class="notice-list">
@@ -1627,6 +1731,7 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
     <div class="story-meta">BROWSE · SELECT · CONFIRM</div>
   </div>
 </section>
+
 <section class="section" id="brand-notes">
   <div class="section-head"><h2>關於捏物研室</h2><small>THE SQUISH LAB NOTE</small></div>
   <div class="brand-modules">
@@ -1635,6 +1740,36 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
     <article class="brand-module wide"><div><div class="module-index">03 / FROM SIBU, MALAYSIA</div><h3>把柔軟，留給日常。</h3><p>感謝支持本地手作小店。每一份訂單，都是讓我們繼續創作的動力。</p></div><div class="module-number">SL.</div></article>
   </div>
 </section>
+
+<section class="section material-page" id="material-quality">
+  <div class="section-head"><h2>用料選擇</h2><small>MATERIALS / 01</small></div>
+  <div class="material-card">
+    <div class="material-kicker">SELECTED CRISPY WAX</div>
+    <h3>選用優質脆皮蠟，呈現俐落脆感。</h3>
+    <p>捏物研室重視每一件作品的外層質感，選用優質脆皮蠟作為製作材料，讓脆皮呈現清晰的質地與觸感。每件作品均由手工製作，外觀與細節可能略有不同。</p>
+    <div class="material-stamp">SQUISH LAB · MATERIAL NOTE</div>
+  </div>
+</section>
+
+<section class="section material-page" id="base-formula">
+  <div class="section-head"><h2>捏捏基底</h2><small>TEXTURE / 02</small></div>
+  <div class="material-card base-card">
+    <div class="material-kicker">CAREFULLY DEVELOPED BASE</div>
+    <h3>反覆調配，尋找理想手感。</h3>
+    <p>我們用心調配捏捏基底，並持續調整軟硬度與回彈觸感，希望帶來舒適、自然的按捏體驗。每一款作品都以整體手感與造型呈現為考量。</p>
+    <div class="material-stamp">MADE WITH CARE · FROM SIBU</div>
+  </div>
+</section>
+
+<section class="section material-page brand-extra-page" id="craft-process">
+  <div class="section-head"><h2>製作理念</h2><small>CRAFT &amp; QUALITY / 03</small></div>
+  <div class="material-kicker">MADE WITH ATTENTION</div>
+  <h3>從材料、比例到手感，每一步都仔細調整。</h3>
+  <p>捏物研室重視的不只是外觀，也包括拿在手上的觸感。從脆皮蠟的選擇，到捏捏基底的比例調配，我們持續調整材料與製作細節，希望每件作品都有舒服、自然且有辨識度的手感。</p>
+  <p>每件作品皆由手工製作，成品的形狀、表面紋理與細節可能略有差異，這也是手作作品獨有的特點。</p>
+  <div class="material-stamp">SQUISH LAB · HANDMADE IN SIBU</div>
+</section>
+
 <section class="section" id="order">
   <div class="section-head"><h2>訂單確認</h2><small>YOUR ORDER</small></div>
   <div class="two-col">
@@ -1658,6 +1793,7 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
     </div>
   </div>
 </section>
+
 <section class="section" id="tracking">
   <div class="section-head"><h2>物流狀態查詢</h2><small>TRACK YOUR ORDER</small></div>
   <div class="tracking-card">
@@ -1675,33 +1811,6 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
     </form>
     <div class="tracking-foot">找不到訂單？請確認訂單編號是否正確，或透過 Instagram <b>@squishlab.my</b> 聯絡我們。</div>
   </div>
-</section>
-<section class="section material-page" id="material-quality">
-  <div class="section-head"><h2>用料選擇</h2><small>MATERIALS / 01</small></div>
-  <div class="material-card">
-    <div class="material-kicker">SELECTED CRISPY WAX</div>
-    <h3>選用優質脆皮蠟，呈現俐落脆感。</h3>
-    <p>捏物研室重視每一件作品的外層質感，選用優質脆皮蠟作為製作材料，讓脆皮呈現清晰的質地與觸感。每件作品均由手工製作，外觀與細節可能略有不同。</p>
-    <div class="material-stamp">SQUISH LAB · MATERIAL NOTE</div>
-  </div>
-</section>
-<section class="section material-page" id="base-formula">
-  <div class="section-head"><h2>捏捏基底</h2><small>TEXTURE / 02</small></div>
-  <div class="material-card base-card">
-    <div class="material-kicker">CAREFULLY DEVELOPED BASE</div>
-    <h3>反覆調配，尋找理想手感。</h3>
-    <p>我們用心調配捏捏基底，並持續調整軟硬度與回彈觸感，希望帶來舒適、自然的按捏體驗。每一款作品都以整體手感與造型呈現為考量。</p>
-    <div class="material-stamp">MADE WITH CARE · FROM SIBU</div>
-  </div>
-</section>
-
-<section class="section material-page brand-extra-page" id="craft-process">
-  <div class="section-head"><h2>製作理念</h2><small>CRAFT &amp; QUALITY / 03</small></div>
-  <div class="material-kicker">MADE WITH ATTENTION</div>
-  <h3>從材料、比例到手感，每一步都仔細調整。</h3>
-  <p>捏物研室重視的不只是外觀，也包括拿在手上的觸感。從脆皮蠟的選擇，到捏捏基底的比例調配，我們持續調整材料與製作細節，希望每件作品都有舒服、自然且有辨識度的手感。</p>
-  <p>每件作品皆由手工製作，成品的形狀、表面紋理與細節可能略有差異，這也是手作作品獨有的特點。</p>
-  <div class="material-stamp">SQUISH LAB · HANDMADE IN SIBU</div>
 </section>
 
 </main>
@@ -1735,6 +1844,17 @@ main#top{position:relative!important;overflow:visible!important;isolation:isolat
       <label for="config-notes">其他備註（選填）</label>
       <textarea id="config-notes" placeholder="其他製作要求，可在這裡補充。"></textarea>
     </div>
+    <div class="field" id="blindbox-fields" hidden>
+      <label for="blindbox-price">選擇盲盒價格 *</label>
+      <select id="blindbox-price">
+        <option value="12.08">RM 12.08</option><option value="21.08">RM 21.08</option><option value="36.08">RM 36.08</option><option value="48.08">RM 48.08</option><option value="52.08">RM 52.08</option>
+      </select>
+      <label for="blindbox-ratio" style="margin-top:18px">選擇內容比例 *</label>
+      <select id="blindbox-ratio">
+        <option value="高階3:7基礎">高階 3：7 基礎</option><option value="高階7:3基礎">高階 7：3 基礎</option><option value="高階5:5基礎">高階 5：5 基礎</option>
+      </select>
+      <p class="notice">盲盒將依所選預算與比例搭配內容。</p>
+    </div>
     <div class="config-summary"><span>商品價格</span><strong id="config-price">RM 0.00</strong></div>
     <button class="primary" id="config-add" type="button">確認規格並加入購物車</button>
     <p class="config-footnote">基礎系列可指定不同部位的顏色；高級系列只需選擇脆皮等級。每件商品的設定會分開保存。</p>
@@ -1757,24 +1877,27 @@ function renderProducts(){
  const root=document.getElementById("products");root.innerHTML="";
  products[category].forEach(([name,price])=>{
   const el=document.createElement("article");el.className="product scroll-reveal is-visible";
-  el.innerHTML=`<div><div class="name">${name}</div><div class="desc">${category==="basic"?"基礎系列":"高級系列"}</div></div><div><div class="price">${money(price)}</div><button class="add" type="button">加入購物車 ＋</button></div>`;
+  el.innerHTML=`<div><div class="name"></div><div class="desc">${category==="basic"?"基礎系列":"高級系列"}</div></div><div><div class="price">${money(price)}</div><button class="add" type="button">加入購物車 ＋</button></div>`;
+  el.querySelector('.name').textContent=name;
   el.querySelector("button").addEventListener("click",()=>openProductSheet(name,price));
   root.appendChild(el);
-
  });
+ const blind=document.createElement("article");
+ blind.className="product blindbox-product scroll-reveal is-visible";
+ blind.innerHTML='<div><div class="name">捏捏隨配（盲盒）</div><div class="desc">隨機搭配 · 自選預算與比例</div></div><div><div class="price">RM 12.08 起</div><button class="add" type="button">選擇盲盒 ＋</button></div>';
+ root.appendChild(blind);
  const notice=document.createElement("article");
  notice.className="product launch-notice is-visible";
  notice.setAttribute("aria-label","12月10日新品上架通知");
  notice.innerHTML='<div><div class="name">12月10日上新通知</div><div class="desc">新品即將上架 · 敬請期待</div></div><div class="launch-mark">COMING SOON</div>';
  root.appendChild(notice);
-
 }
 function renderCart(){
  const root=document.getElementById("cart");root.innerHTML="";
  if(!cart.length)root.innerHTML='<div class="empty">目前還沒有選購商品。</div>';
  cart.forEach((item,i)=>{
   const row=document.createElement("div");row.className="cart-row";
-  const details=[`脆皮等級：${item.crust||"標準脆皮"}`,item.level==="basic"&&item.colors?`區域配色：${item.colors}`:"",item.level==="basic"&&item.notes?`備註：${item.notes}`:""].filter(Boolean).join("<br>");
+  const details=[item.level==="blindbox"?`盲盒設定：${item.notes||"未設定"}`:`脆皮等級：${item.crust||"標準脆皮"}`,item.level==="basic"&&item.colors?`區域配色：${item.colors}`:"",item.level==="basic"&&item.notes?`備註：${item.notes}`:""].filter(Boolean).join("<br>");
   row.innerHTML=`<div>${item.name}<br><small>${money(item.price)} / 個</small><div class="cart-spec">${details}</div></div><div class="qty"><button type="button" aria-label="減少">−</button><span>${item.qty}</span><button type="button" aria-label="增加">＋</button></div><div>${money(item.price*item.qty)}<br><button class="remove" type="button">移除</button></div>`;
   const buttons=row.querySelectorAll(".qty button");
   buttons[0].onclick=()=>{item.qty--;if(item.qty<=0)cart.splice(i,1);renderCart();};
@@ -2005,12 +2128,16 @@ let sheetProduct=null;
 const configBackdrop=document.getElementById("config-backdrop");
 const configSheet=configBackdrop.querySelector(".config-sheet");
 function openProductSheet(name,price){
-  sheetProduct={name,price,level:category};
+  const isBlindbox=name==="捏捏隨配（盲盒）";
+  sheetProduct={name,price:isBlindbox?12.08:price,level:isBlindbox?"blindbox":category};
   document.getElementById("config-product-name").textContent=name;
-  document.getElementById("config-title").textContent=category==="premium"?"高級捏捏規格":"基礎捏捏客製化";
-  document.getElementById("config-price").textContent=money(price);
-  document.getElementById("basic-color-field").hidden=category!=="basic";
-  document.getElementById("basic-notes-field").hidden=category!=="basic";
+  document.getElementById("config-title").textContent=isBlindbox?"捏捏隨配盲盒設定":(category==="premium"?"高級捏捏規格":"基礎捏捏客製化");
+  document.getElementById("config-price").textContent=money(sheetProduct.price);
+  document.getElementById("basic-color-field").hidden=isBlindbox||category!=="basic";
+  document.getElementById("basic-notes-field").hidden=isBlindbox||category!=="basic";
+  document.getElementById("blindbox-fields").hidden=!isBlindbox;
+  document.getElementById("blindbox-price").value="12.08";
+  document.getElementById("blindbox-ratio").value="高階3:7基礎";
   document.getElementById("config-colors").value="";
   document.getElementById("config-notes").value="";
   document.querySelectorAll('input[name="config-crust"]').forEach(x=>x.checked=x.value==="標準脆皮");
@@ -2024,6 +2151,12 @@ function closeProductSheet(){
   document.body.style.overflow="";
   sheetProduct=null;
 }
+document.getElementById("blindbox-price").addEventListener("change",e=>{
+  if(sheetProduct && sheetProduct.level==="blindbox"){
+    sheetProduct.price=Number(e.target.value);
+    document.getElementById("config-price").textContent=money(sheetProduct.price);
+  }
+});
 document.getElementById("config-close").addEventListener("click",closeProductSheet);
 configBackdrop.addEventListener("click",e=>{if(e.target===configBackdrop)closeProductSheet();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!configBackdrop.hidden)closeProductSheet();});
@@ -2261,22 +2394,21 @@ main#top > #shop ~ section {
     ev.preventDefault();
     ev.stopImmediatePropagation();
     if (!sheetProduct) return;
-    const crust = document.querySelector('input[name="config-crust"]:checked')?.value;
-    if (!crust) { alert('請選擇脆皮厚度。'); return; }
+    const isBlindbox = sheetProduct.level === 'blindbox';
+    const crust = isBlindbox ? '' : document.querySelector('input[name="config-crust"]:checked')?.value;
+    if (!isBlindbox && !crust) { alert('請選擇脆皮厚度。'); return; }
     const isBasic = sheetProduct.level === 'basic';
     const colors = isBasic ? document.getElementById('config-colors').value.trim() : '';
-    const notes = isBasic ? document.getElementById('config-notes').value.trim() : '';
+    const ratio = isBlindbox ? document.getElementById('blindbox-ratio').value : '';
+    const notes = isBlindbox ? `內容比例：${ratio}` : (isBasic ? document.getElementById('config-notes').value.trim() : '');
     if (isBasic && !colors) {
       document.getElementById('config-colors').focus();
       alert('請填寫區域配色要求。');
       return;
     }
     const same = cart.find(item =>
-      item.name === sheetProduct.name &&
-      item.level === sheetProduct.level &&
-      item.crust === crust &&
-      item.colors === colors &&
-      item.notes === notes
+      item.name === sheetProduct.name && item.level === sheetProduct.level &&
+      item.crust === crust && item.colors === colors && item.notes === notes && item.price === sheetProduct.price
     );
     if (same) same.qty += 1;
     else cart.push({
@@ -2301,6 +2433,76 @@ main#top > #shop ~ section {
   if (typeof renderCart === 'function') renderCart();
 })();
 </script>
+
+<style id="squish-warm-orderly-final">
+:root{--warm-gold:#b99458;--warm-gold-soft:rgba(185,148,88,.16)}
+#shop .section-head{margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid rgba(185,148,88,.30)}
+#shop .section-head small{color:#a88a5d!important}
+#shop .category-submenu .tab.active{background:linear-gradient(135deg,#b99a68,#9c7a49)!important;color:#fff!important;border-color:rgba(255,255,255,.9)!important;box-shadow:0 8px 22px rgba(160,125,72,.18)!important}
+#shop .product{background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(246,243,236,.78))!important;border-color:rgba(255,255,255,.96)!important;box-shadow:0 12px 30px rgba(48,58,68,.055),inset 0 1px 0 #fff!important}
+#shop .product .price{color:#a9844e!important}
+#shop .product .add{border-color:rgba(185,148,88,.28)!important;background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(248,243,233,.9))!important}
+#shop .blindbox-product{border:1px solid rgba(185,148,88,.40)!important;background:linear-gradient(135deg,rgba(255,251,242,.98),rgba(244,237,222,.82))!important;box-shadow:0 14px 34px rgba(155,122,68,.10),inset 0 1px 0 #fff!important}
+#shop .blindbox-product .desc{color:#9a8058!important}
+#shop .launch-notice{border-color:rgba(185,148,88,.42)!important;background:radial-gradient(circle at 88% 25%,rgba(199,164,105,.18),transparent 34%),linear-gradient(125deg,#fffaf0,#f1e8d8)!important;gap:12px!important;min-width:0!important}
+#shop .launch-notice .launch-mark{display:inline-flex;align-items:center;justify-content:center;max-width:44%;white-space:normal!important;text-align:center;overflow-wrap:anywhere;line-height:1.4;letter-spacing:.12em!important;color:#98794d!important;border-color:rgba(185,148,88,.38)!important;background:rgba(255,255,255,.6)!important}
+#blindbox-fields select{width:100%;min-height:48px;border:1px solid rgba(185,148,88,.28);border-radius:14px;background:rgba(255,255,255,.9);padding:0 14px;font:inherit;color:#30343a}
+@media(max-width:700px){#shop .grid{align-items:stretch!important}#shop .product{min-width:0!important}#shop .launch-notice{padding:18px!important;min-height:118px!important}#shop .launch-notice .name{font-size:18px!important}#shop .launch-notice .launch-mark{font-size:9px!important;max-width:40%}}
+</style>
+
+
+<style id="squish-premium-motion">
+:root{--motion-gold:#b58a4a;--motion-gold-light:#ead9b9}
+/* A slim progress line makes long-form browsing feel intentional. */
+#sl-scroll-progress{position:fixed;z-index:9999;left:0;top:0;width:100%;height:3px;background:rgba(181,138,74,.10);pointer-events:none}
+#sl-scroll-progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#d8bd8c,#a77d3d,#e7d6b5);box-shadow:0 0 12px rgba(181,138,74,.42);transform-origin:left center}
+/* Ambient gold light: decorative, quiet and never blocks taps. */
+body:before{content:"";position:fixed;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(circle at 8% 24%,rgba(211,174,111,.10),transparent 22%),radial-gradient(circle at 92% 72%,rgba(211,174,111,.09),transparent 24%)}
+.hero{position:relative;isolation:isolate;overflow:hidden}
+.hero:before,.hero:after{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(1px)}
+.hero:before{width:clamp(190px,34vw,390px);height:clamp(190px,34vw,390px);right:-7%;top:8%;border:1px solid rgba(181,138,74,.24);box-shadow:0 0 0 18px rgba(181,138,74,.025),0 0 0 42px rgba(181,138,74,.018);animation:sl-orbit 18s linear infinite}
+.hero:after{width:clamp(90px,16vw,170px);height:clamp(90px,16vw,170px);left:-4%;bottom:8%;background:radial-gradient(circle,rgba(225,198,153,.20),rgba(225,198,153,0) 70%);animation:sl-breathe 7s ease-in-out infinite}
+.hero .art-card,.hero .hero-art,.hero .artwork{position:relative}
+.hero .art-caption{color:#927344}
+.hero .hero-bottom{color:#98794d}
+/* Scroll entrance animations are applied only to selected content blocks. */
+.sl-motion-in{opacity:0;transform:translateY(24px) scale(.992);filter:blur(2px);transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1),filter .75s ease}
+.sl-motion-in.sl-motion-visible{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+.sl-stagger>*{transition-delay:var(--sl-delay,0ms)}
+.story-inner,.promo,.panel,.brand-module,.material-card,.tracking-card{transition:transform .45s ease,box-shadow .45s ease,border-color .45s ease}
+.story-inner:hover,.promo:hover,.panel:hover,.brand-module:hover,.material-card:hover,.tracking-card:hover{transform:translateY(-3px);box-shadow:0 20px 48px rgba(132,100,49,.11),inset 0 1px 0 rgba(255,255,255,.95)}
+.story-inner:before,.material-card:before,.brand-module:before{content:"";position:absolute;left:0;top:0;width:72px;height:2px;background:linear-gradient(90deg,#b58a4a,rgba(181,138,74,0));opacity:.8}
+.story-inner,.material-card,.brand-module{position:relative;overflow:hidden}
+#shop .product{transition:transform .32s cubic-bezier(.2,.7,.2,1),box-shadow .32s ease,border-color .32s ease!important}
+#shop .product:hover{transform:translateY(-5px)!important;box-shadow:0 18px 36px rgba(130,99,50,.12),inset 0 1px 0 #fff!important;border-color:rgba(181,138,74,.42)!important}
+#shop .blindbox-product{position:relative}
+#shop .blindbox-product:after{content:"✦ 精選搭配";position:absolute;right:16px;top:13px;font-size:9px;letter-spacing:.12em;color:#9a7848;background:rgba(255,255,255,.7);border:1px solid rgba(181,138,74,.22);border-radius:99px;padding:5px 8px}
+#shop .launch-notice{position:relative}
+#shop .launch-notice:after{content:"";position:absolute;top:-60%;left:-35%;width:24%;height:220%;transform:rotate(24deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:sl-shimmer 5.8s ease-in-out infinite;pointer-events:none}
+@keyframes sl-orbit{to{transform:rotate(360deg)}}
+@keyframes sl-breathe{0%,100%{transform:scale(.92);opacity:.65}50%{transform:scale(1.12);opacity:1}}
+@keyframes sl-shimmer{0%,55%{left:-35%;opacity:0}68%{opacity:.8}100%{left:125%;opacity:0}}
+@media(hover:none){.story-inner:hover,.promo:hover,.panel:hover,.brand-module:hover,.material-card:hover,.tracking-card:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){#sl-scroll-progress span,.hero:before,.hero:after,#shop .launch-notice:after{animation:none!important}.sl-motion-in{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}.story-inner,.promo,.panel,.brand-module,.material-card,.tracking-card,#shop .product{transition:none!important}}
+</style>
+<script id="squish-premium-motion-controller">
+(()=>{
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const bar=document.createElement('div');bar.id='sl-scroll-progress';bar.setAttribute('aria-hidden','true');bar.innerHTML='<span></span>';document.body.appendChild(bar);
+  const fill=bar.firstElementChild;
+  let ticking=false;
+  const update=()=>{const max=document.documentElement.scrollHeight-window.innerHeight;const pct=max>0?Math.min(100,Math.max(0,window.scrollY/max*100)):0;fill.style.width=pct+'%';ticking=false};
+  window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(update);ticking=true}},{passive:true});window.addEventListener('resize',update,{passive:true});update();
+  if(reduce||!('IntersectionObserver' in window))return;
+  const seen=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('sl-motion-visible');seen.unobserve(entry.target)}}),{threshold:.12,rootMargin:'0px 0px -5% 0px'});
+  const selector='.story-inner,.promo,.section-head,.panel,.brand-module,.material-card,.tracking-card,.notice-item';
+  const mark=root=>{(root.matches&&root.matches(selector)?[root]:[]).concat(root.querySelectorAll?Array.from(root.querySelectorAll(selector)):[]).forEach((el,i)=>{if(el.classList.contains('sl-motion-in'))return;el.classList.add('sl-motion-in');if(el.parentElement&&el.parentElement.classList.contains('notice-list'))el.style.setProperty('--sl-delay',(i%4)*65+'ms');seen.observe(el)})};
+  mark(document);
+  const shop=document.getElementById('products');
+  if(shop&&'MutationObserver' in window){new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType===1)mark(node)}))).observe(shop,{childList:true})}
+})();
+</script>
+
 </body>
 </html>
 
