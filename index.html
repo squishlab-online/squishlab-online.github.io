@@ -2268,7 +2268,7 @@ document.getElementById("config-add").addEventListener("click",()=>{
   else cart.push({name:sheetProduct.name,price:sheetProduct.price,qty:1,crust,level:sheetProduct.level,colors,notes});
   renderCart();
   closeProductSheet();
-  document.getElementById("cart")?.scrollIntoView({behavior:"smooth",block:"nearest"});
+  document.getElementById("cart")?.scrollIntoView({behavior:"auto",block:"nearest"});
 });
 
 renderProducts();renderCart();
@@ -2337,40 +2337,7 @@ main#top > #shop ~ section {
   overflow:visible!important;
 }
 </style>
-<script id="squish-original-stack-controller">
-(function(){
- const main=document.querySelector('main#top');
- if(!main || main.dataset.stackReady==='shared') return;
- main.dataset.stackReady='shared';
-
- // Only sections before the product shop participate in the sticky page stack.
- const shop=main.querySelector(':scope > #shop');
- if(!shop) return;
- const sections=[];
- for(const el of [...main.children]){
-   if(el===shop) break;
-   if(el.tagName==='SECTION') sections.push(el);
- }
- if(!sections.length) return;
-
- const track=document.createElement('div');
- track.className='stack-track';
- main.insertBefore(track,sections[0]);
- sections.forEach((section,index)=>{
-   const card=document.createElement('div');
-   card.className='stack-card';
-   card.style.zIndex=String(index+1);
-   track.appendChild(card);
-   card.appendChild(section);
-   if(index < sections.length-1){
-     const spacer=document.createElement('div');
-     spacer.className='stack-spacer';
-     track.appendChild(spacer);
-   }
- });
- main.dataset.stackReady='before-shop';
-})();
-</script>
+<!-- Removed squish-original-stack-controller: native document flow is used for reliable iOS scrolling. -->
 
 <style id="product-sheet-interaction-fix">
 /* Closed product sheet is removed from hit-testing immediately. */
@@ -2387,32 +2354,7 @@ main#top > #shop ~ section {
 #post-order-product-stack .stack-spacer{height:13vh;min-height:76px;pointer-events:none;}
 @media(max-width:700px){#post-order-product-stack .stack-card{top:78px!important;}#post-order-product-stack .stack-spacer{height:10vh;min-height:60px;}}
 </style>
-<script id="post-order-product-intro-stack-controller">
-(function(){
-  const main=document.querySelector('main#top');
-  if(!main || main.dataset.postOrderProductStackReady==='1') return;
-  const ids=['material-quality','base-formula','craft-process'];
-  const pages=ids.map(id=>main.querySelector(':scope > #'+id)).filter(Boolean);
-  if(pages.length!==ids.length) return;
-  const track=document.createElement('div');
-  track.className='stack-track';
-  track.id='post-order-product-stack';
-  main.insertBefore(track,pages[0]);
-  pages.forEach((section,index)=>{
-    const card=document.createElement('div');
-    card.className='stack-card';
-    card.style.zIndex=String(index+1);
-    track.appendChild(card);
-    card.appendChild(section);
-    if(index<pages.length-1){
-      const spacer=document.createElement('div');
-      spacer.className='stack-spacer';
-      track.appendChild(spacer);
-    }
-  });
-  main.dataset.postOrderProductStackReady='1';
-})();
-</script>
+<!-- Removed post-order-product-intro-stack-controller: native document flow is used for reliable iOS scrolling. -->
 
 
 <script id="squish-commerce-interaction-repair">
@@ -2508,7 +2450,7 @@ main#top > #shop ~ section {
     });
     renderCart();
     hideSheet();
-    document.getElementById('cart')?.scrollIntoView({behavior:'smooth', block:'nearest'});
+    document.getElementById('cart')?.scrollIntoView({behavior:"auto", block:'nearest'});
   }, true);
 
   // Keep the existing open function but enforce modal visibility and current product state.
@@ -2635,6 +2577,156 @@ html, body { scroll-behavior: auto !important; }
   .sl-ring-back, .sl-ring-front { animation: none !important; }
 }
 </style>
+
+
+<style id="squish-lab-native-scroll-final">
+/* Final iOS Safari fix: use one native document scroller, never nested sticky stacks. */
+html, body {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-x: clip !important;
+  overflow-y: auto !important;
+  scroll-behavior: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: auto !important;
+  overflow-anchor: none !important;
+}
+body { position: relative !important; background-attachment: scroll !important; }
+main#top, main#top > *, .stack-track, #post-order-product-stack {
+  position: relative !important;
+  inset: auto !important;
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  contain: none !important;
+  content-visibility: visible !important;
+}
+.stack-card, #post-order-product-stack .stack-card {
+  position: relative !important;
+  inset: auto !important; top: auto !important;
+  display: block !important;
+  height: auto !important; min-height: 0 !important; max-height: none !important;
+  overflow: visible !important;
+  transform: none !important; -webkit-transform: none !important;
+  filter: none !important; perspective: none !important;
+  will-change: auto !important; contain: none !important;
+  scroll-snap-align: none !important;
+}
+.stack-spacer, #post-order-product-stack .stack-spacer {
+  display: none !important; height: 0 !important; min-height: 0 !important;
+  max-height: 0 !important; margin: 0 !important; padding: 0 !important;
+}
+.stack-card .hero, .stack-card .story, .stack-card .promo, .stack-card .section {
+  min-height: 0 !important;
+}
+</style>
+<script id="squish-lab-native-scroll-guard">
+(function(){
+  // If a cached/older script left stack wrappers in the DOM, unwrap them without moving sections visually.
+  function unwrap(){
+    document.querySelectorAll('.stack-track, #post-order-product-stack').forEach(function(track){
+      var parent=track.parentNode; if(!parent) return;
+      while(track.firstChild){
+        var child=track.firstChild;
+        if(child.classList && child.classList.contains('stack-spacer')) { child.remove(); continue; }
+        if(child.classList && child.classList.contains('stack-card')) {
+          while(child.firstChild) parent.insertBefore(child.firstChild, track);
+          child.remove();
+        } else parent.insertBefore(child, track);
+      }
+      track.remove();
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',unwrap,{once:true}); else unwrap();
+  window.addEventListener('pageshow',unwrap);
+})();
+</script>
+
+
+<style id="squish-ios-safari-hard-scroll-fix">
+/* iOS Safari-specific hardening: remove every remaining scroll-affecting layer. */
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: none !important;
+    overscroll-behavior: auto !important;
+    overflow-anchor: none !important;
+  }
+  body { position: static !important; }
+  header {
+    position: relative !important;
+    top: auto !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+  *, *::before, *::after {
+    scroll-snap-type: none !important;
+    scroll-snap-align: none !important;
+  }
+  .stack-track, #post-order-product-stack, .stack-card, .stack-spacer,
+  main#top, main#top > * {
+    position: static !important;
+    inset: auto !important;
+    top: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    perspective: none !important;
+    filter: none !important;
+    contain: none !important;
+    content-visibility: visible !important;
+    will-change: auto !important;
+  }
+  .stack-spacer { display: none !important; }
+  .stack-card, .stack-track, #post-order-product-stack {
+    overflow: visible !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  /* Keep the Saturn ring artwork animated, but avoid expensive full-page compositing. */
+  .sl-saturn-page { min-height: 680px !important; height: auto !important; }
+  .sl-ring-back, .sl-ring-front { will-change: transform; }
+}
+</style>
+<script id="squish-ios-safari-layout-guard">
+(function(){
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (!isIOS) return;
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch(e) {}
+  function normalize(){
+    document.querySelectorAll('.stack-track, #post-order-product-stack').forEach(function(track){
+      if (!track.parentNode) return;
+      var parent = track.parentNode;
+      while (track.firstChild) {
+        var child = track.firstChild;
+        if (child.nodeType === 1 && child.classList.contains('stack-spacer')) { child.remove(); continue; }
+        if (child.nodeType === 1 && child.classList.contains('stack-card')) {
+          while (child.firstChild) parent.insertBefore(child.firstChild, track);
+          child.remove();
+        } else parent.insertBefore(child, track);
+      }
+      track.remove();
+    });
+    document.querySelectorAll('.stack-spacer').forEach(function(el){ el.remove(); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', normalize, {once:true});
+  else normalize();
+  window.addEventListener('pageshow', normalize);
+  window.addEventListener('orientationchange', function(){ setTimeout(normalize, 250); });
+})();
+</script>
 
 </body>
 </html>
