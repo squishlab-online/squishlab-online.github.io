@@ -2728,6 +2728,97 @@ main#top, main#top > *, .stack-track, #post-order-product-stack {
 })();
 </script>
 
+
+<style id="squish-safari-scroll-root-rebuild-v2">
+/* iOS Safari: use one document scroll surface; remove all section stacking effects. */
+@supports (-webkit-touch-callout: none) {
+  html {
+    height: auto !important; min-height: 100% !important;
+    overflow-x: hidden !important; overflow-y: auto !important;
+    scroll-behavior: auto !important; scroll-snap-type: none !important;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    height: auto !important; min-height: 100% !important;
+    overflow: visible !important; position: static !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+  }
+  header { position: relative !important; top: auto !important; }
+  .stack-track, #post-order-product-stack, .stack-card, .stack-spacer,
+  main#top, main#top > section, section.stack-card {
+    position: static !important; inset: auto !important;
+    height: auto !important; min-height: 0 !important; max-height: none !important;
+    margin-top: 0 !important; margin-bottom: 0 !important;
+    transform: none !important; -webkit-transform: none !important;
+    filter: none !important; perspective: none !important;
+    contain: none !important; content-visibility: visible !important;
+    will-change: auto !important; scroll-snap-align: none !important;
+  }
+  .stack-spacer { display: none !important; }
+  section:not(#tracking), section:not(#tracking).duo-enter,
+  section:not(#tracking).duo-nav-enter {
+    animation: none !important; transition: none !important;
+    transform: none !important; opacity: 1 !important; filter: none !important;
+    isolation: auto !important; will-change: auto !important;
+  }
+  .stack-track, #post-order-product-stack, .stack-card {
+    overflow: visible !important; -webkit-overflow-scrolling: auto !important;
+  }
+  /* Keep only the Saturn artwork's own lightweight rotation. */
+  .sl-ring-back, .sl-ring-front { will-change: transform !important; }
+}
+</style>
+<script id="squish-safari-scroll-root-rebuild-v2-js">
+(function(){
+  var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (!ios) return;
+  function flattenStacking(){
+    document.querySelectorAll('.stack-track, #post-order-product-stack').forEach(function(track){
+      if (!track.parentNode) return;
+      var parent = track.parentNode;
+      while (track.firstChild) {
+        var node = track.firstChild;
+        if (node.nodeType === 1 && node.classList.contains('stack-spacer')) { node.remove(); continue; }
+        if (node.nodeType === 1 && node.classList.contains('stack-card')) {
+          while (node.firstChild) parent.insertBefore(node.firstChild, track);
+          node.remove();
+        } else parent.insertBefore(node, track);
+      }
+      track.remove();
+    });
+    document.querySelectorAll('.stack-spacer').forEach(function(n){n.remove();});
+    document.querySelectorAll('section').forEach(function(sec){
+      sec.classList.remove('duo-enter','duo-nav-enter');
+      sec.style.removeProperty('transform');
+      sec.style.removeProperty('filter');
+      sec.style.removeProperty('will-change');
+    });
+  }
+  function boot(){
+    flattenStacking();
+    // Guard against older page-transition scripts re-applying section transforms.
+    var observer = new MutationObserver(function(records){
+      records.forEach(function(record){
+        if (record.type === 'attributes' && record.target instanceof HTMLElement && record.target.matches('section')) {
+          record.target.classList.remove('duo-enter','duo-nav-enter');
+          record.target.style.removeProperty('transform');
+          record.target.style.removeProperty('filter');
+          record.target.style.removeProperty('will-change');
+        }
+      });
+    });
+    document.querySelectorAll('section').forEach(function(sec){
+      observer.observe(sec,{attributes:true,attributeFilter:['class','style']});
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
+  else boot();
+  window.addEventListener('pageshow',flattenStacking);
+})();
+</script>
+
 </body>
 </html>
 
