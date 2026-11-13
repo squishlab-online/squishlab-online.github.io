@@ -1665,6 +1665,51 @@ html,body{max-width:100%;overflow-x:hidden!important}
 @media(prefers-reduced-motion:reduce){.sl-ring-back,.sl-ring-front{animation:none!important}}
 </style>
 
+
+<style id="squish-saturn-ios-scroll-fix">
+/* iPhone Safari: keep the dedicated Saturn brand page in normal document flow.
+   The original sticky-card transform can cause touch scrolling to snap back. */
+@media (max-width: 700px) {
+  .stack-card:has(> #brand-orbit) {
+    position: relative !important;
+    top: auto !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    will-change: auto !important;
+    contain: none !important;
+    touch-action: pan-y !important;
+  }
+  .stack-card:has(> #brand-orbit) + .stack-spacer {
+    height: 0 !important;
+    min-height: 0 !important;
+  }
+  #brand-orbit {
+    scroll-margin-top: 76px;
+    overscroll-behavior-y: auto;
+  }
+}
+</style>
+
+
+<style id="squish-promo-height-fix">
+/* Fix: the stacked intro was forcing the group-order offer card to fill 64vh.
+   Keep the offer card content-sized on phones and desktop. */
+.stack-card .promo {
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  align-self: start !important;
+}
+@media (max-width: 700px) {
+  .stack-card .promo {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 26px 18px !important;
+    margin: 18px 0 34px !important;
+  }
+  .stack-card .promo p { margin-top: 10px !important; }
+}
+</style>
 </head>
 <body>
 <div class="wrap">
