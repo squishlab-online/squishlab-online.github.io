@@ -1811,144 +1811,155 @@ input:focus,textarea:focus,select:focus{border-color:var(--gold)!important;box-s
 </style>
 
 
-<style id="squish-lab-next-edition">
+<style id="squish-lab-opal-atelier">
+/* ORIGINAL ART DIRECTION: OPAL ATELIER
+   Reinterprets the reference's glass / sculptural / metallic design language
+   with a new mineral palette, lighting treatment and surface language. */
 :root{
-  --ink:#34332f!important;
-  --muted:#817e75!important;
-  --line:rgba(104,105,99,.22)!important;
-  --paper:#efede5!important;
-  --white:rgba(250,249,244,.82)!important;
-  --sl-khaki:#9c8969!important;
-  --sl-khaki-light:#e8dfcf!important;
-  --sl-silver:#aeb8c0!important;
-  --sl-silver-light:#edf0ef!important;
-  --sl-metal-ink:#41464a!important;
+  --ink:#292d32!important;
+  --muted:#747d82!important;
+  --line:rgba(87,105,111,.19)!important;
+  --paper:#eef1ef!important;
+  --white:rgba(251,253,251,.78)!important;
+  --opal-ice:#dce9e6;
+  --opal-lilac:#e7e1ee;
+  --opal-mint:#d8e7df;
+  --opal-pearl:#f9fbf7;
+  --opal-shadow:rgba(44,65,68,.10);
 }
 html,body{
+  color:#292d32!important;
   background:
-    radial-gradient(ellipse at 12% 10%,rgba(205,190,160,.34),transparent 34%),
-    radial-gradient(ellipse at 88% 22%,rgba(181,196,207,.38),transparent 37%),
-    radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.68),transparent 46%),
-    linear-gradient(132deg,#f0ece2 0%,#e6e2d8 30%,#eef0ed 61%,#e2e8e9 100%)!important;
+    radial-gradient(ellipse at 14% 9%,rgba(205,226,219,.88) 0%,transparent 32%),
+    radial-gradient(ellipse at 88% 16%,rgba(220,213,235,.76) 0%,transparent 34%),
+    radial-gradient(ellipse at 50% 78%,rgba(250,251,246,.94) 0%,transparent 45%),
+    linear-gradient(148deg,#e9efeb 0%,#e9e9ef 48%,#e4ece9 100%)!important;
   background-attachment:fixed!important;
-  color:#34332f!important;
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang TC","Helvetica Neue",sans-serif!important;
-  letter-spacing:.018em!important;
+  letter-spacing:.012em!important;
 }
 body:before{
-  opacity:.16!important;
-  background-image:radial-gradient(rgba(105,105,96,.24) .55px,transparent .75px)!important;
-  background-size:4px 4px!important;
+  opacity:.13!important;
+  background-image:
+    radial-gradient(rgba(91,117,116,.25) .55px,transparent .8px),
+    radial-gradient(rgba(255,255,255,.9) .6px,transparent .9px)!important;
+  background-size:5px 5px,9px 9px!important;
 }
 header{
-  background:rgba(246,245,239,.68)!important;
-  border-color:rgba(255,255,255,.88)!important;
-  box-shadow:0 12px 38px rgba(67,70,70,.065),inset 0 1px 0 rgba(255,255,255,.95)!important;
-  -webkit-backdrop-filter:blur(30px) saturate(155%)!important;
-  backdrop-filter:blur(30px) saturate(155%)!important;
+  background:rgba(244,249,246,.64)!important;
+  border-color:rgba(255,255,255,.94)!important;
+  box-shadow:0 12px 38px rgba(48,70,69,.075),inset 0 1px 0 rgba(255,255,255,.98)!important;
+  -webkit-backdrop-filter:blur(32px) saturate(175%)!important;
+  backdrop-filter:blur(32px) saturate(175%)!important;
 }
-.logo,.logo span{color:#41413b!important}
-nav a{color:#66675f!important}
-nav a:hover{color:#272923!important}
+.logo,.logo span{color:#333d3e!important}
+nav{color:#687577!important}
+nav a{color:inherit!important}
+nav a:hover{color:#303b3d!important}
 .hero:before,.page-intro:before{
   background:
-   radial-gradient(ellipse,rgba(255,255,255,.96) 0%,rgba(220,214,198,.58) 29%,rgba(190,202,207,.28) 53%,transparent 73%)!important;
-  filter:blur(14px)!important;
+    radial-gradient(ellipse at 42% 44%,rgba(255,255,255,.98) 0%,rgba(222,237,230,.72) 28%,rgba(224,219,239,.42) 51%,transparent 73%)!important;
+  filter:blur(18px)!important;
 }
 .hero h1,.page-intro h1,.section-head h2,.story-inner h2,.promo strong,
 .brand-module h3,.material-card h3{
-  background:linear-gradient(105deg,#665b49 0%,#b59e76 20%,#707c83 43%,#c0c9cb 61%,#81745f 82%,#665b49 100%)!important;
-  background-size:240% 100%!important;
+  background:linear-gradient(112deg,#4d6664 0%,#789e96 24%,#9d91b5 51%,#718f91 76%,#465d60 100%)!important;
+  background-size:100% 100%!important;
   -webkit-background-clip:text!important;
   background-clip:text!important;
   color:transparent!important;
-  text-shadow:0 5px 24px rgba(255,255,255,.32)!important;
+  text-shadow:0 8px 26px rgba(255,255,255,.58)!important;
 }
 .eyebrow,.story-index,.section-head small,.orbit-kicker,.orbit-title{
-  color:#8c795d!important;
+  color:#718f89!important;
 }
-.rule{background:linear-gradient(90deg,transparent,rgba(143,132,108,.56),rgba(139,157,164,.52),transparent)!important}
+.rule{
+  background:linear-gradient(90deg,transparent,rgba(119,163,151,.64),rgba(157,143,185,.56),transparent)!important;
+}
 .promo,.story-inner,.panel,.tracking-card,.config-sheet,.material-card,
 .brand-module,.glass-panel,.diy-book{
-  border-color:rgba(255,255,255,.91)!important;
-  background:linear-gradient(138deg,rgba(255,255,251,.82),rgba(233,228,215,.68) 48%,rgba(227,235,237,.78))!important;
-  box-shadow:0 22px 65px rgba(63,68,68,.075),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(255,255,255,.38)!important;
+  border-color:rgba(255,255,255,.96)!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.83),rgba(227,239,233,.68) 48%,rgba(235,229,244,.62))!important;
+  box-shadow:0 24px 68px rgba(55,78,77,.085),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(255,255,255,.45)!important;
 }
 .story-inner:after{
-  background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.42) 47%,transparent 70%)!important;
+  background:linear-gradient(118deg,transparent 18%,rgba(255,255,255,.62) 46%,rgba(221,232,230,.12) 57%,transparent 76%)!important;
 }
 .product,.brand-module,.material-card{
-  border-color:rgba(255,255,255,.92)!important;
-  background:linear-gradient(145deg,rgba(255,255,252,.88),rgba(232,230,221,.68) 58%,rgba(232,238,238,.72))!important;
-  box-shadow:0 14px 38px rgba(64,69,68,.065),inset 0 1px 0 rgba(255,255,255,.98)!important;
+  border-color:rgba(255,255,255,.97)!important;
+  background:linear-gradient(148deg,rgba(255,255,255,.91),rgba(228,239,234,.72) 55%,rgba(235,230,244,.64))!important;
+  box-shadow:0 15px 42px rgba(54,77,76,.07),inset 0 1px 0 rgba(255,255,255,.99)!important;
 }
 .product:hover,.brand-module:hover,.material-card:hover{
-  box-shadow:0 25px 58px rgba(64,69,68,.12),inset 0 1px 0 #fff!important;
+  box-shadow:0 26px 62px rgba(54,77,76,.13),inset 0 1px 0 #fff!important;
 }
-.product .name,.panel h3,.diy-heading,.tracking-intro h3{color:#393a35!important}
+.product .name,.panel h3,.diy-heading,.tracking-intro h3{color:#354144!important}
 .product .desc,.story p,.hero p,.notice,.notice-item p,.diy-lead,
-.tracking-intro p,.tracking-note{color:#77786f!important}
-.price{color:#6d614e!important}
-.section-head{border-color:rgba(107,109,103,.24)!important}
+.tracking-intro p,.tracking-note{color:#758181!important}
+.price{color:#647f78!important}
+.section-head{border-color:rgba(94,122,119,.24)!important}
 .grid{background:transparent!important}
 .tab,.add,.primary,.qty button,.remove,.choice label,
 .glass-option,.diy-tool,.config-close,.config-sheet button,
 .tracking-form button,.hero-actions a,.hero-actions button,
 nav a,.module-link,.brand-module a,.material-card a{
-  border:1px solid rgba(255,255,255,.92)!important;
+  border:1px solid rgba(255,255,255,.96)!important;
   border-radius:999px!important;
-  background:rgba(255,255,250,.48)!important;
-  color:#4a4b45!important;
-  -webkit-backdrop-filter:blur(22px) saturate(165%)!important;
-  backdrop-filter:blur(22px) saturate(165%)!important;
-  box-shadow:0 8px 23px rgba(62,67,66,.075),inset 0 1px 0 rgba(255,255,255,.98)!important;
+  background:rgba(250,253,251,.52)!important;
+  color:#455455!important;
+  -webkit-backdrop-filter:blur(24px) saturate(185%)!important;
+  backdrop-filter:blur(24px) saturate(185%)!important;
+  box-shadow:0 8px 24px rgba(48,74,72,.085),inset 0 1px 0 rgba(255,255,255,.99),inset 0 -1px 0 rgba(199,221,215,.28)!important;
 }
 .tab.active,.primary,.choice label:has(input:checked),
 .glass-option.active,.diy-tool.active{
-  background:linear-gradient(115deg,rgba(87,91,83,.94),rgba(91,105,111,.92))!important;
+  background:linear-gradient(120deg,rgba(76,111,105,.94),rgba(106,94,135,.91))!important;
   color:#fff!important;
-  border-color:rgba(255,255,255,.65)!important;
-  box-shadow:0 11px 27px rgba(64,71,70,.16),inset 0 1px 0 rgba(255,255,255,.3)!important;
+  border-color:rgba(255,255,255,.78)!important;
+  box-shadow:0 12px 30px rgba(71,91,103,.18),inset 0 1px 0 rgba(255,255,255,.34)!important;
 }
 .add:hover,.tab:not(.active):hover,.choice label:hover,
 .hero-actions a:hover,.hero-actions button:hover{
-  background:rgba(255,255,255,.88)!important;
-  color:#343630!important;
-  box-shadow:0 13px 30px rgba(64,71,70,.12),inset 0 1px 0 #fff!important;
+  background:rgba(255,255,255,.91)!important;
+  color:#344344!important;
+  box-shadow:0 14px 32px rgba(48,74,72,.13),inset 0 1px 0 #fff!important;
 }
 input,textarea,select,.tracking-form input{
-  border-color:rgba(129,133,127,.25)!important;
-  border-radius:13px!important;
-  background:rgba(255,255,251,.66)!important;
-  color:#3e403b!important;
-  box-shadow:inset 0 1px 3px rgba(68,70,64,.035)!important;
+  border-color:rgba(111,142,137,.25)!important;
+  border-radius:14px!important;
+  background:rgba(250,253,251,.70)!important;
+  color:#354244!important;
+  box-shadow:inset 0 1px 3px rgba(62,89,84,.04)!important;
 }
 input:focus,textarea:focus,select:focus,.tracking-form input:focus{
-  border-color:#9c927c!important;
-  box-shadow:0 0 0 4px rgba(157,144,116,.13)!important;
+  border-color:#8daea4!important;
+  box-shadow:0 0 0 4px rgba(131,174,160,.15)!important;
 }
 .diy-book:before{
-  background:linear-gradient(transparent,rgba(165,158,143,.48),transparent)!important;
+  background:linear-gradient(transparent,rgba(139,174,164,.55),rgba(164,151,188,.42),transparent)!important;
 }
 .diy-sample{
-  background:radial-gradient(ellipse at 50% 45%,rgba(255,255,255,.96),rgba(218,215,203,.52) 62%,rgba(191,204,207,.28))!important;
+  background:
+    radial-gradient(ellipse at 38% 38%,rgba(255,255,255,.98),transparent 46%),
+    linear-gradient(135deg,rgba(212,232,223,.82),rgba(229,221,240,.7))!important;
 }
 .diy-canvas-wrap{
-  border-color:rgba(255,255,255,.95)!important;
-  background:linear-gradient(145deg,rgba(255,255,255,.76),rgba(219,225,222,.56))!important;
-  box-shadow:0 14px 36px rgba(57,63,62,.09),inset 0 1px 0 #fff!important;
+  border-color:rgba(255,255,255,.98)!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(216,234,227,.58) 58%,rgba(229,222,240,.52))!important;
+  box-shadow:0 15px 38px rgba(53,79,75,.10),inset 0 1px 0 #fff!important;
 }
 .glass-option{border-radius:15px!important}
-.clay-color{border-color:rgba(255,255,255,.98)!important}
+.clay-color{border-color:rgba(255,255,255,.99)!important}
 footer{
-  border-color:rgba(255,255,255,.86)!important;
-  color:#858276!important;
-  background:rgba(244,242,234,.48)!important;
+  border-color:rgba(255,255,255,.9)!important;
+  color:#7e8b88!important;
+  background:rgba(241,247,243,.52)!important;
 }
-#status,#tracking-status{color:#82745e!important}
+#status,#tracking-status{color:#668c82!important}
+.config-backdrop{background:rgba(43,58,59,.28)!important}
 @media(prefers-reduced-motion:no-preference){
   .product,.panel,.story-inner,.promo,.brand-module,.material-card{
-    transition:transform .55s cubic-bezier(.2,.75,.2,1),box-shadow .55s ease,background .45s ease!important;
+    transition:transform .58s cubic-bezier(.18,.78,.2,1),box-shadow .58s ease,background .48s ease!important;
   }
   .product:hover{transform:translateY(-5px)!important}
 }
