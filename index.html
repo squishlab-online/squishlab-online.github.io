@@ -618,8 +618,7 @@ footer{
 .config-top h3{font-size:25px;font-weight:570;letter-spacing:-.04em;margin:8px 0 18px}
 .config-close{border:1px solid rgba(130,147,165,.2);border-radius:50%;width:36px;height:36px;background:rgba(255,255,255,.72);font-size:23px;color:#647180}
 .config-product{font-size:15px;font-weight:600;padding:15px 17px;margin:0 0 22px;border:1px solid rgba(255,255,255,.95);border-radius:17px;background:rgba(255,255,255,.6);color:#354352}
-.config-sheet .field{margin-bottom:20px}
-#basic-color-field[hidden]{display:none}
+.config-sheet .field{margin-bottom:20px}\n#basic-color-field[hidden]{display:none}
 .config-sheet .field>label{font-size:11px;color:#687685;margin-bottom:10px}
 .config-crust{gap:8px}
 .config-crust label{flex:1;justify-content:center;text-align:center;padding:13px 8px;font-size:12px}
@@ -1625,10 +1624,6 @@ input:focus,textarea:focus,select:focus{border-color:var(--gold)!important;box-s
   .story-inner:after{font-size:44px;right:16px;bottom:12px}
 }
 </style>
-
-
-
-
 <style id="sl-motion-v5">
 /* Animated metallic lettering: motion lives inside the glyphs themselves. */
 .section-head{position:relative;overflow:visible}
@@ -1669,148 +1664,6 @@ input:focus,textarea:focus,select:focus{border-color:var(--gold)!important;box-s
 }
 @media(prefers-reduced-motion:reduce){.section-head h2,.section-head h2:after,.section-head small,.section-head small:after{animation:none!important}}
 </style>
-<style id="sl-safe-dynamic-text-v1">
-/* 12+ independent text motions. Only visual transforms/opacity are animated;
-   no text is typed, clipped, replaced, resized, or moved in document flow. */
-@media (prefers-reduced-motion: no-preference) {
-  .hero-copy h1 { animation: slTxtRise .9s .08s both; }
-  .hero-copy p { animation: slTxtFade 1.1s .22s both; }
-  .orbit-title { animation: slTxtTracking 1.3s .18s both; }
-  .orbit-scroll-mark { animation: slTxtNudge 3.8s 1s ease-in-out infinite; }
-  .story-index { animation: slTxtFade .9s .08s both; }
-  .story-inner h2 { animation: slTxtRise 1s .14s both; }
-  .story-inner p { animation: slTxtSoft 1.2s .24s both; }
-  .story-meta { animation: slTxtSlide 1s .32s both; }
-  .promo .eyebrow { animation: slTxtFade 1s .08s both; }
-  .promo strong { animation: slTxtGlow 3.6s 1.1s ease-in-out infinite; }
-  .promo p:first-of-type { animation: slTxtRise .95s .2s both; }
-  .promo p.notice { animation: slTxtSoft 1.1s .32s both; }
-  .section-head h2 { animation: slTxtRise .9s .08s both; }
-  .section-head small { animation: slTxtTracking 1.1s .16s both; }
-  .notice-item b { animation: slTxtFade .9s .08s both; }
-  .brand-module h3 { animation: slTxtRise 1s .12s both; }
-  .material-card h3 { animation: slTxtSoft 1.1s .1s both; }
-  footer { animation: slTxtTracking 1.2s .1s both; }
-}
-@keyframes slTxtRise { from { opacity:.78; transform:translate3d(0,10px,0) } to { opacity:1; transform:translate3d(0,0,0) } }
-@keyframes slTxtFade { from { opacity:.72 } to { opacity:1 } }
-@keyframes slTxtTracking { from { opacity:.75; transform:translate3d(0,0,0); letter-spacing:.02em } to { opacity:1; transform:translate3d(0,0,0) } }
-@keyframes slTxtNudge { 0%,100% { transform:translateY(0); opacity:1 } 50% { transform:translateY(-3px); opacity:.88 } }
-@keyframes slTxtSoft { from { opacity:.78; transform:translate3d(0,5px,0) } to { opacity:1; transform:translate3d(0,0,0) } }
-@keyframes slTxtSlide { from { opacity:.75; transform:translate3d(-8px,0,0) } to { opacity:1; transform:translate3d(0,0,0) } }
-@keyframes slTxtGlow { 0%,100% { text-shadow:0 0 0 rgba(181,138,74,0) } 50% { text-shadow:0 0 12px rgba(181,138,74,.22) } }
-@media (prefers-reduced-motion: reduce) {
-  .hero-copy h1,.hero-copy p,.orbit-title,.orbit-scroll-mark,.story-index,.story-inner h2,.story-inner p,.story-meta,.promo .eyebrow,.promo strong,.promo p,.section-head h2,.section-head small,.notice-item b,.brand-module h3,.material-card h3,footer { animation:none!important; }
-}
-</style>
-<style id="sl-editorial-motion-upgrade-v2">
-/* Editorial motion: stronger entrance, restrained metallic accents, zero text clipping. */
-@media (prefers-reduced-motion: no-preference) {
-  .hero-copy .eyebrow,
-  .hero-copy h1,
-  .hero-copy p,
-  .hero-copy .hero-subtitle,
-  .story-index,
-  .story-inner h2,
-  .story-inner p,
-  .story-meta,
-  .section-head h2,
-  .section-head small,
-  .promo .eyebrow,
-  .promo strong,
-  .promo p,
-  .notice-item b,
-  .brand-module h3,
-  .material-card h3,
-  footer {
-    animation-duration: 1.15s !important;
-    animation-timing-function: cubic-bezier(.16,1,.3,1) !important;
-    animation-fill-mode: both !important;
-  }
-  .hero-copy .eyebrow { animation-name: slEditorialLift !important; animation-delay: .04s !important; }
-  .hero-copy h1 { animation-name: slEditorialTitle !important; animation-delay: .16s !important; }
-  .hero-copy p { animation-name: slEditorialLift !important; animation-delay: .32s !important; }
-  .story-index { animation-name: slEditorialLift !important; animation-delay: .04s !important; }
-  .story-inner h2 { animation-name: slEditorialTitle !important; animation-delay: .13s !important; }
-  .story-inner p { animation-name: slEditorialLift !important; animation-delay: .27s !important; }
-  .story-meta { animation-name: slEditorialRuleText !important; animation-delay: .38s !important; }
-  .section-head h2 { animation-name: slEditorialTitle !important; animation-delay: .08s !important; }
-  .section-head small { animation-name: slEditorialLift !important; animation-delay: .2s !important; }
-  .promo .eyebrow { animation-name: slEditorialLift !important; animation-delay: .05s !important; }
-  .promo strong { animation-name: slEditorialGold !important; animation-delay: .18s !important; }
-  .promo p { animation-name: slEditorialLift !important; animation-delay: .3s !important; }
-  .notice-item b,.brand-module h3,.material-card h3 { animation-name: slEditorialLift !important; }
-  footer { animation-name: slEditorialRuleText !important; }
-
-  .hero-copy h1,
-  .story-inner h2,
-  .section-head h2 {
-    position: relative;
-    text-shadow: 0 8px 24px rgba(24,29,35,.075);
-  }
-  .hero-copy h1::after,
-  .section-head h2::after {
-    content: "";
-    display: block;
-    width: clamp(42px, 7vw, 76px);
-    height: 2px;
-    margin-top: 16px;
-    background: linear-gradient(90deg,#a9854e,#e7d7b8,rgba(169,133,78,.12));
-    transform: scaleX(0);
-    transform-origin: left center;
-    animation: slEditorialLine 1s .55s cubic-bezier(.16,1,.3,1) forwards;
-  }
-  .story-inner h2::after {
-    content: "";
-    display: block;
-    width: 54px;
-    height: 1px;
-    margin-top: 18px;
-    background: linear-gradient(90deg,#a9854e,rgba(169,133,78,0));
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: slEditorialLine .9s .65s cubic-bezier(.16,1,.3,1) forwards;
-  }
-  .hero-copy .eyebrow,
-  .story-index,
-  .section-head small,
-  .promo .eyebrow,
-  .story-meta {
-    letter-spacing: .24em;
-  }
-  .promo strong { display: inline-block; }
-  .notice-item b { transition: color .35s ease; }
-  .notice-item:hover b { color: #a9854e; }
-}
-@keyframes slEditorialLift {
-  from { opacity: 0; transform: translate3d(0,22px,0); }
-  to { opacity: 1; transform: translate3d(0,0,0); }
-}
-@keyframes slEditorialTitle {
-  from { opacity: 0; transform: translate3d(0,25px,0); letter-spacing: .23em; }
-  to { opacity: 1; transform: translate3d(0,0,0); }
-}
-@keyframes slEditorialRuleText {
-  from { opacity: 0; transform: translate3d(-14px,0,0); }
-  to { opacity: 1; transform: translate3d(0,0,0); }
-}
-@keyframes slEditorialGold {
-  0% { opacity: 0; transform: translateY(18px); text-shadow: 0 0 0 rgba(169,133,78,0); }
-  65% { opacity: 1; text-shadow: 0 3px 18px rgba(169,133,78,.25); }
-  100% { opacity: 1; transform: translateY(0); text-shadow: 0 2px 10px rgba(169,133,78,.10); }
-}
-@keyframes slEditorialLine { to { transform: scaleX(1); } }
-@media (prefers-reduced-motion: reduce) {
-  .hero-copy .eyebrow,.hero-copy h1,.hero-copy p,.story-index,.story-inner h2,
-  .story-inner p,.story-meta,.section-head h2,.section-head small,.promo .eyebrow,
-  .promo strong,.promo p,.notice-item b,.brand-module h3,.material-card h3,footer,
-  .hero-copy h1::after,.story-inner h2::after,.section-head h2::after {
-    animation: none !important; opacity: 1 !important; transform: none !important;
-  }
-}
-</style>
-
-
 <style id="squish-lab-opal-atelier">
 /* ORIGINAL ART DIRECTION: OPAL ATELIER
    Reinterprets the reference's glass / sculptural / metallic design language
@@ -1966,9 +1819,7 @@ footer{
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{animation:none!important;transition:none!important}
 }
-</style>
-
-</head>
+</style></head>
 <body>
 <div class="wrap">
 <header>
@@ -2069,26 +1920,26 @@ footer{
 <div class="notice-item"><b>脆皮厚度</b><p>商品均以標準脆皮製作，選好款式即可直接加入購物車。</p></div>
 <div class="notice-item"><b>手工製作</b><p>每批手工製作，成品可能有輕微差異，請見諒。</p></div>
 <div class="notice-item packaging-care">
-  <b>包裝與品質確認</b>
-  <p>詩巫面交將使用牛皮紙袋包裝。每份訂單交付前，我們都會仔細確認：</p>
-  <ul class="packaging-checks">
-    <li>包裝封口完整、正常。</li>
-    <li>防偽標誌清晰且完整。</li>
-    <li>SQUISH LAB Logo 完整、無異常。</li>
-    <li>商品款式、數量與訂單內容正確。</li>
-  </ul>
-  <p><strong>七天售後服務：</strong>自收到商品起七天內，如對捏捏有任何不滿意，請隨時聯絡我們。我們會了解情況，並為你重新製作。</p>
+<b>包裝與品質確認</b>
+<p>詩巫面交將使用牛皮紙袋包裝。每份訂單交付前，我們都會仔細確認：</p>
+<ul class="packaging-checks">
+<li>包裝封口完整、正常。</li>
+<li>防偽標誌清晰且完整。</li>
+<li>SQUISH LAB Logo 完整、無異常。</li>
+<li>商品款式、數量與訂單內容正確。</li>
+</ul>
+<p><strong>七天售後服務：</strong>自收到商品起七天內，如對捏捏有任何不滿意，請隨時聯絡我們。我們會了解情況，並為你重新製作。</p>
 </div>
 <div class="notice-item packaging-care delivery-care">
-  <b>郵寄與 Grab 本地配送包裝確認</b>
-  <p>無論使用一般郵寄或 Grab 本地配送，出貨前都會確認包裝及訂單資料；收到包裹時，也請先檢查以下項目：</p>
-  <ul class="packaging-checks">
-    <li>紙箱或紙袋外包裝完整，封口沒有異常。</li>
-    <li>SQUISH LAB Logo 貼紙完整、清晰，沒有被異常更換或破壞。</li>
-    <li>防偽貼完整、位置正常，沒有明顯撕開或重貼痕跡。</li>
-    <li>包裹內商品與訂單內容相符。</li>
-  </ul>
-  <p><strong>如發現異常：</strong>若包裹內出現與捏物訂單無關的物品，或發現封口、Logo 貼紙、防偽貼有異常，請先不要丟棄包裝，並立即拍照或錄影，連同訂單編號聯絡我們。我們會核實訂單及包裝紀錄，再與你確認情況並提供合適的解決方案。</p>
+<b>郵寄與 Grab 本地配送包裝確認</b>
+<p>無論使用一般郵寄或 Grab 本地配送，出貨前都會確認包裝及訂單資料；收到包裹時，也請先檢查以下項目：</p>
+<ul class="packaging-checks">
+<li>紙箱或紙袋外包裝完整，封口沒有異常。</li>
+<li>SQUISH LAB Logo 貼紙完整、清晰，沒有被異常更換或破壞。</li>
+<li>防偽貼完整、位置正常，沒有明顯撕開或重貼痕跡。</li>
+<li>包裹內商品與訂單內容相符。</li>
+</ul>
+<p><strong>如發現異常：</strong>若包裹內出現與捏物訂單無關的物品，或發現封口、Logo 貼紙、防偽貼有異常，請先不要丟棄包裝，並立即拍照或錄影，連同訂單編號聯絡我們。我們會核實訂單及包裝紀錄，再與你確認情況並提供合適的解決方案。</p>
 </div>
 </div>
 </section>
@@ -3130,76 +2981,4 @@ const SL_TRANSLATIONS = {"商品種類": "Products", "買前須知": "Before You
 .tracking-next-step{margin:0;padding:15px 16px;border-left:3px solid #b99a68;border-radius:0 13px 13px 0;background:rgba(255,255,255,.42);color:#687685;font-size:13px;line-height:1.9;overflow-wrap:anywhere}
 @media(max-width:700px){.tracking-current-state{font-size:12px;padding:12px 13px}.tracking-current-state strong{font-size:13px}.tracking-next-step{font-size:12px;padding:13px;line-height:1.85}}
 </style>
-
-
-<style id="sl-khaki-silver-motion-final">
-:root{
- --sl-khaki:#b5a17d;
- --sl-khaki-light:#e8dfcf;
- --sl-silver:#c8d0d8;
- --sl-silver-light:#eef2f5;
- --sl-metal-ink:#4b5056;
-}
-/* Khaki and cool silver meet in a restrained, high-contrast gradient. */
-html,body{
- background:
-  radial-gradient(ellipse at 12% 18%,rgba(198,178,143,.22),transparent 42%),
-  radial-gradient(ellipse at 88% 32%,rgba(177,194,210,.27),transparent 44%),
-  linear-gradient(128deg,#f3eee4 0%,#e4dfd4 28%,#f1f3f4 54%,#dce3e9 76%,#f4f0e8 100%)!important;
- background-attachment:fixed!important;
-}
-header,.panel,.promo,.product,.tracking-card,.config-sheet,.story-inner,.material-card,.brand-module{
- border-color:rgba(143,151,158,.27)!important;
-}
-.promo,.panel,.tracking-card,.config-sheet,.story-inner,.material-card,.brand-module{
- background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(234,229,218,.78) 48%,rgba(231,237,242,.9))!important;
- box-shadow:0 18px 50px rgba(85,91,98,.07),inset 0 1px 0 rgba(255,255,255,.95)!important;
-}
-.hero .eyebrow,.section-head small,.story-index,.orbit-kicker,.orbit-title{
- color:#8f7956!important;
-}
-.hero h1,.section-head h2,.story-inner h2,.promo strong,.brand-module h3{
- background:linear-gradient(105deg,#8e7959 0%,#c2b08e 24%,#707b86 52%,#c5cdd4 72%,#8e7959 100%);
- background-size:220% 100%;
- -webkit-background-clip:text;background-clip:text;color:transparent!important;
- animation:slMetalGradient 7s ease-in-out infinite;
-}
-@keyframes slMetalGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-/* Re-enable the motion system that an earlier override had accidentally disabled. */
-@media(prefers-reduced-motion:no-preference){
- .sl-motion-in,.scroll-reveal{
-  opacity:0!important;transform:translate3d(0,34px,0)!important;filter:blur(3px)!important;
-  transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1),filter .9s ease!important;
-  animation:none!important;
- }
- .sl-motion-in.sl-motion-visible,.scroll-reveal.is-visible{
-  opacity:1!important;transform:translate3d(0,0,0)!important;filter:none!important;
- }
- .hero-copy .eyebrow{animation:slEditorialLift .9s .05s both!important}
- .hero-copy h1{animation:slEditorialTitle 1.15s .16s both,slMetalGradient 7s 1.3s ease-in-out infinite!important}
- .hero-copy p{animation:slEditorialLift 1s .32s both!important}
- .hero-copy .hero-actions{animation:slEditorialLift 1s .48s both!important}
- .story-index{animation:slEditorialRuleText .95s .05s both!important}
- .story-inner h2{animation:slEditorialTitle 1.1s .14s both!important}
- .story-inner p{animation:slEditorialLift 1s .3s both!important}
- .story-meta{animation:slEditorialRuleText 1s .42s both!important}
- .section-head h2{animation:slEditorialTitle 1.05s .08s both,slMetalGradient 7s 1.2s ease-in-out infinite!important}
- .section-head small{animation:slEditorialLift 1s .24s both!important}
- .promo .eyebrow{animation:slEditorialLift .9s .05s both!important}
- .promo strong{animation:slEditorialGold 1.2s .2s both,slMetalGradient 7s 1.4s ease-in-out infinite!important}
- .promo p{animation:slEditorialLift 1s .34s both!important}
- .notice-item b{animation:slEditorialLift .9s .12s both!important}
- .brand-module h3,.material-card h3{animation:slEditorialTitle 1.05s .16s both!important}
- .orbit-title{animation:slEditorialLift 1s .12s both!important}
- .orbit-scroll-mark{animation:slTxtNudge 3.4s ease-in-out infinite!important}
- footer{animation:slEditorialRuleText 1s .12s both!important}
- .hero .hero-actions a,.hero .hero-actions button{transition:transform .4s ease,box-shadow .4s ease!important}
- .hero .hero-actions a:hover,.hero .hero-actions button:hover{transform:translateY(-4px)!important;box-shadow:0 14px 30px rgba(104,119,132,.18)!important}
-}
-@media(prefers-reduced-motion:reduce){
- *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
- .sl-motion-in,.scroll-reveal{opacity:1!important;transform:none!important;filter:none!important}
-}
-</style>
-
 </html>
