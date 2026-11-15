@@ -1072,17 +1072,6 @@ button:active,.hero-cta:active,.hero-secondary:active,.tab:active,.add:active,.p
 .material-stamp{margin-top:34px;padding-top:18px;border-top:1px solid rgba(110,130,158,.22);font-size:9px;letter-spacing:.2em;color:#8794a6;}
 @media(max-width:700px){.category-submenu{gap:8px!important}.category-submenu .tab{flex:1 1 calc(50% - 8px);padding:12px 10px!important;font-size:11px!important}.material-card{border-radius:22px;padding:28px 23px}.material-card p{font-size:13px}}
 
-/* SQUISH LAB GOLDEN LOGO GIFT announcement */
-.golden-gift{position:relative;isolation:isolate;overflow:hidden;margin:28px 0 34px;padding:clamp(26px,4vw,42px);border:1px solid rgba(173,145,83,.42);border-radius:18px;background:linear-gradient(118deg,rgba(255,255,255,.96),rgba(246,248,251,.94) 52%,rgba(239,233,218,.72));box-shadow:0 18px 48px rgba(36,53,77,.075),inset 0 1px 0 #fff}
-.golden-gift:before{content:"";position:absolute;z-index:-1;width:300px;height:300px;right:-110px;top:-180px;border-radius:50%;border:1px solid rgba(185,151,81,.28);box-shadow:0 0 0 18px rgba(185,151,81,.035),0 0 0 42px rgba(185,151,81,.025)}
-.golden-gift .gift-kicker{font-size:9px;letter-spacing:.28em;color:#9a7a3d;margin-bottom:15px}
-.golden-gift h2{font-size:clamp(24px,4vw,38px);letter-spacing:.11em;line-height:1.35;margin:0;color:#172131}
-.golden-gift h2 em{font-style:normal;background:linear-gradient(100deg,#9b7938,#e2c98b 48%,#8e713b);-webkit-background-clip:text;background-clip:text;color:transparent}
-.golden-gift .gift-copy{font-size:13px;line-height:2;color:#596577;margin:13px 0 22px}
-.golden-gift .gift-rule{display:flex;flex-wrap:wrap;gap:9px 18px;padding-top:17px;border-top:1px solid rgba(160,139,99,.25);font-size:11px;letter-spacing:.06em;color:#46546a}
-.golden-gift .gift-rule span{display:inline-flex;align-items:center;gap:7px}.golden-gift .gift-rule b{font-size:16px;color:#98783e;font-weight:600}
-.golden-gift .gift-foot{margin:16px 0 0;font-size:10px;line-height:1.8;color:#8a929d}
-@media(max-width:700px){.golden-gift{margin:18px 0 25px;padding:25px 19px;border-radius:14px}.golden-gift .gift-rule{gap:10px 14px}}
 </style>
 <style>
 /* v12: more natural, translucent Liquid Glass material */
@@ -1728,17 +1717,6 @@ input:focus,textarea:focus,select:focus{border-color:var(--gold)!important;box-s
 <p>每一件作品都以手工製作，保留獨特的形狀與觸感。慢慢挑選，找到喜歡的那一件。</p>
 <div class="story-meta">HANDMADE IN SIBU, MALAYSIA</div>
 </div>
-</section>
-<section class="golden-gift scroll-reveal" id="golden-gift-announcement" aria-labelledby="golden-gift-title">
-  <div class="gift-kicker">SQUISH LAB / LIMITED GIFT</div>
-  <h2 id="golden-gift-title">一份特別的心意，<em>送給最早支持我們的你。</em></h2>
-  <p class="gift-copy">SQUISH LAB 特別訂製了印有品牌 Logo 的 2mg 純金小禮。這份限定禮物將直接贈與最前期的 15 位符合資格顧客，不另行抽獎；每位可免費獲得一片，作為品牌限定紀念。</p>
-  <div class="gift-rule">
-    <span><b>01</b> 單筆訂單滿 RM23.08</span>
-    <span><b>02</b> 前 15 位符合資格的顧客</span>
-    <span><b>03</b> 每人贈送 1 片</span>
-  </div>
-  <p class="gift-foot">數量限定 15 片，送完即止。贈品將隨符合資格的訂單一同安排寄出；以訂單成立順序及實際資格確認為準。</p>
 </section>
 <section class="promo">
 <div class="eyebrow red">首批限定優惠</div>
@@ -2659,14 +2637,7 @@ const SL_TRANSLATIONS = {"商品種類": "Products", "買前須知": "Before You
 "防偽貼完整、位置正常，沒有明顯撕開或重貼痕跡。": "The anti-counterfeit sticker is intact and correctly placed, with no obvious signs of peeling or reapplication.",
 "包裹內商品與訂單內容相符。": "The items inside the parcel match your order.",
 "如發現異常：": "If You Notice Anything Unusual: ",
-"若包裹內出現與捏物訂單無關的物品，或發現封口、Logo 貼紙、防偽貼有異常，請先不要丟棄包裝，並立即拍照或錄影，連同訂單編號聯絡我們。我們會核實訂單及包裝紀錄，再與你確認情況並提供合適的解決方案。": "If your parcel contains an item unrelated to your order, or if the seal, logo sticker or anti-counterfeit sticker appears unusual, please keep the packaging. Take photos or a video immediately and contact us with your order number. We will check the order and packing records, confirm the situation with you and provide an appropriate solution.",
-"一份特別的心意，": "A Special Gift, ",
-"送給最早支持我們的你。": "for Those Who Supported Us First.",
-"SQUISH LAB 特別訂製了印有品牌 Logo 的 2mg 純金小禮。這份限定禮物將直接贈與最前期的 15 位符合資格顧客，不另行抽獎；每位可免費獲得一片，作為品牌限定紀念。": "SQUISH LAB has specially commissioned a 2mg pure-gold keepsake featuring our brand logo. It will be given directly to the first 15 eligible customers. No draw is involved; each eligible customer receives one piece as a limited brand keepsake.",
-"單筆訂單滿 RM23.08": "A single order of RM23.08 or more",
-"前 15 位符合資格的顧客": "The first 15 eligible customers",
-"每人贈送 1 片": "One piece per customer",
-"數量限定 15 片，送完即止。贈品將隨符合資格的訂單一同安排寄出；以訂單成立順序及實際資格確認為準。": "Limited to 15 pieces, while stocks last. The gift will be arranged together with each eligible order. Order placement time and eligibility verification will determine qualification.",
+"若包裹內出現與捏物訂單無關的物品，或發現封口、Logo 貼紙、防偽貼有異常，請先不要丟棄包裝，並立即拍照或錄影，連同訂單編號聯絡我們。我們會核實訂單及包裝紀錄，再與你確認情況並提供合適的解決方案。": "If your parcel contains an item unrelated to your order, or if the seal, logo sticker or anti-counterfeit sticker appears unusual, please keep the packaging. Take photos or a video immediately and contact us with your order number. We will check the order and packing records, confirm the situation with you and provide an appropriate solution."
 "首批限定優惠": "FIRST-BATCH OFFER",
 "兩人各購買一個高階級脆皮捏捏": "When two customers each purchase one premium crispy squishy,",
 "即可獲贈一個自選基礎脆皮捏捏": "you will receive one basic crispy squishy of your choice.",
@@ -2862,37 +2833,6 @@ const SL_TRANSLATIONS = {"商品種類": "Products", "買前須知": "Before You
 .tracking-current-state strong{display:inline-block;padding:6px 13px;border-radius:999px;background:rgba(80,105,130,.12);color:#344b61;font-size:14px;font-weight:650}
 .tracking-next-step{margin:0;padding:15px 16px;border-left:3px solid #b99a68;border-radius:0 13px 13px 0;background:rgba(255,255,255,.42);color:#687685;font-size:13px;line-height:1.9;overflow-wrap:anywhere}
 @media(max-width:700px){.tracking-current-state{font-size:12px;padding:12px 13px}.tracking-current-state strong{font-size:13px}.tracking-next-step{font-size:12px;padding:13px;line-height:1.85}}
-</style>
-
-<style id="squishlab-gold-shimmer-motion">
-/* Animated precious-metal sheen: confined to the limited golden-gift announcement. */
-.golden-gift{
-  border-color:rgba(190,151,75,.58);
-  background:linear-gradient(118deg,rgba(255,255,255,.97) 0%,rgba(250,247,238,.96) 42%,rgba(239,230,207,.82) 70%,rgba(255,255,255,.96) 100%);
-}
-.golden-gift:after{
-  content:"";position:absolute;z-index:0;pointer-events:none;top:-35%;bottom:-35%;left:-48%;width:34%;
-  background:linear-gradient(105deg,transparent 0%,rgba(255,255,255,0) 25%,rgba(255,250,220,.22) 42%,rgba(255,255,255,.78) 50%,rgba(255,226,153,.34) 58%,transparent 78%);
-  transform:skewX(-18deg);filter:blur(2px);animation:goldCardSweep 5.2s ease-in-out infinite;
-}
-.golden-gift>*{position:relative;z-index:1}
-.golden-gift h2 em{
-  background-image:linear-gradient(105deg,#8e6a27 0%,#c49a45 22%,#fff0b6 38%,#a77c2d 52%,#f4d98d 68%,#8e6a27 86%);
-  background-size:240% 100%;background-position:100% 50%;
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 1px 1px rgba(150,111,37,.16));
-  animation:goldTextGleam 3.6s ease-in-out infinite;
-}
-.golden-gift .gift-kicker,.golden-gift .gift-rule b{
-  color:#a27b34;text-shadow:0 0 9px rgba(226,190,105,.22);
-}
-.golden-gift .gift-rule b{animation:goldNumberSparkle 2.8s ease-in-out infinite}
-.golden-gift .gift-rule span:nth-child(2) b{animation-delay:.45s}
-.golden-gift .gift-rule span:nth-child(3) b{animation-delay:.9s}
-@keyframes goldCardSweep{0%,12%{left:-48%;opacity:0}24%{opacity:.85}62%{opacity:.7}82%,100%{left:125%;opacity:0}}
-@keyframes goldTextGleam{0%,100%{background-position:100% 50%;filter:drop-shadow(0 1px 1px rgba(150,111,37,.12))}50%{background-position:0% 50%;filter:drop-shadow(0 0 7px rgba(226,190,105,.42))}}
-@keyframes goldNumberSparkle{0%,100%{text-shadow:0 0 2px rgba(226,190,105,.12)}50%{text-shadow:0 0 5px rgba(226,190,105,.7),0 0 13px rgba(255,224,145,.5)}}
-@media(prefers-reduced-motion:reduce){.golden-gift:after,.golden-gift h2 em,.golden-gift .gift-rule b{animation:none!important}.golden-gift h2 em{background-position:50% 50%}}
 </style>
 
 </html>
