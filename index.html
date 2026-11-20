@@ -1879,6 +1879,7 @@ footer{
 <div class="section-head"><h2>商品種類</h2><small>COLLECTION / 01</small></div>
 <div aria-label="商品二級分類" class="tabs category-submenu" role="tablist">
 <button aria-selected="true" class="tab active" data-cat="premium" id="tab-premium" role="tab" type="button">高級捏捏</button>
+<button aria-selected="false" class="tab" data-cat="intermediate" id="tab-intermediate" role="tab" type="button">中階捏物</button>
 <button aria-selected="false" class="tab" data-cat="basic" id="tab-basic" role="tab" type="button">基礎捏捏</button>
 </div>
 <div class="grid" id="products">
@@ -1888,10 +1889,7 @@ footer{
 <article class="product"><div><div class="name">脆皮冰沙球（4粒裝）</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.60</div><button class="add" type="button">加入購物車 ＋</button></div></article>
 <article class="product"><div><div class="name">脆皮芝士條（一袋三個）</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.60</div><button class="add" type="button">加入購物車 ＋</button></div></article>
 <article class="product"><div><div class="name">脆皮爆漿球</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.60</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-<article class="product"><div><div class="name">脆皮冰面包</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.40</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-<article class="product"><div><div class="name">脆皮可可薄荷冰球</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.40</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-<article class="product"><div><div class="name">脆皮大餅（一套三個）</div><div class="desc">高級系列</div></div><div><div class="price">RM 3.20</div><button class="add" type="button">加入購物車 ＋</button></div></article>
-<article class="product"><div><div class="name">脆皮小球（一袋三個）</div><div class="desc">高級系列</div></div><div><div class="price">RM 3.20</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+<article class="product"><div><div class="name">彩虹年糕條</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
 <article class="product blindbox-product"><div><div class="name">捏捏隨配（盲盒）</div><div class="desc">隨機搭配 · 自選預算與比例</div></div><div><div class="price">RM 12.08 起</div><button class="add" type="button">選擇盲盒 ＋</button></div></article>
 <article class="product launch-notice"><div><div class="name">12月10日上新通知</div><div class="desc">新品即將上架 · 敬請期待</div></div><div class="launch-mark">COMING SOON</div></article>
 </div>
@@ -2078,10 +2076,14 @@ const products = {
  basic: [
   ["脆皮花朵",1.8],["脆皮大餅",1.8],["脆皮圓球",1.8],["脆皮荷包蛋",1.8],["脆皮芝士條",1.8],["脆皮棉花糖",1.8],["脆皮白面饅頭",1.8]
  ],
+ intermediate: [
+  ["脆皮冰面包",5.4],["脆皮可可薄荷冰球",5.4],
+  ["脆皮大餅（一套三個）",3.2],["脆皮小球（一袋三個）",3.2]
+ ],
  premium: [
   ["脆皮韓式辣炒年糕",6.8],["脆皮桂花酒釀",6.8],["脆皮抹茶條",6.8],
   ["脆皮冰沙球（4粒裝）",5.6],["脆皮芝士條（一袋三個）",5.6],["脆皮爆漿球",5.6],
-  ["脆皮冰面包",5.4],["脆皮可可薄荷冰球",5.4],["脆皮大餅（一套三個）",3.2],["脆皮小球（一袋三個）",3.2]
+  ["彩虹年糕條",5.8]
  ]
 };
 let category="premium", cart=[];
@@ -2090,7 +2092,8 @@ function renderProducts(){
  const root=document.getElementById("products");root.innerHTML="";
  products[category].forEach(([name,price])=>{
   const el=document.createElement("article");el.className="product scroll-reveal is-visible";
-  el.innerHTML=`<div><div class="name"></div><div class="desc">${category==="basic"?"基礎系列":"高級系列"}</div></div><div><div class="price">${money(price)}</div><button class="add" type="button">加入購物車 ＋</button></div>`;
+  const categoryLabel = category==="basic" ? "基礎系列" : (category==="intermediate" ? "中階系列" : "高級系列");
+  el.innerHTML=`<div><div class="name"></div><div class="desc">${categoryLabel}</div></div><div><div class="price">${money(price)}</div><button class="add" type="button">加入購物車 ＋</button></div>`;
   el.querySelector('.name').textContent=name;
   el.querySelector("button").addEventListener("click",()=>openProductSheet(name,price));
   root.appendChild(el);
@@ -2356,7 +2359,7 @@ function openProductSheet(name,price){
   const isBlindbox=/盲盒/.test(normalizedName)||/MysterySquishyBox/i.test(normalizedName)||/随配/.test(normalizedName);
   sheetProduct={name,price:isBlindbox?12.08:price,level:isBlindbox?"blindbox":category};
   document.getElementById("config-product-name").textContent=name;
-  document.getElementById("config-title").textContent=isBlindbox?"捏捏隨配盲盒設定":(category==="premium"?"高級捏捏規格":"基礎捏捏客製化");
+  document.getElementById("config-title").textContent=isBlindbox?"捏捏隨配盲盒設定":(category==="premium"?"高級捏捏規格":(category==="intermediate"?"中階捏物規格":"基礎捏捏客製化"));
   document.getElementById("config-price").textContent=money(sheetProduct.price);
   document.getElementById("basic-color-field").hidden=isBlindbox||category!=="basic";
   document.getElementById("basic-notes-field").hidden=isBlindbox||category!=="basic";
@@ -2411,7 +2414,6 @@ document.getElementById("config-add").addEventListener("click",()=>{
   else cart.push({name:sheetProduct.name,price:sheetProduct.price,qty:1,crust,level:sheetProduct.level,colors,notes});
   renderCart();
   closeProductSheet();
-  document.getElementById("cart")?.scrollIntoView({behavior:"smooth",block:"nearest"});
 });
 
 renderProducts();renderCart();
@@ -2580,7 +2582,6 @@ main#top > #shop ~ section {
     });
     renderCart();
     hideSheet();
-    document.getElementById('cart')?.scrollIntoView({behavior:'smooth', block:'nearest'});
   }, true);
 
   // Keep the existing open function but enforce modal visibility and current product state.
