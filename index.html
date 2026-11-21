@@ -3731,7 +3731,11 @@ document.getElementById("config-add").addEventListener("click",(event)=>{
   if(!isBlindbox&&!crust){alert("請選擇脆皮厚度。");return;}
 
   const requiredColors=productColorRules[sheetProduct.name]||0;
-  const colors=requiredColors?selectedProductColors.map((hex,i)=>`顏色${i+1}: ${hex}`).join("；"):"";
+  const colors=requiredColors?selectedProductColors.map((hex,i)=>{
+    const match=colorPalettes.flatMap(group=>group.colors).find(([label,code])=>code===hex);
+    const colorName=match?match[0]:"未識別顏色";
+    return `顏色${i+1}: ${colorName}（${hex}）`;
+  }).join("；"):"";
   const notes=requiredColors?document.getElementById("config-notes").value.trim():"";
   if(requiredColors&&selectedProductColors.some(x=>!x)){
     alert(`請選齊 ${requiredColors} 個顏色後再加入購物車。`);
@@ -4575,6 +4579,8 @@ function syncCheckoutTotal(){
 }
 </style>
 
+
+<style id="sl-v32-color-labels"></style>
 </body>
 <style id="tracking-plain-language-status">
 /* Replace the old step-by-step graphic with a clear live status and next-action explanation. */
