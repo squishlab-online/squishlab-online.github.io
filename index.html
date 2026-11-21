@@ -1993,91 +1993,138 @@ footer{
   *,*:before,*:after{animation:none!important;transition:none!important}
 }
 </style>
-<style id="sl-global-liquid-glass-reflection">
-/* One consistent liquid-glass language across all interactive controls. */
-button,
-a[href],
-[role="button"],
-.choice label,
-.config-crust label,
-summary {
-  -webkit-tap-highlight-color: transparent;
-  position: relative;
-  isolation: isolate;
+
+
+
+<style id="sl-v8-apple-selector-and-color-table">
+/* Apple-inspired selection cards: quiet outline, clear selected state. */
+.config-sheet .config-crust{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
 }
-.sl-reflect-target {
-  overflow: hidden !important;
-  transform: translateZ(0);
+.config-sheet .config-crust label{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  min-height:62px;
+  width:100%;
+  padding:0 18px;
+  border:1.5px solid #d2d2d7;
+  border-radius:19px;
+  background:#fff;
+  color:#1d1d1f;
+  font-size:16px;
+  font-weight:550;
+  box-shadow:none;
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+  transition:border-color .18s ease,background .18s ease,transform .18s ease;
 }
-.sl-reflection {
-  position: absolute;
-  z-index: 20;
-  top: -85%;
-  left: -55%;
-  width: 38%;
-  height: 270%;
-  border-radius: 999px;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateX(-180%) rotate(22deg);
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,255,255,.18) 22%,
-    rgba(255,255,255,.94) 48%,
-    rgba(255,255,255,.30) 68%,
-    transparent 100%);
-  filter: blur(.5px);
-  mix-blend-mode: screen;
-  animation: slGlobalReflection .72s cubic-bezier(.18,.68,.25,1) forwards;
+.config-sheet .config-crust label::before,
+.config-sheet .config-crust label::after{content:none!important;display:none!important}
+.config-sheet .config-crust label:has(input:checked){
+  border:2.5px solid #3478f6;
+  padding:0 17px;
+  background:#fff;
+  color:#111;
+  box-shadow:none;
 }
-@keyframes slGlobalReflection {
-  0% { opacity: 0; transform: translateX(-180%) rotate(22deg); }
-  16% { opacity: .95; }
-  100% { opacity: 0; transform: translateX(470%) rotate(22deg); }
+.config-sheet .config-crust label:active{transform:scale(.99);box-shadow:none}
+.config-sheet .config-crust input{
+  order:2;
+  appearance:none;
+  -webkit-appearance:none;
+  width:21px;
+  height:21px;
+  margin:0;
+  border:1.5px solid #a1a1a6;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:none;
+  flex:none;
 }
-/* The first-screen pair receives a more refined glass finish too. */
-.hero-actions .hero-cta,
-.hero-actions .hero-secondary {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.76);
-  border-radius: 999px;
-  -webkit-backdrop-filter: blur(22px) saturate(175%);
-  backdrop-filter: blur(22px) saturate(175%);
-  transition: transform .28s cubic-bezier(.2,.8,.2,1),
-              box-shadow .28s ease, background .28s ease,
-              border-color .28s ease;
+.config-sheet .config-crust input:checked{
+  border:6px solid #3478f6;
+  background:#fff;
+  box-shadow:none;
 }
-.hero-actions .hero-cta {
-  background: linear-gradient(135deg,rgba(48,59,55,.92),rgba(91,111,101,.82));
-  color: #fff;
-  box-shadow: 0 12px 30px rgba(38,54,46,.18),
-              inset 0 1px 0 rgba(255,255,255,.38);
-  padding: 17px 25px;
+.config-sheet .config-crust input:checked::after{display:none}
+.config-sheet .config-crust label:focus-within{
+  outline:2px solid rgba(52,120,246,.28);
+  outline-offset:2px;
 }
-.hero-actions .hero-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  padding: 0 23px;
-  border-bottom: 1px solid rgba(255,255,255,.76);
-  background: linear-gradient(135deg,rgba(255,255,255,.72),rgba(231,238,231,.42));
-  color: #46564c;
-  box-shadow: 0 8px 22px rgba(38,54,46,.08),
-              inset 0 1px 0 rgba(255,255,255,.95);
+/* Editable color table for basic squishies. */
+.sl-color-table{
+  overflow:hidden;
+  border:1px solid #dedee3;
+  border-radius:16px;
+  background:rgba(255,255,255,.92);
 }
-.hero-actions .hero-cta:active,
-.hero-actions .hero-secondary:active {
-  transform: scale(.975);
-  box-shadow: inset 0 2px 8px rgba(31,46,38,.16),
-              0 3px 10px rgba(38,54,46,.08);
+.sl-color-head,.sl-color-row{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) 54px minmax(78px,.8fr);
+  gap:10px;
+  align-items:center;
+  padding:11px 12px;
 }
-@media (prefers-reduced-motion: reduce) {
-  .sl-reflection { animation-duration: .01ms; }
-  .hero-actions .hero-cta,
-  .hero-actions .hero-secondary { transition: none; }
+.sl-color-head{
+  background:#f5f5f7;
+  color:#73737a;
+  font-size:11px;
+  font-weight:650;
+}
+.sl-color-row+.sl-color-row{border-top:1px solid #e8e8ed}
+.sl-color-part{
+  min-width:0;
+  width:100%;
+  height:38px;
+  padding:0 9px;
+  border:1px solid #d2d2d7;
+  border-radius:9px;
+  background:#fff;
+  color:#1d1d1f;
+  font-size:13px;
+}
+.sl-color-picker{
+  appearance:none;
+  -webkit-appearance:none;
+  width:42px;
+  height:38px;
+  padding:3px;
+  border:1px solid #d2d2d7;
+  border-radius:10px;
+  background:#fff;
+}
+.sl-color-picker::-webkit-color-swatch-wrapper{padding:0}
+.sl-color-picker::-webkit-color-swatch{border:0;border-radius:6px}
+.sl-color-hex{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;
+  color:#626269;
+  white-space:nowrap;
+}
+.sl-add-color{
+  display:block;
+  width:100%;
+  min-height:43px;
+  margin-top:10px;
+  border:1px solid #d2d2d7;
+  border-radius:13px;
+  background:#f5f5f7;
+  color:#1769d2;
+  font-size:14px;
+  font-weight:600;
+}
+.sl-add-color:active{background:#e9e9ee;transform:scale(.99)}
+.config-sheet .config-crust label:active::after,
+.config-sheet #config-add:active::after{animation:none!important;display:none!important}
+@media(max-width:700px){
+ .config-sheet .config-crust label{min-height:58px;font-size:15px}
+ .sl-color-head,.sl-color-row{grid-template-columns:minmax(0,1fr) 48px 72px;gap:7px;padding:10px}
+ .sl-color-picker{width:40px}
 }
 </style>
 
@@ -2303,15 +2350,23 @@ summary {
 <div class="field">
 <label>選擇脆皮厚度 *</label>
 <div class="choice config-crust" id="config-crust">
-<label><input name="config-crust" type="radio" value="薄脆"/> 薄脆</label>
-<label><input checked="" name="config-crust" type="radio" value="標準脆皮"/> 標準脆皮</label>
-<label><input name="config-crust" type="radio" value="厚脆"/> 厚脆</label>
+<label><input name="config-crust" type="radio" value="薄脆"/><span>薄脆</span></label>
+<label><input checked="" name="config-crust" type="radio" value="標準脆皮"/><span>標準脆皮</span></label>
+<label><input name="config-crust" type="radio" value="厚脆"/><span>厚脆</span></label>
 </div>
 </div>
 <div class="field" hidden="" id="basic-color-field">
-<label for="config-colors">區域配色要求 *</label>
-<textarea id="config-colors" placeholder="請寫明各部位想要的顏色，例如：蛋黃要白色，蛋白要黃色。"></textarea>
-<p class="notice">基礎捏捏可指定不同部位的顏色，請盡量寫清楚部位與顏色。</p>
+<label>自訂區域顏色 *</label>
+<p class="notice">輸入部位名稱，再使用顏色選擇器調整顏色。可新增多個部位。</p>
+<div class="sl-color-table" id="sl-color-table">
+  <div class="sl-color-head"><span>部位</span><span>選擇顏色</span><span>色碼</span></div>
+  <div class="sl-color-row">
+    <input class="sl-color-part" type="text" placeholder="例如：蛋黃" aria-label="部位名稱"/>
+    <input class="sl-color-picker" type="color" value="#F4D36A" aria-label="選擇顏色"/>
+    <output class="sl-color-hex">#F4D36A</output>
+  </div>
+</div>
+<button class="sl-add-color" id="sl-add-color" type="button">＋ 新增部位</button>
 </div>
 <div class="field" hidden="" id="basic-notes-field">
 <label for="config-notes">其他備註（選填）</label>
@@ -2624,6 +2679,24 @@ motionObserver.observe(document.body,{childList:true,subtree:true});
 let sheetProduct=null;
 const configBackdrop=document.getElementById("config-backdrop");
 const configSheet=configBackdrop.querySelector(".config-sheet");
+
+function createColorRow(part="",hex="#F4D36A"){
+  return `<div class="sl-color-row">
+    <input class="sl-color-part" type="text" placeholder="例如：蛋黃" aria-label="部位名稱" value="${String(part).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}"/>
+    <input class="sl-color-picker" type="color" value="${hex}" aria-label="選擇顏色"/>
+    <output class="sl-color-hex">${hex}</output>
+  </div>`;
+}
+document.getElementById("sl-add-color").addEventListener("click",()=>{
+  const table=document.getElementById("sl-color-table");
+  table.insertAdjacentHTML("beforeend",createColorRow());
+});
+document.getElementById("sl-color-table").addEventListener("input",event=>{
+  if(event.target.classList.contains("sl-color-picker")){
+    event.target.closest(".sl-color-row").querySelector(".sl-color-hex").textContent=event.target.value.toUpperCase();
+  }
+});
+
 function openProductSheet(name,price){
   const normalizedName=String(name||'').replace(/[\s　]/g,'');
   const isBlindbox=/盲盒/.test(normalizedName)||/MysterySquishyBox/i.test(normalizedName)||/随配/.test(normalizedName);
@@ -2645,7 +2718,10 @@ function openProductSheet(name,price){
       }
     };
   }
-  document.getElementById("config-colors").value="";
+  const colorTable=document.getElementById("sl-color-table");
+  if(colorTable){
+    colorTable.innerHTML='<div class="sl-color-head"><span>部位</span><span>選擇顏色</span><span>色碼</span></div>'+createColorRow();
+  }
   document.getElementById("config-notes").value="";
   document.querySelectorAll('input[name="config-crust"]').forEach(x=>x.checked=x.value==="標準脆皮");
   configBackdrop.hidden=false;
@@ -2671,11 +2747,16 @@ document.getElementById("config-add").addEventListener("click",()=>{
   if(!sheetProduct)return;
   const crust=document.querySelector('input[name="config-crust"]:checked')?.value;
   if(!crust){alert("請選擇脆皮厚度。");return;}
-  const colors=sheetProduct.level==="basic"?document.getElementById("config-colors").value.trim():"";
+  const colorRows=sheetProduct.level==="basic"?[...document.querySelectorAll("#sl-color-table .sl-color-row")]:[];
+  const colorEntries=colorRows.map(row=>({
+    part:row.querySelector(".sl-color-part").value.trim(),
+    hex:row.querySelector(".sl-color-picker").value.toUpperCase()
+  })).filter(entry=>entry.part);
+  const colors=sheetProduct.level==="basic"?colorEntries.map(entry=>`${entry.part}: ${entry.hex}`).join("；"):"";
   const notes=sheetProduct.level==="basic"?document.getElementById("config-notes").value.trim():"";
-  if(sheetProduct.level==="basic"&&!colors){
-    document.getElementById("config-colors").focus();
-    alert("請填寫區域配色要求。");
+  if(sheetProduct.level==="basic"&&!colorEntries.length){
+    document.querySelector("#sl-color-table .sl-color-part")?.focus();
+    alert("請至少填寫一個部位名稱並選擇顏色。");
     return;
   }
   // Keep separate cart lines when the same product has different specifications.
@@ -3051,7 +3132,7 @@ main>.story,.section,.diy-book,.tracking-card,.config-sheet,.promo,.panel,.produ
 @media(prefers-reduced-motion:reduce){.orbit-ring{animation:none!important}}
 </style>
 <script>
-const SL_TRANSLATIONS = {"商品種類":"Products","買前須知":"Before You Buy","訂單":"Order","物流查詢":"Track Order","捏物研室":"SQUISH LAB","把柔軟，留給日常。":"A little softness for everyday life.","探索商品":"Explore Products","購買指南":"Shopping Guide","捏物研室・把柔軟留給日常":"SQUISH LAB · A little softness for everyday life","每一件小作品，":"Every little creation,","都有自己的形狀。":"has a shape of its own.","每一件作品都以手工製作，保留獨特的形狀與觸感。慢慢挑選，找到喜歡的那一件。":"Each piece is handmade, with its own shape and texture. Take your time and find the one you love.","與朋友一起拼單":"Shop Together with a Friend","兩人各購買一個高階級脆皮捏捏":"When two customers each purchase one premium crispy squishy,","即可獲贈一個自選基礎脆皮捏捏":"you will receive one basic crispy squishy of your choice.","優惠需由兩位購買者共同下單或聯絡確認，贈品請在備註中填寫。":"Both customers must place their orders together or contact us to confirm. Please state your free gift in the order notes.","高級捏捏":"Premium Squishies","基礎捏捏":"Basic Squishies","脆皮韓式辣炒年糕":"Crispy Korean Tteokbokki","脆皮桂花酒釀":"Crispy Osmanthus Rice Wine","脆皮抹茶條":"Crispy Matcha Bar","脆皮冰沙球（4粒裝）":"Crispy Slush Balls (4 pcs)","脆皮芝士條（一袋三個）":"Crispy Cheese Sticks (3 pcs)","脆皮爆漿球":"Crispy Lava Balls","脆皮冰面包":"Crispy Ice Bread","脆皮可可薄荷冰球":"Crispy Cocoa Mint Ice Balls","脆皮大餅（一套三個）":"Crispy Large Cakes (Set of 3)","脆皮小球（一袋三個）":"Crispy Mini Balls (3 pcs)","脆皮花朵":"Crispy Flower","脆皮大餅":"Crispy Large Cake","脆皮圓球":"Crispy Round Ball","脆皮荷包蛋":"Crispy Fried Egg","脆皮芝士條":"Crispy Cheese Stick","脆皮棉花糖":"Crispy Marshmallow","脆皮白面饅頭":"Crispy White Bun","高級系列":"Premium Collection","基礎系列":"Basic Collection","加入購物車 ＋":"Add to Cart +","選擇盲盒 ＋":"Choose Blind Box +","捏捏隨配（盲盒）":"Mystery Squishy Box","隨機搭配 · 自選預算與比例":"Random selection · Choose your budget and mix","RM 12.08 起":"From RM 12.08","12月10日上新通知":"December 10 · New Arrivals","新品即將上架 · 敬請期待":"New products coming soon · Stay tuned","從基礎款開始，":"Start with the basics,","再挑一件特別的。":"then choose something special.","瀏覽不同系列，將喜歡的款式加入購物車。每件商品都標示清楚價格，選購過程簡單直接。":"Browse the collections and add your favourites to your cart. Prices are clearly displayed for a simple shopping experience.","把日常的小空隙，留給一點柔軟與觸感。":"Make room in your everyday moments for a little softness and texture.","訂購與發貨":"Ordering & Shipping","下單後我們會確認訂單內容，並另行通知製作及發貨安排。":"After you place an order, we will confirm the details and notify you about production and shipping.","取貨方式":"Delivery Options","詩巫地區可安排面交；其他地區可郵寄。":"In-person meet-up is available in Sibu; postage is available for other areas.","包裝與品質確認":"Packaging & Quality Check","詩巫面交將使用牛皮紙袋包裝。每份訂單交付前，我們都會仔細確認：":"Sibu meet-up orders are packed in kraft paper bags. Before each order is handed over, we carefully check:","包裝封口完整、正常。":"The package seal is intact and properly closed.","防偽標誌清晰且完整。":"The authenticity mark is clear and intact.","SQUISH LAB Logo 完整、無異常。":"The SQUISH LAB logo is intact and in good condition.","商品款式、數量與訂單內容正確。":"The product designs and quantities match the order.","七天售後服務：":"7-Day After-Sales Support: ","自收到商品起七天內，如對捏捏有任何不滿意，請隨時聯絡我們。我們會了解情況，並為你重新製作。":"Within seven days of receiving your order, if you are dissatisfied with any squishy, contact us. We will review the issue and remake it for you.","拼單優惠":"Group Order Offer","脆皮厚度":"Crispy Layer Thickness","商品均以標準脆皮製作，選好款式即可直接加入購物車。":"Products are made with standard crispy layers. Simply choose a design and add it to your cart.","手工製作":"Handmade","每批手工製作，成品可能有輕微差異，請見諒。":"Each batch is handmade, so slight variations may occur. Thank you for understanding.","選好商品，":"Choose your items,","把細節交給訂單。":"and let the order take care of the details.","加入商品、選擇商品、確認購物車與取貨方式，再填寫訂單資料。提交前可以再次核對購物車內容。":"Add your items, review your cart and delivery method, then enter your details. You can check your cart again before submitting.","關於捏物研室":"About SQUISH LAB","小小一件，慢慢做好。":"Small creations, carefully made.","每件脆皮捏捏都由手工製作。從造型到觸感，保留手作本身的細節與個性。":"Every crispy squishy is handmade. From its shape to its texture, each piece retains the details and character of handcrafted work.","了解購買方式　↗":"How to Order ↗","找到喜歡的款式。":"Find the design you love.","從日常基礎款到特別系列，清楚標示價格，選擇喜歡的款式即可加入購物車。":"From everyday basics to special collections, prices are clearly listed. Choose your favourite and add it to your cart.","瀏覽商品　↗":"Browse Products ↗","感謝支持本地手作小店。每一份訂單，都是讓我們繼續創作的動力。":"Thank you for supporting a local handmade shop. Every order inspires us to keep creating.","用料選擇":"Materials","選用優質脆皮蠟，呈現俐落脆感。":"Quality crispy wax for a clean, crisp texture.","捏物研室重視每一件作品的外層質感，選用優質脆皮蠟作為製作材料，讓脆皮呈現清晰的質地與觸感。每件作品均由手工製作，外觀與細節可能略有不同。":"We value the outer texture of every creation. Quality crispy wax is selected to create a distinct texture and feel. Each piece is handmade, so appearance and details may vary slightly.","捏捏基底":"Squishy Base","反覆調配，尋找理想手感。":"Carefully developed for the ideal feel.","我們用心調配捏捏基底，並持續調整軟硬度與回彈觸感，希望帶來舒適、自然的按捏體驗。每一款作品都以整體手感與造型呈現為考量。":"We carefully develop our squishy base and continually refine its softness, firmness and rebound. Our goal is a comfortable, natural squeezing experience, with both feel and form in mind.","製作理念":"Our Craft","從材料、比例到手感，每一步都仔細調整。":"Every detail is refined, from materials and proportions to texture.","捏物研室重視的不只是外觀，也包括拿在手上的觸感。從脆皮蠟的選擇，到捏捏基底的比例調配，我們持續調整材料與製作細節，希望每件作品都有舒服、自然且有辨識度的手感。":"At SQUISH LAB, we care about more than appearance; the feel in your hands matters too. From choosing crispy wax to adjusting the proportions of the squishy base, we continually refine our materials and techniques so every piece feels comfortable, natural and distinctive.","每件作品皆由手工製作，成品的形狀、表面紋理與細節可能略有差異，這也是手作作品獨有的特點。":"Every piece is handmade. Its shape, surface texture and details may vary slightly — a unique feature of handmade creations.","訂單確認":"Order Confirmation","購物車":"Shopping Cart","目前還沒有選購商品。":"Your cart is currently empty.","商品小計":"Subtotal","商品小計只計算已選購商品的固定價格；郵寄費用將依訂單資料另行確認。":"The subtotal includes only the listed prices of selected items. Postage will be confirmed separately based on your order details.","填寫訂單資料":"Enter Your Details","姓名 *":"Name *","聯絡方式（WhatsApp / Instagram）*":"Contact (WhatsApp / Instagram) *","取貨方式 *":"Delivery Method *","請選擇":"Please select","詩巫面交":"Sibu meet-up","郵寄":"Postage","郵寄地址（選擇郵寄時填寫）":"Shipping Address (required for postage)","其他備註／拼單贈品選擇":"Additional Notes / Group Order Gift","整理訂單內容":"Review Order","物流狀態查詢":"Order Tracking","查詢訂單進度":"Track Your Order","輸入你的 SQUISH LAB 訂單編號，即可查看最新進度。郵寄與 Sibu 面交會顯示不同的進度流程。":"Enter your SQUISH LAB order ID to view the latest update. Postage and Sibu meet-up orders have different tracking steps.","查詢訂單進度 →":"Track Order →","訂單進度由 SQUISH LAB 更新。實際狀態以 Google Sheets 中的最新紀錄為準。":"Order progress is updated by SQUISH LAB. The latest record in Google Sheets is the source of truth.","找不到訂單？請確認訂單編號是否正確，或透過 Instagram":"Can't find your order? Check that your order ID is correct, or contact us on Instagram","聯絡我們。":" for assistance.","捏物研室 · SQUISH LAB":"SQUISH LAB · Handmade in Sibu","商品規格":"Product Options","選擇脆皮厚度 *":"Choose Crispy Layer Thickness *","薄脆":"Thin","標準脆皮":"Standard","厚脆":"Thick","區域配色要求 *":"Colour Preferences by Area *","基礎捏捏可指定不同部位的顏色，請盡量寫清楚部位與顏色。":"For basic squishies, you can specify colours for different areas. Please describe each area and colour clearly.","其他備註（選填）":"Additional Notes (Optional)","選擇盲盒價格 *":"Choose Mystery Box Price *","選擇內容比例 *":"Choose Collection Ratio *","高階 3：7 基礎":"Premium 3 : 7 Basic","高階 7：3 基礎":"Premium 7 : 3 Basic","高階 5：5 基礎":"Premium 5 : 5 Basic","盲盒將依所選預算與比例搭配內容。":"The mystery box contents will be selected according to your chosen budget and ratio.","商品價格":"Item Price","確認規格並加入購物車":"Confirm Options & Add to Cart","基礎系列可指定不同部位的顏色；高級系列只需選擇脆皮等級。每件商品的設定會分開保存。":"For basic items, you can specify colours for different areas. Premium items only require a crispy layer selection. Options are saved separately for each item.","請先加入至少一件商品。":"Please add at least one item first.","選擇郵寄時，請填寫收件地址。":"Please enter a shipping address when selecting postage.","請選擇脆皮厚度。":"Please choose a crispy layer thickness.","請填寫區域配色要求。":"Please enter your colour preferences by area.","移除":"Remove","增加":"Increase","減少":"Decrease","備註：":"Notes: ","區域配色：":"Colour preferences: ","脆皮等級：":"Crispy layer: ","盲盒設定：":"Mystery box: ","內容比例：":"Ratio: ","郵寄與 Grab 本地配送包裝確認":"Postage & Grab Local Delivery Packaging Check","無論使用一般郵寄或 Grab 本地配送，出貨前都會確認包裝及訂單資料；收到包裹時，也請先檢查以下項目：":"Whether your order is sent by postage or Grab local delivery, we check the packaging and order details before dispatch. When your parcel arrives, please check the following:","紙箱或紙袋外包裝完整，封口沒有異常。":"The outer cardboard box or paper bag is intact, with no unusual signs around the seal.","SQUISH LAB Logo 貼紙完整、清晰，沒有被異常更換或破壞。":"The SQUISH LAB logo sticker is intact and clear, with no signs of unusual replacement or damage.","防偽貼完整、位置正常，沒有明顯撕開或重貼痕跡。":"The anti-counterfeit sticker is intact and correctly placed, with no obvious signs of peeling or reapplication.","包裹內商品與訂單內容相符。":"The items inside the parcel match your order.","如發現異常：":"If You Notice Anything Unusual: ","若包裹內出現與捏物訂單無關的物品，或發現封口、Logo 貼紙、防偽貼有異常，請先不要丟棄包裝，並立即拍照或錄影，連同訂單編號聯絡我們。我們會核實訂單及包裝紀錄，再與你確認情況並提供合適的解決方案。":"If your parcel contains an item unrelated to your order, or if the seal, logo sticker or anti-counterfeit sticker appears unusual, please keep the packaging. Take photos or a video immediately and contact us with your order number. We will check the order and packing records, confirm the situation with you and provide an appropriate solution.","中階捏物":"Intermediate Squishies","中階系列":"Intermediate Collection","爆漿脆皮鴨蛋":"Crispy Lava Duck Egg","脆皮超薄片（6片裝）":"Ultra-Thin Crispy Sheets (6 pcs)","首批限定優惠":"First-Batch Special Offer","彩虹年糕條":"Rainbow Rice Cake Stick","中階捏物規格":"Intermediate Squishy Options","12月10日新品上架通知":"December 10 · New Arrivals","捏捏隨配盲盒設定":"Mystery Squishy Box Options","目前狀態":"Current Status","物流單號：":"Tracking Number: ","處理中":"Processing","製作中":"In Production","已確認":"Confirmed","待確認":"Pending Confirmation","待製作":"Pending Production","待發貨":"Pending Dispatch","已寄出":"Shipped","已送達":"Delivered","已到貨":"Arrived","已製作完成":"Production Completed","已取貨":"Picked Up","接下來：":"Next: ","我們正在準備包裝及寄件，寄出後會更新物流單號與運送狀態。":"Your order is being packed for dispatch. The tracking number and delivery status will be updated after it ships.","我們正在製作你的商品。製作完成後，狀態會更新為「已製作完成」，再安排面交取貨。":"Your items are being made. Once production is complete, the status will update to “Production Completed” and a meet-up pickup will be arranged.","查詢逾時，請稍後再試。":"The request timed out. Please try again later."};
+const SL_TRANSLATIONS = {"商品種類":"Products","買前須知":"Before You Buy","訂單":"Order","物流查詢":"Track Order","捏物研室":"SQUISH LAB","把柔軟，留給日常。":"A little softness for everyday life.","探索商品":"Explore Products","購買指南":"Shopping Guide","捏物研室・把柔軟留給日常":"SQUISH LAB · A little softness for everyday life","每一件小作品，":"Every little creation,","都有自己的形狀。":"has a shape of its own.","每一件作品都以手工製作，保留獨特的形狀與觸感。慢慢挑選，找到喜歡的那一件。":"Each piece is handmade, with its own shape and texture. Take your time and find the one you love.","與朋友一起拼單":"Shop Together with a Friend","兩人各購買一個高階級脆皮捏捏":"When two customers each purchase one premium crispy squishy,","即可獲贈一個自選基礎脆皮捏捏":"you will receive one basic crispy squishy of your choice.","優惠需由兩位購買者共同下單或聯絡確認，贈品請在備註中填寫。":"Both customers must place their orders together or contact us to confirm. Please state your free gift in the order notes.","高級捏捏":"Premium Squishies","基礎捏捏":"Basic Squishies","脆皮韓式辣炒年糕":"Crispy Korean Tteokbokki","脆皮桂花酒釀":"Crispy Osmanthus Rice Wine","脆皮抹茶條":"Crispy Matcha Bar","脆皮冰沙球（4粒裝）":"Crispy Slush Balls (4 pcs)","脆皮芝士條（一袋三個）":"Crispy Cheese Sticks (3 pcs)","脆皮爆漿球":"Crispy Lava Balls","脆皮冰面包":"Crispy Ice Bread","脆皮可可薄荷冰球":"Crispy Cocoa Mint Ice Balls","脆皮大餅（一套三個）":"Crispy Large Cakes (Set of 3)","脆皮小球（一袋三個）":"Crispy Mini Balls (3 pcs)","脆皮花朵":"Crispy Flower","脆皮大餅":"Crispy Large Cake","脆皮圓球":"Crispy Round Ball","脆皮荷包蛋":"Crispy Fried Egg","脆皮芝士條":"Crispy Cheese Stick","脆皮棉花糖":"Crispy Marshmallow","脆皮白面饅頭":"Crispy White Bun","高級系列":"Premium Collection","基礎系列":"Basic Collection","加入購物車 ＋":"Add to Cart +","選擇盲盒 ＋":"Choose Blind Box +","捏捏隨配（盲盒）":"Mystery Squishy Box","隨機搭配 · 自選預算與比例":"Random selection · Choose your budget and mix","RM 12.08 起":"From RM 12.08","12月10日上新通知":"December 10 · New Arrivals","新品即將上架 · 敬請期待":"New products coming soon · Stay tuned","從基礎款開始，":"Start with the basics,","再挑一件特別的。":"then choose something special.","瀏覽不同系列，將喜歡的款式加入購物車。每件商品都標示清楚價格，選購過程簡單直接。":"Browse the collections and add your favourites to your cart. Prices are clearly displayed for a simple shopping experience.","把日常的小空隙，留給一點柔軟與觸感。":"Make room in your everyday moments for a little softness and texture.","訂購與發貨":"Ordering & Shipping","下單後我們會確認訂單內容，並另行通知製作及發貨安排。":"After you place an order, we will confirm the details and notify you about production and shipping.","取貨方式":"Delivery Options","詩巫地區可安排面交；其他地區可郵寄。":"In-person meet-up is available in Sibu; postage is available for other areas.","包裝與品質確認":"Packaging & Quality Check","詩巫面交將使用牛皮紙袋包裝。每份訂單交付前，我們都會仔細確認：":"Sibu meet-up orders are packed in kraft paper bags. Before each order is handed over, we carefully check:","包裝封口完整、正常。":"The package seal is intact and properly closed.","防偽標誌清晰且完整。":"The authenticity mark is clear and intact.","SQUISH LAB Logo 完整、無異常。":"The SQUISH LAB logo is intact and in good condition.","商品款式、數量與訂單內容正確。":"The product designs and quantities match the order.","七天售後服務：":"7-Day After-Sales Support: ","自收到商品起七天內，如對捏捏有任何不滿意，請隨時聯絡我們。我們會了解情況，並為你重新製作。":"Within seven days of receiving your order, if you are dissatisfied with any squishy, contact us. We will review the issue and remake it for you.","拼單優惠":"Group Order Offer","脆皮厚度":"Crispy Layer Thickness","商品均以標準脆皮製作，選好款式即可直接加入購物車。":"Products are made with standard crispy layers. Simply choose a design and add it to your cart.","手工製作":"Handmade","每批手工製作，成品可能有輕微差異，請見諒。":"Each batch is handmade, so slight variations may occur. Thank you for understanding.","選好商品，":"Choose your items,","把細節交給訂單。":"and let the order take care of the details.","加入商品、選擇商品、確認購物車與取貨方式，再填寫訂單資料。提交前可以再次核對購物車內容。":"Add your items, review your cart and delivery method, then enter your details. You can check your cart again before submitting.","關於捏物研室":"About SQUISH LAB","小小一件，慢慢做好。":"Small creations, carefully made.","每件脆皮捏捏都由手工製作。從造型到觸感，保留手作本身的細節與個性。":"Every crispy squishy is handmade. From its shape to its texture, each piece retains the details and character of handcrafted work.","了解購買方式　↗":"How to Order ↗","找到喜歡的款式。":"Find the design you love.","從日常基礎款到特別系列，清楚標示價格，選擇喜歡的款式即可加入購物車。":"From everyday basics to special collections, prices are clearly listed. Choose your favourite and add it to your cart.","瀏覽商品　↗":"Browse Products ↗","感謝支持本地手作小店。每一份訂單，都是讓我們繼續創作的動力。":"Thank you for supporting a local handmade shop. Every order inspires us to keep creating.","用料選擇":"Materials","選用優質脆皮蠟，呈現俐落脆感。":"Quality crispy wax for a clean, crisp texture.","捏物研室重視每一件作品的外層質感，選用優質脆皮蠟作為製作材料，讓脆皮呈現清晰的質地與觸感。每件作品均由手工製作，外觀與細節可能略有不同。":"We value the outer texture of every creation. Quality crispy wax is selected to create a distinct texture and feel. Each piece is handmade, so appearance and details may vary slightly.","捏捏基底":"Squishy Base","反覆調配，尋找理想手感。":"Carefully developed for the ideal feel.","我們用心調配捏捏基底，並持續調整軟硬度與回彈觸感，希望帶來舒適、自然的按捏體驗。每一款作品都以整體手感與造型呈現為考量。":"We carefully develop our squishy base and continually refine its softness, firmness and rebound. Our goal is a comfortable, natural squeezing experience, with both feel and form in mind.","製作理念":"Our Craft","從材料、比例到手感，每一步都仔細調整。":"Every detail is refined, from materials and proportions to texture.","捏物研室重視的不只是外觀，也包括拿在手上的觸感。從脆皮蠟的選擇，到捏捏基底的比例調配，我們持續調整材料與製作細節，希望每件作品都有舒服、自然且有辨識度的手感。":"At SQUISH LAB, we care about more than appearance; the feel in your hands matters too. From choosing crispy wax to adjusting the proportions of the squishy base, we continually refine our materials and techniques so every piece feels comfortable, natural and distinctive.","每件作品皆由手工製作，成品的形狀、表面紋理與細節可能略有差異，這也是手作作品獨有的特點。":"Every piece is handmade. Its shape, surface texture and details may vary slightly — a unique feature of handmade creations.","訂單確認":"Order Confirmation","購物車":"Shopping Cart","目前還沒有選購商品。":"Your cart is currently empty.","商品小計":"Subtotal","商品小計只計算已選購商品的固定價格；郵寄費用將依訂單資料另行確認。":"The subtotal includes only the listed prices of selected items. Postage will be confirmed separately based on your order details.","填寫訂單資料":"Enter Your Details","姓名 *":"Name *","聯絡方式（WhatsApp / Instagram）*":"Contact (WhatsApp / Instagram) *","取貨方式 *":"Delivery Method *","請選擇":"Please select","詩巫面交":"Sibu meet-up","郵寄":"Postage","郵寄地址（選擇郵寄時填寫）":"Shipping Address (required for postage)","其他備註／拼單贈品選擇":"Additional Notes / Group Order Gift","整理訂單內容":"Review Order","物流狀態查詢":"Order Tracking","查詢訂單進度":"Track Your Order","輸入你的 SQUISH LAB 訂單編號，即可查看最新進度。郵寄與 Sibu 面交會顯示不同的進度流程。":"Enter your SQUISH LAB order ID to view the latest update. Postage and Sibu meet-up orders have different tracking steps.","查詢訂單進度 →":"Track Order →","訂單進度由 SQUISH LAB 更新。實際狀態以 Google Sheets 中的最新紀錄為準。":"Order progress is updated by SQUISH LAB. The latest record in Google Sheets is the source of truth.","找不到訂單？請確認訂單編號是否正確，或透過 Instagram":"Can't find your order? Check that your order ID is correct, or contact us on Instagram","聯絡我們。":" for assistance.","捏物研室 · SQUISH LAB":"SQUISH LAB · Handmade in Sibu","商品規格":"Product Options","選擇脆皮厚度 *":"Choose Crispy Coating Thickness *","薄脆":"Thin","標準脆皮":"Standard","厚脆":"Thick","區域配色要求 *":"Colour Preferences by Area *","基礎捏捏可指定不同部位的顏色，請盡量寫清楚部位與顏色。":"For basic squishies, you can specify colours for different areas. Please describe each area and colour clearly.","其他備註（選填）":"Additional Notes (Optional)","選擇盲盒價格 *":"Choose Mystery Box Price *","選擇內容比例 *":"Choose Collection Ratio *","高階 3：7 基礎":"Premium 3 : 7 Basic","高階 7：3 基礎":"Premium 7 : 3 Basic","高階 5：5 基礎":"Premium 5 : 5 Basic","盲盒將依所選預算與比例搭配內容。":"The mystery box contents will be selected according to your chosen budget and ratio.","商品價格":"Item Price","確認規格並加入購物車":"Confirm Options & Add to Cart","基礎系列可指定不同部位的顏色；高級系列只需選擇脆皮等級。每件商品的設定會分開保存。":"For basic items, you can specify colours for different areas. Premium items only require a crispy layer selection. Options are saved separately for each item.","請先加入至少一件商品。":"Please add at least one item first.","選擇郵寄時，請填寫收件地址。":"Please enter a shipping address when selecting postage.","請選擇脆皮厚度。":"Please choose a crispy layer thickness.","請填寫區域配色要求。":"Please enter your colour preferences by area.","移除":"Remove","增加":"Increase","減少":"Decrease","備註：":"Notes: ","區域配色：":"Colour preferences: ","脆皮等級：":"Crispy layer: ","盲盒設定：":"Mystery box: ","內容比例：":"Ratio: ","郵寄與 Grab 本地配送包裝確認":"Postage & Grab Local Delivery Packaging Check","無論使用一般郵寄或 Grab 本地配送，出貨前都會確認包裝及訂單資料；收到包裹時，也請先檢查以下項目：":"Whether your order is sent by postage or Grab local delivery, we check the packaging and order details before dispatch. When your parcel arrives, please check the following:","紙箱或紙袋外包裝完整，封口沒有異常。":"The outer cardboard box or paper bag is intact, with no unusual signs around the seal.","SQUISH LAB Logo 貼紙完整、清晰，沒有被異常更換或破壞。":"The SQUISH LAB logo sticker is intact and clear, with no signs of unusual replacement or damage.","防偽貼完整、位置正常，沒有明顯撕開或重貼痕跡。":"The anti-counterfeit sticker is intact and correctly placed, with no obvious signs of peeling or reapplication.","包裹內商品與訂單內容相符。":"The items inside the parcel match your order.","如發現異常：":"If You Notice Anything Unusual: ","若包裹內出現與捏物訂單無關的物品，或發現封口、Logo 貼紙、防偽貼有異常，請先不要丟棄包裝，並立即拍照或錄影，連同訂單編號聯絡我們。我們會核實訂單及包裝紀錄，再與你確認情況並提供合適的解決方案。":"If your parcel contains an item unrelated to your order, or if the seal, logo sticker or anti-counterfeit sticker appears unusual, please keep the packaging. Take photos or a video immediately and contact us with your order number. We will check the order and packing records, confirm the situation with you and provide an appropriate solution.","中階捏物":"Intermediate Squishies","中階系列":"Intermediate Collection","爆漿脆皮鴨蛋":"Crispy Lava Duck Egg","脆皮超薄片（6片裝）":"Ultra-Thin Crispy Sheets (6 pcs)","首批限定優惠":"First-Batch Special Offer","彩虹年糕條":"Rainbow Rice Cake Stick","中階捏物規格":"Intermediate Squishy Options","12月10日新品上架通知":"December 10 · New Arrivals","捏捏隨配盲盒設定":"Mystery Squishy Box Options","目前狀態":"Current Status","物流單號：":"Tracking Number: ","處理中":"Processing","製作中":"In Production","已確認":"Confirmed","待確認":"Pending Confirmation","待製作":"Pending Production","待發貨":"Pending Dispatch","已寄出":"Shipped","已送達":"Delivered","已到貨":"Arrived","已製作完成":"Production Completed","已取貨":"Picked Up","接下來：":"Next: ","我們正在準備包裝及寄件，寄出後會更新物流單號與運送狀態。":"Your order is being packed for dispatch. The tracking number and delivery status will be updated after it ships.","我們正在製作你的商品。製作完成後，狀態會更新為「已製作完成」，再安排面交取貨。":"Your items are being made. Once production is complete, the status will update to “Production Completed” and a meet-up pickup will be arranged.","查詢逾時，請稍後再試。":"The request timed out. Please try again later.","自訂區域顏色 *":"Customise Colours by Area *","輸入部位名稱，再使用顏色選擇器調整顏色。可新增多個部位。":"Name each area, then use the colour picker. You can add multiple areas.","部位":"Area","選擇顏色":"Choose Colour","例如：蛋黃":"e.g. Egg Yolk","＋ 新增部位":"+ Add Area","請至少填寫一個部位名稱並選擇顏色。":"Enter at least one area name and choose a colour.","關閉":"Close","其他製作要求，可在這裡補充。":"Add any other production requests here."};
 </script>
 <style id="sl-language-switch-style">
 #sl-language-select{
@@ -3237,23 +3318,7 @@ const SL_TRANSLATIONS = {"商品種類":"Products","買前須知":"Before You Bu
 @media(prefers-reduced-motion:reduce){.light-orb,.sphere-core-glow{animation:none!important}.light-orb{transform:translate(-50%,-50%) translate(var(--x),var(--y)) scale(var(--scale))}}
 </style>
 
-<script id="sl-global-reflection-handler">
-(()=>{
-  const selector='button, a[href], [role="button"], .choice label, .config-crust label, summary';
-  document.addEventListener('pointerdown',event=>{
-    const target=event.target.closest(selector);
-    if(!target || target.matches(':disabled,[aria-disabled="true"]')) return;
-    target.classList.add('sl-reflect-target');
-    const old=target.querySelector(':scope > .sl-reflection');
-    if(old) old.remove();
-    const shine=document.createElement('span');
-    shine.className='sl-reflection';
-    shine.setAttribute('aria-hidden','true');
-    target.appendChild(shine);
-    shine.addEventListener('animationend',()=>shine.remove(),{once:true});
-  },{passive:true});
-})();
-</script>
+
 
 </body>
 <style id="tracking-plain-language-status">
