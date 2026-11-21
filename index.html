@@ -3537,58 +3537,35 @@ let sheetProduct=null;
 const configBackdrop=document.getElementById("config-backdrop");
 const configSheet=configBackdrop.querySelector(".config-sheet");
 
-function createColorRow(part="",hex="#F4D36A"){
-  const safeHex=/^#[0-9A-Fa-f]{6}$/.test(hex)?hex:"#F4D36A";
-  const swatches=["#F4D36A","#D6F6FF","#A8D5BA","#F2A7B5","#C8B6E2","#A7C7E7","#F5CBA7","#D9D9D9","#FFFFFF","#333333"];
+function hueToHex(hue){
+  const h=((Number(hue)||0)%360)/60;
+  const x=1-Math.abs((h%2)-1);
+  let r=0,g=0,b=0;
+  if(h<1){r=1;g=x;}else if(h<2){r=x;g=1;}else if(h<3){g=1;b=x;}
+  else if(h<4){g=x;b=1;}else if(h<5){r=x;b=1;}else{r=1;b=x;}
+  return "#"+[r,g,b].map(v=>Math.round(v*255).toString(16).padStart(2,"0")).join("").toUpperCase();
+}
+function createColorRow(part="",hue=45){
+  const safeHue=Math.max(0,Math.min(359,Number(hue)||45));
+  const safeHex=hueToHex(safeHue);
   return `<div class="sl-color-row">
     <input class="sl-color-part" type="text" placeholder="例如：蛋黃" aria-label="區域名稱" value="${String(part).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}"/>
-    <div class="sl-color-control">
-      <button type="button" class="sl-color-swatch" aria-label="開啟顏色選擇" style="--swatch:${safeHex}"></button>
-      <div class="sl-color-palette" hidden>${swatches.map(c=>`<button type="button" class="sl-color-option" data-color="${c}" style="--swatch:${c}" aria-label="${c}"></button>`).join("")}</div>
+    <div class="sl-hue-control">
+      <input class="sl-hue-slider" type="range" min="0" max="359" step="1" value="${safeHue}" aria-label="滑動選擇顏色" style="--chosen-color:${safeHex}"/>
+      <span class="sl-hue-preview" style="background:${safeHex}" aria-hidden="true"></span>
     </div>
-    <input class="sl-color-hex" type="text" inputmode="text" maxlength="7" value="${safeHex}" aria-label="HEX 色碼"/>
+    <output class="sl-color-hex" aria-label="目前顏色">${safeHex}</output>
   </div>`;
 }
-document.addEventListener("click",event=>{
-  const addArea=event.target.closest("#sl-add-color");
-  if(!addArea)return;
-  event.preventDefault();
-  const table=document.getElementById("sl-color-table");
-  if(!table)return;
-  table.insertAdjacentHTML("beforeend",createColorRow());
-});
-document.addEventListener("click",event=>{
-  const swatch=event.target.closest(".sl-color-swatch");
-  const option=event.target.closest(".sl-color-option");
-  if(swatch){
-    const palette=swatch.parentElement.querySelector(".sl-color-palette");
-    document.querySelectorAll(".sl-color-palette").forEach(p=>{if(p!==palette)p.hidden=true;});
-    palette.hidden=!palette.hidden;
-    event.preventDefault();
-    return;
-  }
-  if(option){
-    const row=option.closest(".sl-color-row");
-    const color=option.dataset.color.toUpperCase();
-    row.querySelector(".sl-color-swatch").style.setProperty("--swatch",color);
-    row.querySelector(".sl-color-hex").value=color;
-    row.querySelector(".sl-color-palette").hidden=true;
-    event.preventDefault();
-    return;
-  }
-  if(!event.target.closest(".sl-color-control")){
-    document.querySelectorAll(".sl-color-palette").forEach(p=>p.hidden=true);
-  }
-});
 document.addEventListener("input",event=>{
-  if(!event.target.matches("#sl-color-table .sl-color-hex"))return;
-  const value=event.target.value.trim().toUpperCase();
-  const row=event.target.closest(".sl-color-row");
-  if(/^#[0-9A-F]{6}$/.test(value)){
-    row.querySelector(".sl-color-swatch").style.setProperty("--swatch",value);
-  }
+  const slider=event.target.closest("#sl-color-table .sl-hue-slider");
+  if(!slider)return;
+  const color=hueToHex(slider.value);
+  const row=slider.closest(".sl-color-row");
+  slider.style.setProperty("--chosen-color",color);
+  row.querySelector(".sl-hue-preview").style.background=color;
+  row.querySelector(".sl-color-hex").textContent=color;
 });
-
 function openProductSheet(name,price){
   const normalizedName=String(name||'').replace(/[\s　]/g,'');
   const isBlindbox=/盲盒/.test(normalizedName)||/MysterySquishyBox/i.test(normalizedName)||/随配/.test(normalizedName);
@@ -3612,7 +3589,7 @@ function openProductSheet(name,price){
   }
   const colorTable=document.getElementById("sl-color-table");
   if(colorTable){
-    colorTable.innerHTML='<div class="sl-color-head"><span>區域</span><span>選擇顏色</span><span>色碼</span></div>'+createColorRow();
+    colorTable.innerHTML='<div class="sl-color-head sl-color-head-new"><span>區域名稱</span><span>滑動色彩條選擇顏色</span><span>預覽</span></div>'+createColorRow();
   }
   document.getElementById("config-notes").value="";
   document.querySelectorAll('input[name="config-crust"]').forEach(x=>x.checked=x.value==="標準脆皮");
@@ -3645,13 +3622,13 @@ document.getElementById("config-add").addEventListener("click",(event)=>{
   const rows=sheetProduct.level==="basic"?[...document.querySelectorAll("#sl-color-table .sl-color-row")]:[];
   const entries=rows.map(row=>({
     area:row.querySelector(".sl-color-part")?.value.trim()||"",
-    color:row.querySelector(".sl-color-hex")?.value.trim().toUpperCase()||""
+    color:row.querySelector(".sl-color-hex")?.textContent.trim().toUpperCase()||""
   })).filter(x=>x.area && /^#[0-9A-F]{6}$/.test(x.color));
   const colors=sheetProduct.level==="basic"?entries.map(x=>`${x.area}: ${x.color}`).join("；"):"";
   const notes=sheetProduct.level==="basic"?document.getElementById("config-notes").value.trim():"";
   if(sheetProduct.level==="basic"&&!entries.length){
     document.querySelector("#sl-color-table .sl-color-part")?.focus();
-    alert("請輸入區域名稱，並確認色碼為 #RRGGBB 格式。");
+    alert("請輸入區域名稱，並使用彩色滑動條選擇顏色。");
     return;
   }
 
@@ -4251,6 +4228,75 @@ function syncCheckoutTotal(){
 }
 #config-backdrop .config-sheet{
   contain:layout style!important;
+}
+</style>
+
+
+<style id="sl-v22-rainbow-color-slider">
+#sl-color-table .sl-color-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(130px,1.35fr) 42px!important;
+  align-items:center!important;
+  gap:10px!important;
+  padding:12px!important;
+}
+#sl-color-table .sl-color-head{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(130px,1.35fr) 42px!important;
+  gap:10px!important;
+  align-items:center!important;
+}
+.sl-hue-control{display:flex;align-items:center;min-width:0}
+.sl-hue-slider{
+  display:block!important;
+  width:100%!important;
+  height:34px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:999px!important;
+  outline:none!important;
+  background:linear-gradient(90deg,#ff0000 0%,#ffff00 16.66%,#00ff00 33.33%,#00ffff 50%,#0000ff 66.66%,#ff00ff 83.33%,#ff0000 100%)!important;
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  touch-action:pan-x!important;
+}
+.sl-hue-slider::-webkit-slider-runnable-track{
+  height:22px;border:1px solid rgba(255,255,255,.9);border-radius:999px;
+  background:linear-gradient(90deg,#ff0000 0%,#ffff00 16.66%,#00ff00 33.33%,#00ffff 50%,#0000ff 66.66%,#ff00ff 83.33%,#ff0000 100%);
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08);
+}
+.sl-hue-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:28px;height:28px;margin-top:-4px;border-radius:50%;
+  border:3px solid #fff;background:var(--chosen-color,#F4D36A);
+  box-shadow:0 1px 5px rgba(0,0,0,.28);
+}
+.sl-hue-slider::-moz-range-track{
+  height:22px;border:1px solid rgba(255,255,255,.9);border-radius:999px;
+  background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000);
+}
+.sl-hue-slider::-moz-range-thumb{
+  width:22px;height:22px;border:3px solid #fff;border-radius:50%;
+  background:var(--chosen-color,#F4D36A);box-shadow:0 1px 5px rgba(0,0,0,.28);
+}
+.sl-hue-preview{
+  display:none;
+}
+#sl-color-table .sl-color-hex{
+  display:block!important;width:42px!important;min-width:42px!important;
+  padding:0!important;border:0!important;background:transparent!important;
+  color:transparent!important;font-size:0!important;
+  overflow:hidden!important;
+}
+@media(max-width:430px){
+ #sl-color-table .sl-color-row,
+ #sl-color-table .sl-color-head{
+  grid-template-columns:minmax(0,1fr) minmax(112px,1.2fr) 8px!important;
+  gap:8px!important;
+ }
+ #sl-color-table .sl-color-part{min-height:42px!important;padding:0 8px!important}
+ #sl-color-table .sl-color-hex{min-width:8px!important;width:8px!important}
 }
 </style>
 
