@@ -3537,34 +3537,74 @@ let sheetProduct=null;
 const configBackdrop=document.getElementById("config-backdrop");
 const configSheet=configBackdrop.querySelector(".config-sheet");
 
-function hueToHex(hue){
+function hueToHex(hue,saturation=100){
+  const sat=Math.max(0,Math.min(100,Number(saturation)))/100;
+  const light=0.5;
+  const c=(1-Math.abs(2*light-1))*sat;
   const h=((Number(hue)||0)%360)/60;
-  const x=1-Math.abs((h%2)-1);
+  const x=c*(1-Math.abs((h%2)-1));
   let r=0,g=0,b=0;
-  if(h<1){r=1;g=x;}else if(h<2){r=x;g=1;}else if(h<3){g=1;b=x;}
-  else if(h<4){g=x;b=1;}else if(h<5){r=x;b=1;}else{r=1;b=x;}
-  return "#"+[r,g,b].map(v=>Math.round(v*255).toString(16).padStart(2,"0")).join("").toUpperCase();
+  if(h<1){r=c;g=x;}else if(h<2){r=x;g=c;}else if(h<3){g=c;b=x;}
+  else if(h<4){g=x;b=c;}else if(h<5){r=x;b=c;}else{r=c;b=x;}
+  const m=light-c/2;
+  return "#"+[r+m,g+m,b+m].map(v=>Math.round(v*255).toString(16).padStart(2,"0")).join("").toUpperCase();
 }
-function createColorRow(part="",hue=45){
+function createColorRow(part="",hue=45,saturation=100){
   const safeHue=Math.max(0,Math.min(359,Number(hue)||45));
-  const safeHex=hueToHex(safeHue);
+  const safeSat=Math.max(0,Math.min(100,Number(saturation)));
+  const safeHex=hueToHex(safeHue,safeSat);
   return `<div class="sl-color-row">
     <input class="sl-color-part" type="text" placeholder="例如：蛋黃" aria-label="區域名稱" value="${String(part).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}"/>
-    <div class="sl-hue-control">
-      <input class="sl-hue-slider" type="range" min="0" max="359" step="1" value="${safeHue}" aria-label="滑動選擇顏色" style="--chosen-color:${safeHex}"/>
-      <span class="sl-hue-preview" style="background:${safeHex}" aria-hidden="true"></span>
+    <div class="sl-color-controls">
+      <input class="sl-hue-slider" type="range" min="0" max="359" step="1" value="${safeHue}" aria-label="選擇色相" style="--chosen-color:${safeHex}"/>
+      <input class="sl-sat-slider" type="range" min="0" max="100" step="1" value="${safeSat}" aria-label="調整顏色濃度" style="--chosen-color:${safeHex};--sat-start:#808080;--sat-end:${hueToHex(safeHue,100)}"/>
+      <div class="sl-neutral-colors" aria-label="黑白灰色選擇">
+        <button type="button" class="sl-neutral-chip" data-neutral="#FFFFFF" aria-label="白色" title="白色"></button>
+        <button type="button" class="sl-neutral-chip" data-neutral="#BFBFBF" aria-label="淺灰色" title="淺灰色"></button>
+        <button type="button" class="sl-neutral-chip" data-neutral="#808080" aria-label="灰色" title="灰色"></button>
+        <button type="button" class="sl-neutral-chip" data-neutral="#404040" aria-label="深灰色" title="深灰色"></button>
+        <button type="button" class="sl-neutral-chip" data-neutral="#000000" aria-label="黑色" title="黑色"></button>
+      </div>
+      <small class="sl-sat-label">顏色濃度</small>
     </div>
     <output class="sl-color-hex" aria-label="目前顏色">${safeHex}</output>
   </div>`;
 }
-document.addEventListener("input",event=>{
-  const slider=event.target.closest("#sl-color-table .sl-hue-slider");
-  if(!slider)return;
-  const color=hueToHex(slider.value);
-  const row=slider.closest(".sl-color-row");
-  slider.style.setProperty("--chosen-color",color);
-  row.querySelector(".sl-hue-preview").style.background=color;
+function updateColorRow(row){
+  const hue=row.querySelector(".sl-hue-slider");
+  const sat=row.querySelector(".sl-sat-slider");
+  if(!hue||!sat)return;
+  const color=hueToHex(hue.value,sat.value);
+  hue.style.setProperty("--chosen-color",color);
+  sat.style.setProperty("--chosen-color",color);
+  sat.style.setProperty("--sat-end",hueToHex(hue.value,100));
   row.querySelector(".sl-color-hex").textContent=color;
+  row.querySelectorAll(".sl-neutral-chip").forEach(b=>b.classList.remove("is-selected"));
+}
+document.addEventListener("input",event=>{
+  const slider=event.target.closest("#sl-color-table .sl-hue-slider, #sl-color-table .sl-sat-slider");
+  if(!slider)return;
+  updateColorRow(slider.closest(".sl-color-row"));
+});
+document.addEventListener("click",event=>{
+  const neutral=event.target.closest("#sl-color-table .sl-neutral-chip");
+  if(neutral){
+    const row=neutral.closest(".sl-color-row");
+    const hex=neutral.dataset.neutral;
+    row.querySelector(".sl-color-hex").textContent=hex;
+    row.querySelector(".sl-hue-slider").style.setProperty("--chosen-color",hex);
+    row.querySelector(".sl-sat-slider").style.setProperty("--chosen-color",hex);
+    row.querySelector(".sl-neutral-colors").querySelectorAll(".sl-neutral-chip").forEach(b=>b.classList.toggle("is-selected",b===neutral));
+    return;
+  }
+  const add=event.target.closest("#sl-add-color");
+  if(!add)return;
+  event.preventDefault();
+  const table=document.getElementById("sl-color-table");
+  if(!table)return;
+  table.insertAdjacentHTML("beforeend",createColorRow("",210,100));
+  const rows=table.querySelectorAll(".sl-color-row");
+  rows[rows.length-1]?.querySelector(".sl-color-part")?.focus({preventScroll:true});
 });
 function openProductSheet(name,price){
   const normalizedName=String(name||'').replace(/[\s　]/g,'');
@@ -3589,7 +3629,7 @@ function openProductSheet(name,price){
   }
   const colorTable=document.getElementById("sl-color-table");
   if(colorTable){
-    colorTable.innerHTML='<div class="sl-color-head sl-color-head-new"><span>區域名稱</span><span>滑動色彩條選擇顏色</span><span>預覽</span></div>'+createColorRow();
+    colorTable.innerHTML='<div class="sl-color-head sl-color-head-new"><span>區域名稱</span><span>色相／顏色濃度</span><span>顏色</span></div>'+createColorRow();
   }
   document.getElementById("config-notes").value="";
   document.querySelectorAll('input[name="config-crust"]').forEach(x=>x.checked=x.value==="標準脆皮");
@@ -4298,6 +4338,77 @@ function syncCheckoutTotal(){
  #sl-color-table .sl-color-part{min-height:42px!important;padding:0 8px!important}
  #sl-color-table .sl-color-hex{min-width:8px!important;width:8px!important}
 }
+</style>
+
+
+<style id="sl-v23-add-region-and-saturation">
+#sl-color-table .sl-color-row{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) minmax(120px,1.35fr) 8px!important;
+ align-items:center!important;gap:9px!important;padding:12px!important;
+}
+#sl-color-table .sl-color-head{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(120px,1.35fr) 8px!important;
+ gap:9px!important;align-items:center!important;
+}
+.sl-color-controls{display:flex;flex-direction:column;gap:8px;min-width:0}
+.sl-hue-slider,.sl-sat-slider{
+ display:block!important;width:100%!important;height:26px!important;margin:0!important;
+ padding:0!important;border:0!important;border-radius:999px!important;
+ -webkit-appearance:none!important;appearance:none!important;touch-action:pan-x!important;
+}
+.sl-hue-slider{
+ background:linear-gradient(90deg,#ff0000 0%,#ffff00 16.66%,#00ff00 33.33%,#00ffff 50%,#0000ff 66.66%,#ff00ff 83.33%,#ff0000 100%)!important;
+}
+.sl-sat-slider{
+ background:linear-gradient(90deg,var(--sat-start,#808080),var(--sat-end,#F4D36A))!important;
+}
+.sl-hue-slider::-webkit-slider-runnable-track,.sl-sat-slider::-webkit-slider-runnable-track{
+ height:15px;border:1px solid rgba(255,255,255,.95);border-radius:999px;background:transparent;
+ box-shadow:inset 0 1px 2px rgba(0,0,0,.15);
+}
+.sl-hue-slider::-webkit-slider-thumb,.sl-sat-slider::-webkit-slider-thumb{
+ -webkit-appearance:none;appearance:none;width:23px;height:23px;margin-top:-5px;
+ border-radius:50%;border:2px solid #fff;background:var(--chosen-color,#F4D36A);
+ box-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.sl-hue-slider::-moz-range-track,.sl-sat-slider::-moz-range-track{
+ height:15px;border:1px solid rgba(255,255,255,.95);border-radius:999px;background:transparent;
+}
+.sl-hue-slider::-moz-range-thumb,.sl-sat-slider::-moz-range-thumb{
+ width:19px;height:19px;border:2px solid #fff;border-radius:50%;
+ background:var(--chosen-color,#F4D36A);
+}
+.sl-sat-label{font-size:10px;color:#777;line-height:1}
+#sl-color-table .sl-color-hex{font-size:0!important;color:transparent!important}
+#sl-color-table .sl-color-part{font-size:16px!important;min-width:0!important}
+.sl-add-color{cursor:pointer;touch-action:manipulation}
+@media(max-width:430px){
+ #sl-color-table .sl-color-row,#sl-color-table .sl-color-head{
+  grid-template-columns:minmax(0,1fr) minmax(112px,1.25fr) 4px!important;gap:7px!important;
+ }
+}
+</style>
+
+
+<style id="sl-v24-neutral-black-white-colors">
+.sl-neutral-colors{
+ display:flex;align-items:center;justify-content:space-between;gap:5px;
+ width:100%;margin-top:1px;
+}
+.sl-neutral-chip{
+ width:22px;height:22px;min-width:22px;padding:0;border-radius:50%;
+ border:1px solid rgba(90,100,110,.3);
+ background:var(--neutral-color,#fff);
+ box-shadow:0 1px 3px rgba(0,0,0,.12);
+}
+.sl-neutral-chip[data-neutral="#FFFFFF"]{background:#fff}
+.sl-neutral-chip[data-neutral="#BFBFBF"]{background:#bfbfbf}
+.sl-neutral-chip[data-neutral="#808080"]{background:#808080}
+.sl-neutral-chip[data-neutral="#404040"]{background:#404040}
+.sl-neutral-chip[data-neutral="#000000"]{background:#000}
+.sl-neutral-chip.is-selected{outline:2px solid #687f91;outline-offset:2px}
+.sl-sat-label{display:block!important;margin-top:1px}
 </style>
 
 </body>
