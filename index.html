@@ -3252,6 +3252,10 @@ Object.keys(products).forEach(category => {
   products[category].sort((a, b) => b[1] - a[1]);
 });
 
+// Restore core shop state removed during the previous palette refactor.
+let category = "premium";
+let cart = [];
+
 const productColorRules = {
   "脆皮棉花糖":2,
   "脆皮大餅":1,
@@ -3298,7 +3302,7 @@ function renderCart(){
  if(!cart.length)root.innerHTML='<div class="empty">目前還沒有選購商品。</div>';
  cart.forEach((item,i)=>{
   const row=document.createElement("div");row.className="cart-row";
-  const details=[item.level==="blindbox"?`盲盒設定：${item.notes||"未設定"}`:`脆皮等級：${item.crust||"標準脆皮"}`,item.level==="basic"&&item.colors?`區域配色：${item.colors}`:"",item.level==="basic"&&item.notes?`備註：${item.notes}`:""].filter(Boolean).join("<br>");
+  const details=[item.level==="blindbox"?`盲盒設定：${item.notes||"未設定"}`:`脆皮等級：${item.crust||"標準脆皮"}`,item.colors?`商品配色：${item.colors}`:"",item.notes?`備註：${item.notes}`:""].filter(Boolean).join("<br>");
   row.innerHTML=`<div>${item.name}<br><small>${money(item.price)} / 個</small><div class="cart-spec">${details}</div></div><div class="qty"><button type="button" aria-label="減少">−</button><span>${item.qty}</span><button type="button" aria-label="增加">＋</button></div><div>${money(item.price*item.qty)}<br><button class="remove" type="button">移除</button></div>`;
   const buttons=row.querySelectorAll(".qty button");
   buttons[0].onclick=()=>{item.qty--;if(item.qty<=0)cart.splice(i,1);renderCart();};
@@ -4551,6 +4555,47 @@ function syncCheckoutTotal(){
 }
 @media(max-width:430px){
   #config-backdrop .config-sheet #product-color-pickers .sl-palette-swatches{gap:7px!important}
+}
+</style>
+
+
+<style id="sl-v27-ios-stability">
+/* iPhone stability: disable decorative motion and costly glass effects on the customization flow. */
+html,body{scroll-behavior:auto!important}
+*,*::before,*::after{
+ animation:none!important;
+ transition:none!important;
+}
+#config-backdrop,#config-backdrop *{
+ -webkit-backdrop-filter:none!important;
+ backdrop-filter:none!important;
+ filter:none!important;
+}
+#config-backdrop .config-sheet{
+ transform:none!important;
+ contain:layout paint!important;
+ overflow-y:auto!important;
+ -webkit-overflow-scrolling:touch!important;
+ overscroll-behavior:contain!important;
+}
+#config-backdrop .sl-piece-color-card{
+ background:#fff!important;
+ border:1px solid #e5e9ed!important;
+ box-shadow:none!important;
+}
+#config-backdrop .sl-palette-swatch{
+ touch-action:manipulation!important;
+ -webkit-tap-highlight-color:transparent!important;
+}
+.stack-card{
+ position:relative!important;
+ top:auto!important;
+ transform:none!important;
+}
+.scroll-reveal,.scroll-reveal.is-visible{
+ opacity:1!important;
+ transform:none!important;
+ filter:none!important;
 }
 </style>
 
