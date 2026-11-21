@@ -3268,12 +3268,7 @@ const colorPalettes = [
   {name:"馬卡龍色系",colors:[
     ["奶油黃","#F6E7A8"],["蜜桃粉","#F4C6C8"],["櫻花粉","#F3D5E2"],["薰衣草紫","#DCCFF0"],["薄荷綠","#CBE7D5"],
     ["天空藍","#C9E1F4"],["香芋紫","#D8D0EA"],["奶茶色","#E8D5BE"],["珊瑚橘","#F5D0B5"],["湖水綠","#C5E6E2"]
-  ]},
-  {name:"莫蘭迪色系",colors:[
-    ["灰豆綠","#A8B8A5"],["霧霾藍","#9EAFBE"],["藕粉","#C7A6A8"],["灰紫","#AFA5B9"],["燕麥米","#D2C5B2"],
-    ["乾燥玫瑰","#B98283"],["鼠尾草綠","#899B8B"],["岩石灰","#A5A4A0"],["煙燻棕","#A58F80"],["深海藍","#718493"]
-  ]}
-];
+  ]}];
 let selectedProductColors=[];
 const money=n=>"RM "+n.toFixed(2);
 function renderProducts(){
@@ -4597,6 +4592,27 @@ html,body{scroll-behavior:auto!important}
  transform:none!important;
  filter:none!important;
 }
+</style>
+
+
+<style id="sl-v30-reference-cover-text-visibility">
+/* Preserve the uploaded reference cover wording exactly; force its existing copy to remain visible. */
+.hero.page-intro .hero-copy,
+.hero.page-intro .hero-copy .eyebrow,
+.hero.page-intro .hero-copy .eyebrow *,
+.hero.page-intro .hero-copy h1,
+.hero.page-intro .hero-copy h1 *,
+.hero.page-intro .hero-copy p,
+.hero.page-intro .hero-copy p *,
+.hero.page-intro .hero-copy .hero-actions,
+.hero.page-intro .hero-copy .hero-actions *{
+  opacity:1!important;
+  visibility:visible!important;
+  animation:none!important;
+  transform:none!important;
+  filter:none!important;
+}
+.hero.page-intro .hero-copy{position:relative!important;z-index:20!important}
 </style>
 
 </body>
