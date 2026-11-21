@@ -3616,6 +3616,21 @@ document.addEventListener("click",event=>{
   const rows=table.querySelectorAll(".sl-color-row");
   rows[rows.length-1]?.querySelector(".sl-color-part")?.focus({preventScroll:true});
 });
+document.addEventListener("click",event=>{
+  const swatch=event.target.closest("#product-color-pickers .sl-palette-swatch");
+  if(!swatch)return;
+  const slot=Number(swatch.dataset.colorSlot);
+  const card=swatch.closest(".sl-piece-color-card");
+  if(!card||!Number.isInteger(slot))return;
+  selectedProductColors[slot]=swatch.dataset.colorHex;
+  card.querySelector(".sl-piece-color-value").textContent=swatch.dataset.colorLabel;
+  card.querySelectorAll(".sl-palette-swatch").forEach(item=>{
+    const selected=item===swatch;
+    item.classList.toggle("is-selected",selected);
+    item.setAttribute("aria-pressed",selected?"true":"false");
+  });
+});
+
 function renderProductColorPickers(name){
   const count=productColorRules[name]||0;
   const field=document.getElementById("basic-color-field");
@@ -3646,18 +3661,15 @@ function renderProductColorPickers(name){
         button.type="button";
         button.className="sl-palette-swatch";
         button.style.setProperty("--swatch-color",hex);
+        button.style.setProperty("background",hex,"important");
         button.title=label;
         button.setAttribute("aria-label",label);
         button.dataset.hex=hex;
         button.dataset.label=label;
-        button.addEventListener("click",()=>{
-          selectedProductColors[index]=hex;
-          card.querySelector(".sl-piece-color-value").textContent=label;
-          card.querySelectorAll(".sl-palette-swatch").forEach(x=>{
-            x.classList.toggle("is-selected",x===button);
-            x.setAttribute("aria-pressed",x===button?"true":"false");
-          });
-        });
+        button.dataset.colorSlot=String(index);
+        button.dataset.colorHex=hex;
+        button.dataset.colorLabel=label;
+        button.setAttribute("aria-pressed","false");
         swatches.appendChild(button);
       });
       groupEl.appendChild(swatches);
@@ -4489,6 +4501,56 @@ function syncCheckoutTotal(){
 @media(max-width:430px){
  .sl-piece-color-card{padding:12px}
  .sl-palette-swatches{gap:6px}
+}
+</style>
+
+
+<style id="sl-v26-ios-swatch-performance-fix">
+/* Fix global glass button rules overriding the actual palette colors. */
+#config-backdrop .config-sheet #product-color-pickers .sl-palette-swatch{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  aspect-ratio:1/1!important;
+  padding:0!important;
+  border-radius:50%!important;
+  border:1px solid rgba(70,80,90,.22)!important;
+  background:var(--swatch-color)!important;
+  color:transparent!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.4)!important;
+  transform:none!important;
+  transition:outline-color .12s ease!important;
+  filter:none!important;
+}
+#config-backdrop .config-sheet #product-color-pickers .sl-palette-swatch.is-selected{
+  outline:3px solid #526779!important;
+  outline-offset:2px!important;
+  border-color:#fff!important;
+}
+#config-backdrop .config-sheet,
+#config-backdrop .config-sheet .sl-piece-color-card,
+#config-backdrop .config-sheet .sl-palette-group{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  filter:none!important;
+  animation:none!important;
+  transition:none!important;
+}
+#config-backdrop .config-sheet .sl-piece-color-card{
+  background:rgba(255,255,255,.94)!important;
+  box-shadow:0 1px 4px rgba(30,40,50,.06)!important;
+}
+#config-backdrop .config-sheet #product-color-pickers{
+  contain:content!important;
+  content-visibility:visible!important;
+}
+#config-backdrop .config-sheet #product-color-pickers .sl-palette-swatches{
+  gap:8px!important;
+}
+@media(max-width:430px){
+  #config-backdrop .config-sheet #product-color-pickers .sl-palette-swatches{gap:7px!important}
 }
 </style>
 
