@@ -2485,6 +2485,417 @@ button:focus-visible,input:focus,textarea:focus,select:focus{
 #status{color:#607f83!important}
 </style>
 
+
+<style id="sl-v14-customization-interaction-fix">
+#config-backdrop[hidden]{display:none!important;pointer-events:none!important}
+#config-backdrop:not([hidden]){pointer-events:auto!important}
+#config-backdrop .config-sheet{pointer-events:auto!important;touch-action:pan-y}
+#config-backdrop .config-sheet button,
+#config-backdrop .config-sheet input,
+#config-backdrop .config-sheet textarea,
+#config-backdrop .config-sheet label{pointer-events:auto!important;touch-action:manipulation}
+#sl-color-table{width:100%;max-width:100%;min-width:0;box-sizing:border-box;overflow:hidden}
+#sl-color-table .sl-color-head,
+#sl-color-table .sl-color-row{
+  width:100%;max-width:100%;min-width:0;box-sizing:border-box;
+  grid-template-columns:minmax(0,1fr) 44px 68px!important;
+  gap:7px!important;padding:10px!important;
+}
+#sl-color-table .sl-color-part{min-width:0;width:100%;box-sizing:border-box}
+#sl-color-table .sl-color-picker{width:40px;max-width:100%;box-sizing:border-box}
+#sl-color-table .sl-color-hex{min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:10px}
+#sl-add-color,#config-add{width:100%;min-height:48px;position:relative;z-index:2;pointer-events:auto!important;touch-action:manipulation}
+</style>
+
+
+<style id="sl-v15-apple-native-glass-nav">
+/* Apple-style floating glass tab bar: transparent surface, soft optical blur and precise capsule geometry. */
+body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
+.sl-bottom-nav{
+  position:fixed!important;
+  z-index:99999!important;
+  left:50%!important;
+  bottom:max(12px,env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;
+  width:min(94vw,760px)!important;
+  min-height:78px!important;
+  height:82px!important;
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  align-items:center!important;
+  gap:2px!important;
+  padding:5px!important;
+  border:1px solid rgba(255,255,255,.76)!important;
+  border-radius:999px!important;
+  /* No opaque panel tint: the visible surface comes from backdrop refraction. */
+  background:rgba(255,255,255,.025)!important;
+  -webkit-backdrop-filter:blur(34px) saturate(190%) brightness(1.08)!important;
+  backdrop-filter:blur(34px) saturate(190%) brightness(1.08)!important;
+  box-shadow:
+    0 10px 34px rgba(18,28,42,.13),
+    0 1px 2px rgba(18,28,42,.08),
+    inset 0 1.2px 0 rgba(255,255,255,.92),
+    inset 0 -1px 0 rgba(255,255,255,.24)!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+}
+.sl-bottom-nav::before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(155deg,rgba(255,255,255,.25),rgba(255,255,255,.035) 38%,rgba(255,255,255,.015) 70%,rgba(255,255,255,.13));
+  opacity:.42;
+  z-index:-1;
+}
+.sl-nav-item{
+  position:relative!important;
+  z-index:1!important;
+  min-width:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  padding:5px 2px!important;
+  margin:0!important;
+  border:1px solid transparent!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:#111318!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","PingFang TC",sans-serif!important;
+  font-size:12.5px!important;
+  line-height:1.15!important;
+  font-weight:500!important;
+  letter-spacing:-.015em!important;
+  -webkit-tap-highlight-color:transparent!important;
+  transition:background .24s cubic-bezier(.2,.75,.25,1),color .24s ease,transform .24s cubic-bezier(.2,.75,.25,1),box-shadow .24s ease!important;
+}
+.sl-nav-item.is-active{
+  color:#0878ed!important;
+  background:rgba(255,255,255,.30)!important;
+  border-color:rgba(255,255,255,.42)!important;
+  box-shadow:0 2px 12px rgba(22,34,52,.075),inset 0 1px 0 rgba(255,255,255,.76)!important;
+  font-weight:600!important;
+}
+.sl-nav-icon{
+  width:30px!important;
+  height:30px!important;
+  display:grid!important;
+  place-items:center!important;
+  flex:none!important;
+}
+.sl-nav-icon svg{
+  width:100%!important;
+  height:100%!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.9!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+.sl-bag-nav .sl-nav-icon svg{fill:currentColor!important;stroke:currentColor!important}
+.sl-bag-badge{
+  top:7px!important;
+  right:calc(50% - 29px)!important;
+  min-width:19px!important;
+  height:19px!important;
+  padding:0 5px!important;
+  border-radius:999px!important;
+  background:#0878ed!important;
+  color:#fff!important;
+  font-size:11px!important;
+  line-height:19px!important;
+  box-shadow:0 1px 4px rgba(0,0,0,.12)!important;
+}
+.sl-nav-item:active{transform:scale(.965)!important}
+@media(max-width:430px){
+  .sl-bottom-nav{width:94vw!important;height:76px!important;min-height:76px!important;padding:4px!important}
+  .sl-nav-item{font-size:11.5px!important}
+  .sl-nav-icon{width:28px!important;height:28px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .sl-nav-item{transition:none!important}
+}
+</style>
+
+
+<style id="sl-v16-zero-fill-apple-glass">
+/* Zero-tint glass: no white/grey fill on the dock or its selected tab.
+   The only visual surface is the live backdrop refraction and hairline edge. */
+.sl-bottom-nav{
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:blur(38px) saturate(190%) contrast(108%) brightness(1.04)!important;
+  backdrop-filter:blur(38px) saturate(190%) contrast(108%) brightness(1.04)!important;
+  border:1px solid rgba(255,255,255,.58)!important;
+  box-shadow:
+    0 8px 30px rgba(20,28,40,.10),
+    inset 0 1px 0 rgba(255,255,255,.76),
+    inset 0 -1px 0 rgba(255,255,255,.20)!important;
+}
+.sl-bottom-nav::before,
+.sl-bottom-nav::after{
+  background:none!important;
+  opacity:0!important;
+}
+.sl-nav-item,
+.sl-nav-item.is-active{
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+.sl-nav-item.is-active{
+  color:#0878ed!important;
+  font-weight:650!important;
+  /* Keep the Apple-like selected capsule shape without a tinted fill. */
+  outline:1px solid rgba(255,255,255,.40)!important;
+  outline-offset:-1px!important;
+}
+.sl-nav-item:active{
+  background:transparent!important;
+  transform:scale(.975)!important;
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+ .sl-bottom-nav{background:transparent!important}
+}
+</style>
+
+
+<style id="sl-v17-slim-elongated-apple-dock">
+/* Slimmer, longer Apple-style floating dock proportions */
+.sl-bottom-nav{
+  width:calc(100vw - 22px)!important;
+  max-width:1180px!important;
+  height:66px!important;
+  min-height:66px!important;
+  box-sizing:border-box!important;
+  padding:3px 5px!important;
+  gap:0!important;
+  border-radius:999px!important;
+  border:1px solid rgba(255,255,255,.62)!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:blur(34px) saturate(190%) contrast(108%) brightness(1.04)!important;
+  backdrop-filter:blur(34px) saturate(190%) contrast(108%) brightness(1.04)!important;
+  box-shadow:
+    0 5px 20px rgba(20,28,40,.095),
+    inset 0 1px 0 rgba(255,255,255,.72),
+    inset 0 -1px 0 rgba(255,255,255,.16)!important;
+  overflow:hidden!important;
+}
+.sl-bottom-nav::before,
+.sl-bottom-nav::after{
+  content:none!important;
+  display:none!important;
+}
+.sl-nav-item,
+.sl-nav-item.is-active{
+  min-width:0!important;
+  width:100%!important;
+  height:58px!important;
+  min-height:58px!important;
+  margin:0!important;
+  padding:3px 1px!important;
+  gap:2px!important;
+  border:1px solid transparent!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  outline:none!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:11px!important;
+  line-height:1.05!important;
+  font-weight:520!important;
+  letter-spacing:-.02em!important;
+  transform:none!important;
+}
+.sl-nav-item.is-active{
+  color:#0878ed!important;
+  font-weight:650!important;
+}
+.sl-nav-icon{
+  width:23px!important;
+  height:23px!important;
+  flex:0 0 23px!important;
+}
+.sl-nav-icon svg{
+  width:100%!important;
+  height:100%!important;
+  stroke-width:1.85!important;
+}
+.sl-bag-badge{
+  top:0!important;
+  right:calc(50% - 24px)!important;
+  min-width:17px!important;
+  height:17px!important;
+  padding:0 4px!important;
+  font-size:9px!important;
+  line-height:14px!important;
+}
+.sl-nav-item:active{
+  transform:scale(.97)!important;
+  background:transparent!important;
+}
+@media(min-width:700px){
+  .sl-bottom-nav{
+    width:min(calc(100vw - 48px),1120px)!important;
+    height:70px!important;
+    min-height:70px!important;
+  }
+  .sl-nav-item,.sl-nav-item.is-active{
+    height:62px!important;
+    min-height:62px!important;
+    font-size:12px!important;
+  }
+  .sl-nav-icon{width:25px!important;height:25px!important;flex-basis:25px!important}
+}
+@media(max-width:430px){
+  .sl-bottom-nav{
+    width:calc(100vw - 20px)!important;
+    height:64px!important;
+    min-height:64px!important;
+    bottom:max(10px,env(safe-area-inset-bottom))!important;
+    padding:2px 4px!important;
+  }
+  .sl-nav-item,.sl-nav-item.is-active{
+    height:56px!important;
+    min-height:56px!important;
+    font-size:10.5px!important;
+  }
+  .sl-nav-icon{width:22px!important;height:22px!important;flex-basis:22px!important}
+}
+</style>
+
+
+<style id="sl-v18-apple-reference-balanced-dock">
+/* Match the reference dock's fuller capsule proportions: wider, taller, balanced. */
+.sl-bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  bottom:max(12px,env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;
+  width:calc(100vw - 38px)!important;
+  max-width:1180px!important;
+  height:78px!important;
+  min-height:78px!important;
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  align-items:center!important;
+  gap:2px!important;
+  padding:5px 6px!important;
+  border-radius:999px!important;
+  border:1px solid rgba(255,255,255,.68)!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:blur(36px) saturate(190%) contrast(108%) brightness(1.04)!important;
+  backdrop-filter:blur(36px) saturate(190%) contrast(108%) brightness(1.04)!important;
+  box-shadow:
+    0 8px 28px rgba(20,28,40,.11),
+    inset 0 1px 0 rgba(255,255,255,.82),
+    inset 0 -1px 0 rgba(255,255,255,.18)!important;
+  overflow:hidden!important;
+}
+.sl-bottom-nav::before,
+.sl-bottom-nav::after{content:none!important;display:none!important}
+.sl-nav-item,
+.sl-nav-item.is-active{
+  position:relative!important;
+  width:100%!important;
+  min-width:0!important;
+  height:68px!important;
+  min-height:68px!important;
+  margin:0!important;
+  padding:5px 2px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  border:1px solid transparent!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  outline:none!important;
+  color:#17191d!important;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang TC",sans-serif!important;
+  font-size:13px!important;
+  line-height:1.1!important;
+  font-weight:520!important;
+  letter-spacing:-.02em!important;
+  transform:none!important;
+  transition:color .24s ease,transform .24s cubic-bezier(.2,.75,.25,1)!important;
+}
+.sl-nav-item.is-active{
+  color:#0878ed!important;
+  font-weight:650!important;
+  background:rgba(255,255,255,.16)!important;
+  border-color:rgba(255,255,255,.30)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34)!important;
+}
+.sl-nav-icon{
+  width:29px!important;
+  height:29px!important;
+  flex:0 0 29px!important;
+  display:grid!important;
+  place-items:center!important;
+}
+.sl-nav-icon svg{
+  width:100%!important;
+  height:100%!important;
+  stroke-width:1.9!important;
+}
+.sl-bag-badge{
+  top:3px!important;
+  right:calc(50% - 29px)!important;
+  min-width:19px!important;
+  height:19px!important;
+  padding:0 5px!important;
+  font-size:10px!important;
+  line-height:16px!important;
+}
+.sl-nav-item:active{transform:scale(.975)!important}
+@media(min-width:700px){
+  .sl-bottom-nav{width:min(calc(100vw - 64px),1120px)!important;height:82px!important;min-height:82px!important}
+  .sl-nav-item,.sl-nav-item.is-active{height:72px!important;min-height:72px!important;font-size:14px!important}
+  .sl-nav-icon{width:31px!important;height:31px!important;flex-basis:31px!important}
+}
+@media(max-width:430px){
+  .sl-bottom-nav{
+    width:calc(100vw - 28px)!important;
+    height:76px!important;
+    min-height:76px!important;
+    bottom:max(11px,env(safe-area-inset-bottom))!important;
+    padding:4px 5px!important;
+  }
+  .sl-nav-item,.sl-nav-item.is-active{
+    height:68px!important;
+    min-height:68px!important;
+    font-size:12px!important;
+    gap:3px!important;
+  }
+  .sl-nav-icon{width:27px!important;height:27px!important;flex-basis:27px!important}
+}
+</style>
+
 </head>
 <body>
 <div class="wrap">
@@ -3090,10 +3501,22 @@ function createColorRow(part="",hex="#F4D36A"){
     <output class="sl-color-hex">${hex}</output>
   </div>`;
 }
-document.getElementById("sl-add-color").addEventListener("click",()=>{
+document.addEventListener("click",event=>{
+  const addArea=event.target.closest("#sl-add-color");
+  if(!addArea)return;
+  event.preventDefault();
   const table=document.getElementById("sl-color-table");
+  if(!table)return;
   table.insertAdjacentHTML("beforeend",createColorRow());
+  table.querySelector(".sl-color-row:last-child .sl-color-part")?.focus();
 });
+document.addEventListener("input",event=>{
+  if(!event.target.matches("#sl-color-table .sl-color-picker"))return;
+  const output=event.target.closest(".sl-color-row")?.querySelector(".sl-color-hex");
+  if(output)output.textContent=event.target.value.toUpperCase();
+});
+
+
 document.getElementById("sl-color-table").addEventListener("input",event=>{
   if(event.target.classList.contains("sl-color-picker")){
     event.target.closest(".sl-color-row").querySelector(".sl-color-hex").textContent=event.target.value.toUpperCase();
@@ -3146,26 +3569,31 @@ document.getElementById("blindbox-price").addEventListener("change",e=>{
 document.getElementById("config-close").addEventListener("click",closeProductSheet);
 configBackdrop.addEventListener("click",e=>{if(e.target===configBackdrop)closeProductSheet();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!configBackdrop.hidden)closeProductSheet();});
-document.getElementById("config-add").addEventListener("click",()=>{
+document.getElementById("config-add").addEventListener("click",(event)=>{
+  event.preventDefault();
   if(!sheetProduct)return;
-  const crust=document.querySelector('input[name="config-crust"]:checked')?.value;
-  if(!crust){alert("請選擇脆皮厚度。");return;}
-  const colorRows=sheetProduct.level==="basic"?[...document.querySelectorAll("#sl-color-table .sl-color-row")]:[];
-  const colorEntries=colorRows.map(row=>({
-    part:row.querySelector(".sl-color-part").value.trim(),
-    hex:row.querySelector(".sl-color-picker").value.toUpperCase()
-  })).filter(entry=>entry.part);
-  const colors=sheetProduct.level==="basic"?colorEntries.map(entry=>`${entry.part}: ${entry.hex}`).join("；"):"";
+  const isBlindbox=sheetProduct.level==="blindbox";
+  const crust=isBlindbox?"":document.querySelector('input[name="config-crust"]:checked')?.value;
+  if(!isBlindbox&&!crust){alert("請選擇脆皮厚度。");return;}
+
+  const rows=sheetProduct.level==="basic"?[...document.querySelectorAll("#sl-color-table .sl-color-row")]:[];
+  const entries=rows.map(row=>({
+    area:row.querySelector(".sl-color-part")?.value.trim()||"",
+    color:row.querySelector(".sl-color-picker")?.value.toUpperCase()||""
+  })).filter(x=>x.area);
+  const colors=sheetProduct.level==="basic"?entries.map(x=>`${x.area}: ${x.color}`).join("；"):"";
   const notes=sheetProduct.level==="basic"?document.getElementById("config-notes").value.trim():"";
-  if(sheetProduct.level==="basic"&&!colorEntries.length){
+  if(sheetProduct.level==="basic"&&!entries.length){
     document.querySelector("#sl-color-table .sl-color-part")?.focus();
-    alert("請至少填寫一個區域名稱並選擇顏色。");
+    alert("請至少輸入一個區域名稱並選擇顏色。");
     return;
   }
-  // Keep separate cart lines when the same product has different specifications.
-  const existing=cart.find(x=>x.name===sheetProduct.name&&x.level===sheetProduct.level&&x.crust===crust&&x.colors===colors&&x.notes===notes);
+
+  const existing=cart.find(x=>x.name===sheetProduct.name&&x.level===sheetProduct.level&&
+    x.crust===crust&&x.colors===colors&&x.notes===notes&&x.price===sheetProduct.price);
   if(existing)existing.qty+=1;
-  else cart.push({name:sheetProduct.name,price:sheetProduct.price,qty:1,crust,level:sheetProduct.level,colors,notes});
+  else cart.push({name:sheetProduct.name,price:sheetProduct.price,qty:1,
+    crust,level:sheetProduct.level,colors,notes});
   renderCart();
   closeProductSheet();
 });
@@ -3243,114 +3671,7 @@ main#top > #shop ~ section {
 @media(max-width:700px){#post-order-product-stack .stack-card{top:78px!important;}#post-order-product-stack .stack-spacer{height:10vh;min-height:60px;}}
 </style>
 <!-- post-order-product-intro-stack-controller disabled: use native document scrolling -->
-<script id="squish-commerce-interaction-repair">
-(function(){
-  'use strict';
-  const shop = document.getElementById('shop');
-  const grid = document.getElementById('products');
-  const backdrop = document.getElementById('config-backdrop');
-  const addConfig = document.getElementById('config-add');
-  if (!shop || !grid || !backdrop || !addConfig) return;
 
-  // Rebind category tabs through delegation so category switching survives re-rendering.
-  shop.addEventListener('click', function(ev){
-    const tab = ev.target.closest('.category-submenu [data-cat]');
-    if (!tab) return;
-    ev.preventDefault();
-    ev.stopImmediatePropagation();
-    const next = tab.dataset.cat;
-    if (typeof products === 'undefined' || !products[next]) return;
-    category = next;
-    shop.querySelectorAll('.category-submenu [data-cat]').forEach(btn=>{
-      const active = btn === tab;
-      btn.classList.toggle('active', active);
-      btn.setAttribute('aria-selected', active ? 'true' : 'false');
-    });
-    renderProducts();
-  }, true);
-
-  // Capture add-button taps before any stale or duplicated product listeners.
-  grid.addEventListener('click', function(ev){
-    const button = ev.target.closest('button.add');
-    if (!button) return;
-    ev.preventDefault();
-    ev.stopImmediatePropagation();
-    const card = button.closest('.product');
-    if (!card) return;
-    const name = card.querySelector('.name')?.textContent?.trim();
-    const priceText = card.querySelector('.price')?.textContent || '';
-    const price = Number(priceText.replace(/[^\d.]/g,''));
-    if (!name || !Number.isFinite(price)) return;
-    openProductSheet(name, price);
-  }, true);
-
-  function hideSheet(){
-    backdrop.hidden = true;
-    backdrop.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-    if (typeof sheetProduct !== 'undefined') sheetProduct = null;
-  }
-  function showSheet(){
-    backdrop.hidden = false;
-    backdrop.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-  }
-  // Ensure close controls always release the overlay immediately.
-  document.getElementById('config-close')?.addEventListener('click', function(ev){
-    ev.preventDefault(); ev.stopImmediatePropagation(); hideSheet();
-  }, true);
-  backdrop.addEventListener('click', function(ev){
-    if (ev.target === backdrop) hideSheet();
-  }, true);
-  document.addEventListener('keydown', function(ev){
-    if (ev.key === 'Escape' && !backdrop.hidden) hideSheet();
-  }, true);
-
-  // Replace the add-to-cart action with one deterministic path.
-  addConfig.addEventListener('click', function(ev){
-    ev.preventDefault();
-    ev.stopImmediatePropagation();
-    if (!sheetProduct) return;
-    const isBlindbox = sheetProduct.level === 'blindbox';
-    const crust = isBlindbox ? '' : document.querySelector('input[name="config-crust"]:checked')?.value;
-    if (!isBlindbox && !crust) { alert('請選擇脆皮厚度。'); return; }
-    const isBasic = sheetProduct.level === 'basic';
-    const colors = isBasic ? document.getElementById('config-colors').value.trim() : '';
-    const ratio = isBlindbox ? document.getElementById('blindbox-ratio').value : '';
-    const notes = isBlindbox ? `內容比例：${ratio}` : (isBasic ? document.getElementById('config-notes').value.trim() : '');
-    if (isBasic && !colors) {
-      document.getElementById('config-colors').focus();
-      alert('請填寫區域配色要求。');
-      return;
-    }
-    const same = cart.find(item =>
-      item.name === sheetProduct.name && item.level === sheetProduct.level &&
-      item.crust === crust && item.colors === colors && item.notes === notes && item.price === sheetProduct.price
-    );
-    if (same) same.qty += 1;
-    else cart.push({
-      name: sheetProduct.name, price: sheetProduct.price, qty: 1,
-      level: sheetProduct.level, crust, colors, notes
-    });
-    renderCart();
-    hideSheet();
-  }, true);
-
-  // Keep the existing open function but enforce modal visibility and current product state.
-  const originalOpen = window.openProductSheet;
-  if (typeof originalOpen === 'function') {
-    window.openProductSheet = function(name, price) {
-      originalOpen(name, price);
-      showSheet();
-    };
-  }
-  // Initial render ensures visible cards and cart are synchronized on first load.
-  if (typeof renderProducts === 'function') renderProducts();
-  if (typeof renderCart === 'function') renderCart();
-})();
-</script>
 <style id="squish-warm-orderly-final">
 :root{--warm-gold:#b99458;--warm-gold-soft:rgba(185,148,88,.16)}
 #shop .section-head{margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid rgba(185,148,88,.30)}
