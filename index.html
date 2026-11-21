@@ -4554,65 +4554,25 @@ function syncCheckoutTotal(){
 </style>
 
 
-<style id="sl-v27-ios-stability">
-/* iPhone stability: disable decorative motion and costly glass effects on the customization flow. */
-html,body{scroll-behavior:auto!important}
-*,*::before,*::after{
- animation:none!important;
- transition:none!important;
-}
-#config-backdrop,#config-backdrop *{
- -webkit-backdrop-filter:none!important;
- backdrop-filter:none!important;
- filter:none!important;
+
+<style id="sl-v31-customization-only-performance">
+/* Limit rendering optimizations to the heavy product-customization sheet. Keep site-wide motion intact. */
+#config-backdrop,
+#config-backdrop .config-sheet,
+#config-backdrop .sl-piece-color-card,
+#config-backdrop .sl-palette-group{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
 }
 #config-backdrop .config-sheet{
- transform:none!important;
- contain:layout paint!important;
- overflow-y:auto!important;
- -webkit-overflow-scrolling:touch!important;
- overscroll-behavior:contain!important;
-}
-#config-backdrop .sl-piece-color-card{
- background:#fff!important;
- border:1px solid #e5e9ed!important;
- box-shadow:none!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
 }
 #config-backdrop .sl-palette-swatch{
- touch-action:manipulation!important;
- -webkit-tap-highlight-color:transparent!important;
+  touch-action:manipulation!important;
+  -webkit-tap-highlight-color:transparent!important;
 }
-.stack-card{
- position:relative!important;
- top:auto!important;
- transform:none!important;
-}
-.scroll-reveal,.scroll-reveal.is-visible{
- opacity:1!important;
- transform:none!important;
- filter:none!important;
-}
-</style>
-
-
-<style id="sl-v30-reference-cover-text-visibility">
-/* Preserve the uploaded reference cover wording exactly; force its existing copy to remain visible. */
-.hero.page-intro .hero-copy,
-.hero.page-intro .hero-copy .eyebrow,
-.hero.page-intro .hero-copy .eyebrow *,
-.hero.page-intro .hero-copy h1,
-.hero.page-intro .hero-copy h1 *,
-.hero.page-intro .hero-copy p,
-.hero.page-intro .hero-copy p *,
-.hero.page-intro .hero-copy .hero-actions,
-.hero.page-intro .hero-copy .hero-actions *{
-  opacity:1!important;
-  visibility:visible!important;
-  animation:none!important;
-  transform:none!important;
-  filter:none!important;
-}
-.hero.page-intro .hero-copy{position:relative!important;z-index:20!important}
 </style>
 
 </body>
