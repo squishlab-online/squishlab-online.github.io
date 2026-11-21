@@ -3556,7 +3556,6 @@ document.addEventListener("click",event=>{
   const table=document.getElementById("sl-color-table");
   if(!table)return;
   table.insertAdjacentHTML("beforeend",createColorRow());
-  table.querySelector(".sl-color-row:last-child .sl-color-part")?.focus();
 });
 document.addEventListener("click",event=>{
   const swatch=event.target.closest(".sl-color-swatch");
@@ -4215,6 +4214,43 @@ function syncCheckoutTotal(){
     font-size:9px!important;
     line-height:14px!important;
   }
+}
+</style>
+
+
+<style id="sl-v21-ios-input-stability">
+/* Stabilize the customization sheet in iOS Safari and embedded browsers. */
+.config-backdrop{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  background:rgba(19,29,40,.48)!important;
+  overscroll-behavior:contain!important;
+}
+.config-sheet{
+  animation:none!important;
+  transform:none!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+  max-height:82vh!important;
+}
+#config-backdrop .config-sheet input,
+#config-backdrop .config-sheet textarea,
+#config-backdrop .config-sheet select,
+#sl-color-table .sl-color-part,
+#sl-color-table .sl-color-hex{
+  font-size:16px!important;
+  line-height:1.35!important;
+  -webkit-appearance:none;
+  appearance:none;
+  touch-action:auto!important;
+}
+#sl-color-table .sl-color-part,
+#sl-color-table .sl-color-hex{
+  min-height:42px!important;
+  box-sizing:border-box!important;
+}
+#config-backdrop .config-sheet{
+  contain:layout style!important;
 }
 </style>
 
