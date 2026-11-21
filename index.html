@@ -3206,17 +3206,9 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 </div>
 </div>
 <div class="field" hidden="" id="basic-color-field">
-<label>自訂區域顏色 *</label>
-<p class="notice">輸入區域名稱，再使用顏色選擇器調整顏色。可新增多個區域。</p>
-<div class="sl-color-table" id="sl-color-table">
-  <div class="sl-color-head"><span>區域</span><span>選擇顏色</span><span>色碼</span></div>
-  <div class="sl-color-row">
-    <input class="sl-color-part" type="text" placeholder="例如：蛋黃" aria-label="區域名稱"/>
-    <input class="sl-color-picker" type="color" value="#F4D36A" aria-label="選擇顏色"/>
-    <output class="sl-color-hex">#F4D36A</output>
-  </div>
-</div>
-<button class="sl-add-color" id="sl-add-color" type="button">＋ 新增區域</button>
+<label id="color-picker-title">選擇顏色 *</label>
+<p class="notice" id="color-picker-note">請為每個商品選擇指定數量的顏色。</p>
+<div id="product-color-pickers"></div>
 </div>
 <div class="field" hidden="" id="basic-notes-field">
 <label for="config-notes">其他備註（選填）</label>
@@ -3260,7 +3252,25 @@ Object.keys(products).forEach(category => {
   products[category].sort((a, b) => b[1] - a[1]);
 });
 
-let category="premium", cart=[];
+const productColorRules = {
+  "脆皮棉花糖":2,
+  "脆皮大餅":1,
+  "脆皮圓球":1,
+  "脆皮大餅（一套三個）":3,
+  "脆皮小球（一袋三個）":3,
+  "脆皮超薄片（6片裝）":6
+};
+const colorPalettes = [
+  {name:"馬卡龍色系",colors:[
+    ["奶油黃","#F6E7A8"],["蜜桃粉","#F4C6C8"],["櫻花粉","#F3D5E2"],["薰衣草紫","#DCCFF0"],["薄荷綠","#CBE7D5"],
+    ["天空藍","#C9E1F4"],["香芋紫","#D8D0EA"],["奶茶色","#E8D5BE"],["珊瑚橘","#F5D0B5"],["湖水綠","#C5E6E2"]
+  ]},
+  {name:"莫蘭迪色系",colors:[
+    ["灰豆綠","#A8B8A5"],["霧霾藍","#9EAFBE"],["藕粉","#C7A6A8"],["灰紫","#AFA5B9"],["燕麥米","#D2C5B2"],
+    ["乾燥玫瑰","#B98283"],["鼠尾草綠","#899B8B"],["岩石灰","#A5A4A0"],["煙燻棕","#A58F80"],["深海藍","#718493"]
+  ]}
+];
+let selectedProductColors=[];
 const money=n=>"RM "+n.toFixed(2);
 function renderProducts(){
  products[category].sort((a,b)=>b[1]-a[1]);
@@ -3606,6 +3616,57 @@ document.addEventListener("click",event=>{
   const rows=table.querySelectorAll(".sl-color-row");
   rows[rows.length-1]?.querySelector(".sl-color-part")?.focus({preventScroll:true});
 });
+function renderProductColorPickers(name){
+  const count=productColorRules[name]||0;
+  const field=document.getElementById("basic-color-field");
+  const root=document.getElementById("product-color-pickers");
+  const notes=document.getElementById("basic-notes-field");
+  field.hidden=count===0;
+  notes.hidden=count===0;
+  root.innerHTML="";
+  selectedProductColors=Array(count).fill("");
+  if(!count)return;
+  document.getElementById("color-picker-title").textContent=`選擇顏色（${count} 個）*`;
+  document.getElementById("color-picker-note").textContent=`請為這件商品選擇 ${count} 個顏色；每個位置可分別選擇。`;
+  for(let index=0;index<count;index++){
+    const card=document.createElement("div");
+    card.className="sl-piece-color-card";
+    card.innerHTML=`<div class="sl-piece-color-heading"><strong>顏色 ${index+1}</strong><span class="sl-piece-color-value">尚未選擇</span></div>`;
+    colorPalettes.forEach(group=>{
+      const groupEl=document.createElement("div");
+      groupEl.className="sl-palette-group";
+      const title=document.createElement("div");
+      title.className="sl-palette-title";
+      title.textContent=group.name;
+      groupEl.appendChild(title);
+      const swatches=document.createElement("div");
+      swatches.className="sl-palette-swatches";
+      group.colors.forEach(([label,hex])=>{
+        const button=document.createElement("button");
+        button.type="button";
+        button.className="sl-palette-swatch";
+        button.style.setProperty("--swatch-color",hex);
+        button.title=label;
+        button.setAttribute("aria-label",label);
+        button.dataset.hex=hex;
+        button.dataset.label=label;
+        button.addEventListener("click",()=>{
+          selectedProductColors[index]=hex;
+          card.querySelector(".sl-piece-color-value").textContent=label;
+          card.querySelectorAll(".sl-palette-swatch").forEach(x=>{
+            x.classList.toggle("is-selected",x===button);
+            x.setAttribute("aria-pressed",x===button?"true":"false");
+          });
+        });
+        swatches.appendChild(button);
+      });
+      groupEl.appendChild(swatches);
+      card.appendChild(groupEl);
+    });
+    root.appendChild(card);
+  }
+}
+
 function openProductSheet(name,price){
   const normalizedName=String(name||'').replace(/[\s　]/g,'');
   const isBlindbox=/盲盒/.test(normalizedName)||/MysterySquishyBox/i.test(normalizedName)||/随配/.test(normalizedName);
@@ -3613,8 +3674,11 @@ function openProductSheet(name,price){
   document.getElementById("config-product-name").textContent=name;
   document.getElementById("config-title").textContent=isBlindbox?"捏捏隨配盲盒設定":(category==="premium"?"高級捏捏規格":(category==="intermediate"?"中階捏物規格":"基礎捏捏客製化"));
   document.getElementById("config-price").textContent=money(sheetProduct.price);
-  document.getElementById("basic-color-field").hidden=isBlindbox||category!=="basic";
-  document.getElementById("basic-notes-field").hidden=isBlindbox||category!=="basic";
+  renderProductColorPickers(name);
+  if(isBlindbox){
+    document.getElementById("basic-color-field").hidden=true;
+    document.getElementById("basic-notes-field").hidden=true;
+  }
   document.getElementById("blindbox-fields").hidden=!isBlindbox;
   document.getElementById("blindbox-price").value="12.08";
   document.getElementById("blindbox-ratio").value="高階3:7基礎";
@@ -3626,10 +3690,6 @@ function openProductSheet(name,price){
         document.getElementById("config-price").textContent=money(sheetProduct.price);
       }
     };
-  }
-  const colorTable=document.getElementById("sl-color-table");
-  if(colorTable){
-    colorTable.innerHTML='<div class="sl-color-head sl-color-head-new"><span>區域名稱</span><span>色相／顏色濃度</span><span>顏色</span></div>'+createColorRow();
   }
   document.getElementById("config-notes").value="";
   document.querySelectorAll('input[name="config-crust"]').forEach(x=>x.checked=x.value==="標準脆皮");
@@ -3659,16 +3719,11 @@ document.getElementById("config-add").addEventListener("click",(event)=>{
   const crust=isBlindbox?"":document.querySelector('input[name="config-crust"]:checked')?.value;
   if(!isBlindbox&&!crust){alert("請選擇脆皮厚度。");return;}
 
-  const rows=sheetProduct.level==="basic"?[...document.querySelectorAll("#sl-color-table .sl-color-row")]:[];
-  const entries=rows.map(row=>({
-    area:row.querySelector(".sl-color-part")?.value.trim()||"",
-    color:row.querySelector(".sl-color-hex")?.textContent.trim().toUpperCase()||""
-  })).filter(x=>x.area && /^#[0-9A-F]{6}$/.test(x.color));
-  const colors=sheetProduct.level==="basic"?entries.map(x=>`${x.area}: ${x.color}`).join("；"):"";
-  const notes=sheetProduct.level==="basic"?document.getElementById("config-notes").value.trim():"";
-  if(sheetProduct.level==="basic"&&!entries.length){
-    document.querySelector("#sl-color-table .sl-color-part")?.focus();
-    alert("請輸入區域名稱，並使用彩色滑動條選擇顏色。");
+  const requiredColors=productColorRules[sheetProduct.name]||0;
+  const colors=requiredColors?selectedProductColors.map((hex,i)=>`顏色${i+1}: ${hex}`).join("；"):"";
+  const notes=requiredColors?document.getElementById("config-notes").value.trim():"";
+  if(requiredColors&&selectedProductColors.some(x=>!x)){
+    alert(`請選齊 ${requiredColors} 個顏色後再加入購物車。`);
     return;
   }
 
@@ -4409,6 +4464,32 @@ function syncCheckoutTotal(){
 .sl-neutral-chip[data-neutral="#000000"]{background:#000}
 .sl-neutral-chip.is-selected{outline:2px solid #687f91;outline-offset:2px}
 .sl-sat-label{display:block!important;margin-top:1px}
+</style>
+
+
+<style id="sl-v25-macaron-morandi-palette">
+#product-color-pickers{display:grid;gap:13px}
+.sl-piece-color-card{
+ padding:13px 14px;border:1px solid rgba(255,255,255,.95);
+ border-radius:18px;background:rgba(255,255,255,.64);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+.sl-piece-color-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:12px;color:#536170}
+.sl-piece-color-value{font-size:11px;color:#8b96a1}
+.sl-palette-group+.sl-palette-group{margin-top:11px}
+.sl-palette-title{font-size:10px;letter-spacing:.08em;color:#89939d;margin-bottom:7px}
+.sl-palette-swatches{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:7px}
+.sl-palette-swatch{
+ display:block;width:100%;aspect-ratio:1/1;min-width:0;padding:0;
+ border-radius:50%;border:1px solid rgba(80,90,100,.13);
+ background:var(--swatch-color);box-shadow:inset 0 1px 2px rgba(255,255,255,.75),0 1px 3px rgba(30,40,50,.08);
+ -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.sl-palette-swatch.is-selected{outline:2px solid #657b8e;outline-offset:2px;transform:scale(.92)}
+@media(max-width:430px){
+ .sl-piece-color-card{padding:12px}
+ .sl-palette-swatches{gap:6px}
+}
 </style>
 
 </body>
