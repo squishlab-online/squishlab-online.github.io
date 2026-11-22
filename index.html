@@ -3011,6 +3011,8 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 <article class="product"><div><div class="name">脆皮冰沙球（4粒裝）</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.60</div><button class="add" type="button">加入購物車 ＋</button></div></article>
 <article class="product"><div><div class="name">脆皮芝士條（一袋三個）</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.60</div><button class="add" type="button">加入購物車 ＋</button></div></article>
 <article class="product"><div><div class="name">脆皮爆漿球</div><div class="desc">高級系列</div></div><div><div class="price">RM 5.60</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+<article class="product blindbox-product" data-static-blindbox="true"><div class="blindbox-copy"><span class="blindbox-kicker">SQUISH LAB / MYSTERY BOX</span><div class="name">捏捏隨配（盲盒）</div><div class="desc">隨機搭配・自選預算與比例</div></div><div class="blindbox-action"><div class="price">RM 12.08 起</div><button class="add" type="button" onclick="openProductSheet('捏捏隨配（盲盒）',12.08)">探索盲盒　→</button></div></article>
+<article class="product launch-notice" aria-label="12月10日新品上架通知"><div><div class="name">12月10日上新通知</div><div class="desc">新品即將上架 · 敬請期待</div></div><div class="launch-mark">COMING SOON</div></article>
 
 </div>
 </section>
@@ -3284,7 +3286,8 @@ function renderProducts(){
  });
  const blind=document.createElement("article");
  blind.className="product blindbox-product scroll-reveal is-visible";
- blind.innerHTML='<div><div class="name">捏捏隨配（盲盒）</div><div class="desc">隨機搭配 · 自選預算與比例</div></div><div><div class="price">RM 12.08 起</div><button class="add" type="button">選擇盲盒 ＋</button></div>';
+ blind.innerHTML='<div class="blindbox-copy"><span class="blindbox-kicker">SQUISH LAB / MYSTERY BOX</span><div class="name">捏捏隨配（盲盒）</div><div class="desc">隨機搭配・自選預算與比例</div></div><div class="blindbox-action"><div class="price">RM 12.08 起</div><button class="add" type="button">探索盲盒　→</button></div>';
+ blind.querySelector("button").addEventListener("click",()=>openProductSheet("捏捏隨配（盲盒）",12.08));
  root.appendChild(blind);
  const notice=document.createElement("article");
  notice.className="product launch-notice is-visible";
@@ -3412,6 +3415,9 @@ document.getElementById("checkout").addEventListener("submit", e => {
    cart = [];
    renderCart();
    document.getElementById("checkout").reset();
+   if (typeof window.showSquishOrderCeremony === "function") {
+    window.showSquishOrderCeremony(orderId, order.total, order.customer);
+   }
   }
  };
  const onFrameLoad = () => {
@@ -3736,7 +3742,9 @@ document.getElementById("config-add").addEventListener("click",(event)=>{
     const colorName=match?match[0]:"未識別顏色";
     return `顏色${i+1}: ${colorName}（${hex}）`;
   }).join("；"):"";
-  const notes=requiredColors?document.getElementById("config-notes").value.trim():"";
+  const notes=isBlindbox
+    ? `預算：RM ${Number(document.getElementById("blindbox-price").value).toFixed(2)}；內容比例：${document.getElementById("blindbox-ratio").value}`
+    : (requiredColors?document.getElementById("config-notes").value.trim():"");
   if(requiredColors&&selectedProductColors.some(x=>!x)){
     alert(`請選齊 ${requiredColors} 個顏色後再加入購物車。`);
     return;
@@ -4581,6 +4589,418 @@ function syncCheckoutTotal(){
 
 
 <style id="sl-v32-color-labels"></style>
+
+<style id="sl-v33-blindbox-action"></style>
+
+<style id="sl-order-ceremony-style">
+.sl-order-ceremony[hidden]{display:none!important}
+.sl-order-ceremony{
+ position:fixed;inset:0;z-index:10050;display:grid;place-items:center;
+ padding:22px;background:rgba(18,25,32,.38);
+ -webkit-backdrop-filter:blur(14px) saturate(125%);backdrop-filter:blur(14px) saturate(125%);
+}
+.sl-order-ceremony-card{
+ position:relative;width:min(440px,100%);padding:34px 26px 26px;border-radius:30px;
+ text-align:center;background:linear-gradient(155deg,#fff 0%,#f7f9fa 58%,#f1f4f8 100%);
+ border:1px solid rgba(255,255,255,.95);box-shadow:0 24px 90px rgba(14,25,38,.22);
+ animation:slCeremonyIn .55s cubic-bezier(.2,.8,.2,1) both;overflow:hidden;
+}
+.sl-order-ceremony-card:before{
+ content:"";position:absolute;width:250px;height:250px;left:50%;top:-175px;transform:translateX(-50%);
+ border-radius:50%;background:radial-gradient(circle,rgba(209,225,245,.8),rgba(232,239,247,0) 70%);
+ pointer-events:none;
+}
+.sl-ceremony-mark{
+ position:relative;width:76px;height:76px;margin:0 auto 20px;border-radius:50%;
+ display:grid;place-items:center;background:linear-gradient(145deg,#e8f0fb,#c9d9ed);
+ border:1px solid #fff;box-shadow:0 8px 25px rgba(112,143,183,.2);
+ color:#425e7c;font-size:34px;font-weight:400;
+}
+.sl-ceremony-kicker{font-size:10px;letter-spacing:.24em;color:#9a896b;margin-bottom:12px}
+.sl-ceremony-title{font-size:27px;letter-spacing:.04em;color:#26323c;margin:0 0 9px}
+.sl-ceremony-copy{font-size:13px;line-height:1.8;color:#74808a;margin:0 auto 22px;max-width:300px}
+.sl-ceremony-order{
+ padding:16px 12px;border:1px solid #e1e6eb;border-radius:16px;background:rgba(255,255,255,.78);
+ margin-bottom:18px;
+}
+.sl-ceremony-order small{display:block;font-size:9px;letter-spacing:.18em;color:#929ca5;margin-bottom:7px}
+.sl-ceremony-order strong{display:block;font-size:17px;letter-spacing:.06em;color:#26323c;overflow-wrap:anywhere}
+.sl-ceremony-total{font-size:12px;color:#78838c;margin-top:8px}
+.sl-ceremony-actions{display:grid;gap:10px}
+.sl-ceremony-actions button{
+ min-height:48px;border-radius:999px;padding:0 18px;font:inherit;font-size:13px;font-weight:650;cursor:pointer;
+}
+.sl-ceremony-track{border:0;background:#263746;color:#fff}
+.sl-ceremony-copyid{border:1px solid #d8dfe5;background:#fff;color:#46535f}
+.sl-ceremony-close{border:0;background:transparent;color:#7b8790;min-height:38px!important}
+@keyframes slCeremonyIn{
+ from{opacity:0;transform:translateY(16px) scale(.97)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+@media(prefers-reduced-motion:reduce){.sl-order-ceremony-card{animation:none}}
+</style>
+<div class="sl-order-ceremony" id="sl-order-ceremony" hidden aria-hidden="true">
+ <section class="sl-order-ceremony-card" role="dialog" aria-modal="true" aria-labelledby="sl-ceremony-title">
+  <div class="sl-ceremony-mark" aria-hidden="true">✓</div>
+  <div class="sl-ceremony-kicker">SQUISH LAB / ORDER CONFIRMED</div>
+  <h2 class="sl-ceremony-title" id="sl-ceremony-title">一份柔軟，正在為你準備。</h2>
+  <p class="sl-ceremony-copy">感謝你的訂購。你的 SQUISH LAB 訂單已確認送出，接下來就讓我們把這份小小的期待，好好準備給你。</p>
+  <div class="sl-ceremony-order">
+   <small>YOUR ORDER NUMBER</small>
+   <strong id="sl-ceremony-order-id"></strong>
+   <div class="sl-ceremony-total" id="sl-ceremony-total"></div>
+  </div>
+  <div class="sl-ceremony-actions">
+   <button type="button" class="sl-ceremony-track" id="sl-ceremony-track">查看訂單進度</button>
+   <button type="button" class="sl-ceremony-copyid" id="sl-ceremony-copy">複製訂單編號</button>
+   <button type="button" class="sl-ceremony-close" id="sl-ceremony-close">返回 SQUISH LAB</button>
+  </div>
+ </section>
+</div>
+<script id="sl-order-ceremony-script">
+(()=>{
+ const overlay=document.getElementById("sl-order-ceremony");
+ if(!overlay)return;
+ let activeOrderId="";
+ window.showSquishOrderCeremony=function(orderId,total,customer){
+  activeOrderId=String(orderId||"");
+  document.getElementById("sl-ceremony-order-id").textContent=activeOrderId;
+  document.getElementById("sl-ceremony-total").textContent="訂單總額 · RM "+Number(total||0).toFixed(2);
+  overlay.hidden=false;
+  overlay.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+  document.getElementById("sl-ceremony-close").focus();
+ };
+ function close(){
+  overlay.hidden=true;
+  overlay.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+ }
+ document.getElementById("sl-ceremony-close").addEventListener("click",close);
+ overlay.addEventListener("click",event=>{if(event.target===overlay)close();});
+ document.getElementById("sl-ceremony-copy").addEventListener("click",async()=>{
+  const button=document.getElementById("sl-ceremony-copy");
+  try{
+   await navigator.clipboard.writeText(activeOrderId);
+   button.textContent="已複製訂單編號";
+  }catch(_){
+   const field=document.createElement("textarea");
+   field.value=activeOrderId;field.style.position="fixed";field.style.opacity="0";
+   document.body.appendChild(field);field.select();
+   try{document.execCommand("copy");button.textContent="已複製訂單編號";}
+   catch(__){button.textContent="請長按訂單編號複製";}
+   field.remove();
+  }
+ });
+ document.getElementById("sl-ceremony-track").addEventListener("click",()=>{
+  close();
+  const trackingTab=document.querySelector('.sl-nav-item[data-tab="tracking"]');
+  if(trackingTab)trackingTab.click();
+  const input=document.getElementById("tracking-number");
+  if(input){input.value=activeOrderId;input.focus({preventScroll:true});}
+ });
+ document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"&&!overlay.hidden)close();
+ });
+})();
+</script>
+
+
+<script id="sl-v36-apple-capacity-option-bars">
+(function(){
+ const sheet=document.querySelector("#config-backdrop .config-sheet");
+ if(!sheet)return;
+ const priceSelect=document.getElementById("blindbox-price");
+ const ratioSelect=document.getElementById("blindbox-ratio");
+ function buildCards(select,title){
+   if(!select || select.dataset.appleCards==="1")return;
+   select.dataset.appleCards="1";
+   const wrap=document.createElement("div");
+   wrap.className="sl-apple-option-list";
+   wrap.setAttribute("role","radiogroup");
+   wrap.setAttribute("aria-label",title);
+   [...select.options].forEach((option,index)=>{
+     const card=document.createElement("button");
+     card.type="button";
+     card.className="sl-apple-option";
+     card.dataset.value=option.value;
+     card.setAttribute("role","radio");
+     card.setAttribute("aria-checked",select.value===option.value?"true":"false");
+     const label=document.createElement("span");
+     label.className="sl-apple-option-name";
+     label.textContent=option.textContent;
+     const check=document.createElement("span");
+     check.className="sl-apple-option-check";
+     check.textContent="✓";
+     card.append(label,check);
+     card.addEventListener("click",()=>{
+       select.value=option.value;
+       select.dispatchEvent(new Event("change",{bubbles:true}));
+       wrap.querySelectorAll(".sl-apple-option").forEach(item=>{
+         const active=item===card;
+         item.classList.toggle("is-selected",active);
+         item.setAttribute("aria-checked",active?"true":"false");
+       });
+     });
+     wrap.appendChild(card);
+   });
+   select.insertAdjacentElement("afterend",wrap);
+   select.classList.add("sl-apple-native-hidden");
+ }
+ buildCards(priceSelect,"選擇盲盒價格");
+ buildCards(ratioSelect,"選擇內容比例");
+
+ const originalOpen=window.openProductSheet;
+ if(typeof originalOpen==="function"){
+   window.openProductSheet=function(name,price){
+     originalOpen(name,price);
+     [priceSelect,ratioSelect].forEach(select=>{
+       if(!select)return;
+       const wrap=select.nextElementSibling;
+       if(wrap&&wrap.classList.contains("sl-apple-option-list")){
+         wrap.querySelectorAll(".sl-apple-option").forEach(card=>{
+           const active=card.dataset.value===select.value;
+           card.classList.toggle("is-selected",active);
+           card.setAttribute("aria-checked",active?"true":"false");
+         });
+       }
+     });
+   };
+ }
+})();
+</script>
+
+
+<style id="sl-v36-apple-option-bars-style">
+/* Apple-style long rectangular capacity selectors */
+#config-backdrop .config-sheet .config-crust{
+ display:grid!important;
+ grid-template-columns:1fr!important;
+ gap:10px!important;
+}
+#config-backdrop .config-sheet .config-crust label{
+ position:relative!important;display:flex!important;align-items:center!important;
+ justify-content:flex-start!important;flex-direction:row!important;text-align:left!important;
+ width:100%!important;min-height:62px!important;padding:15px 18px!important;
+ border:1px solid #d2d2d7!important;border-radius:13px!important;
+ background:#fff!important;color:#1d1d1f!important;
+ box-shadow:none!important;cursor:pointer!important;
+}
+#config-backdrop .config-sheet .config-crust label:has(input:checked){
+ border:2px solid #0071e3!important;padding:14px 17px!important;
+ background:#f5faff!important;
+}
+#config-backdrop .config-sheet .config-crust input{
+ width:18px!important;height:18px!important;accent-color:#0071e3!important;flex:none!important;
+}
+#config-backdrop .sl-apple-native-hidden{
+ position:absolute!important;width:1px!important;height:1px!important;
+ padding:0!important;margin:-1px!important;overflow:hidden!important;
+ clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;
+}
+#config-backdrop .sl-apple-option-list{
+ display:grid!important;grid-template-columns:1fr!important;gap:9px!important;margin-top:10px!important;
+}
+#config-backdrop .sl-apple-option{
+ width:100%!important;min-height:58px!important;padding:13px 17px!important;
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ border:1px solid #d2d2d7!important;border-radius:13px!important;
+ background:#fff!important;color:#1d1d1f!important;
+ font:inherit!important;font-size:15px!important;font-weight:550!important;text-align:left!important;
+ box-shadow:none!important;cursor:pointer!important;
+}
+#config-backdrop .sl-apple-option.is-selected{
+ border:2px solid #0071e3!important;padding:12px 16px!important;
+ background:#f5faff!important;
+}
+#config-backdrop .sl-apple-option-check{
+ width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+ color:#fff;background:#0071e3;font-size:13px;opacity:0;flex:none;
+}
+#config-backdrop .sl-apple-option.is-selected .sl-apple-option-check{opacity:1}
+#config-backdrop .sl-apple-option:focus-visible,
+#config-backdrop .config-crust label:focus-within{
+ outline:3px solid rgba(0,113,227,.18)!important;outline-offset:2px!important;
+}
+</style>
+
+
+<style id="sl-v37-blindbox-prominent">
+/* Keep the blind-box entry immediately visible in every collection. */
+#shop #products .blindbox-product{
+ grid-column:1/-1!important;
+ width:100%!important;
+ min-height:150px!important;
+ display:flex!important;
+ flex-direction:row!important;
+ align-items:center!important;
+ justify-content:space-between!important;
+ gap:18px!important;
+ padding:22px 24px!important;
+ margin-bottom:4px!important;
+}
+#shop #products .blindbox-product .name{font-size:20px!important}
+#shop #products .blindbox-product .price{font-size:22px!important;margin-bottom:12px!important}
+#shop #products .blindbox-product .add{min-width:138px!important}
+@media(max-width:600px){
+ #shop #products .blindbox-product{min-height:132px!important;padding:17px 16px!important;gap:10px!important}
+ #shop #products .blindbox-product .name{font-size:17px!important}
+ #shop #products .blindbox-product .price{font-size:19px!important}
+ #shop #products .blindbox-product .add{min-width:112px!important;width:auto!important}
+}
+</style>
+
+
+
+<style id="sl-v39-static-blindbox-style">
+#shop #products .blindbox-product{
+ grid-column:1/-1!important;width:100%!important;min-height:142px!important;
+ display:flex!important;flex-direction:row!important;align-items:center!important;
+ justify-content:space-between!important;gap:18px!important;padding:22px 24px!important;
+ margin:0 0 14px!important;background:linear-gradient(135deg,#fffaf0,#f2eadb)!important;
+ border:1px solid rgba(185,148,88,.42)!important;border-radius:22px!important;
+ box-shadow:0 8px 24px rgba(155,122,68,.08)!important;
+}
+#shop #products .blindbox-product .name{font-size:20px!important;font-weight:700!important;color:#27323a!important}
+#shop #products .blindbox-product .desc{font-size:13px!important;color:#8d7958!important;margin-top:8px!important}
+#shop #products .blindbox-product .price{font-size:21px!important;font-weight:700!important;color:#9b7b4c!important;margin-bottom:10px!important}
+#shop #products .blindbox-product .add{min-height:44px!important;padding:0 18px!important;border-radius:999px!important;background:#fff!important;border:1px solid #dfd2b9!important;color:#39434b!important}
+@media(max-width:600px){
+ #shop #products .blindbox-product{min-height:130px!important;padding:17px 15px!important;gap:10px!important}
+ #shop #products .blindbox-product .name{font-size:17px!important}
+ #shop #products .blindbox-product .price{font-size:18px!important}
+ #shop #products .blindbox-product .add{font-size:12px!important;padding:0 12px!important;width:auto!important}
+}
+</style>
+
+
+<style id="sl-v40-balanced-blindbox-and-launch-notice">
+#shop #products .blindbox-product{
+ grid-column:auto!important;width:auto!important;min-height:245px!important;
+ display:flex!important;flex-direction:column!important;align-items:stretch!important;
+ justify-content:space-between!important;gap:28px!important;padding:24px 22px!important;
+ margin:0!important;border:1px solid rgba(185,148,88,.24)!important;
+ border-radius:22px!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(248,246,241,.84))!important;
+ box-shadow:0 8px 22px rgba(48,58,68,.045),inset 0 1px 0 #fff!important;
+}
+#shop #products .blindbox-product .name{font-size:19px!important;font-weight:650!important;color:#303b42!important}
+#shop #products .blindbox-product .desc{font-size:12px!important;color:#879198!important;margin-top:8px!important}
+#shop #products .blindbox-product .price{font-size:23px!important;font-weight:650!important;color:#a9844e!important;margin-bottom:15px!important}
+#shop #products .blindbox-product .add{
+ display:inline-flex!important;width:auto!important;min-width:0!important;min-height:42px!important;
+ padding:0 18px!important;border-radius:999px!important;background:linear-gradient(135deg,#fff,#f8f3e9)!important;
+ border:1px solid rgba(185,148,88,.28)!important;color:#30343a!important;
+}
+#shop #products .launch-notice{
+ grid-column:1/-1!important;width:100%!important;min-height:150px!important;
+ display:flex!important;flex-direction:row!important;align-items:center!important;
+ justify-content:space-between!important;gap:14px!important;padding:24px 26px!important;
+ margin-top:8px!important;border-radius:22px!important;
+ border:1px solid rgba(185,148,88,.35)!important;
+ background:radial-gradient(circle at 88% 25%,rgba(199,164,105,.15),transparent 34%),linear-gradient(125deg,#fffaf0,#f1e8d8)!important;
+}
+#shop #products .launch-notice .name{font-size:22px!important;font-weight:700!important;color:#35434b!important}
+#shop #products .launch-notice .desc{font-size:14px!important;color:#8a9297!important;margin-top:9px!important}
+#shop #products .launch-notice .launch-mark{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ padding:10px 16px!important;border-radius:999px!important;border:1px solid rgba(185,148,88,.38)!important;
+ background:rgba(255,255,255,.65)!important;color:#98794d!important;font-size:10px!important;
+ letter-spacing:.12em!important;white-space:nowrap!important;
+}
+@media(max-width:600px){
+ #shop #products .blindbox-product{min-height:220px!important;padding:17px 14px!important;gap:20px!important;border-radius:18px!important}
+ #shop #products .blindbox-product .name{font-size:16px!important}
+ #shop #products .blindbox-product .price{font-size:19px!important}
+ #shop #products .blindbox-product .add{width:100%!important;padding:0 9px!important;font-size:12px!important}
+ #shop #products .launch-notice{min-height:132px!important;padding:18px 16px!important;gap:10px!important}
+ #shop #products .launch-notice .name{font-size:17px!important}
+ #shop #products .launch-notice .desc{font-size:12px!important}
+ #shop #products .launch-notice .launch-mark{font-size:9px!important;padding:8px 10px!important}
+}
+</style>
+
+
+<style id="sl-v41-fix-grid-and-highlight-blindbox">
+/* Keep the collection grid within the phone viewport. */
+#shop #products{
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:12px!important;
+ width:100%!important;max-width:100%!important;
+ overflow:visible!important;box-sizing:border-box!important;
+}
+#shop #products>.product{
+ min-width:0!important;width:auto!important;max-width:100%!important;
+ box-sizing:border-box!important;overflow:hidden!important;
+}
+#shop #products>.product>div{min-width:0!important;max-width:100%!important}
+#shop #products .product .name,
+#shop #products .product .desc{
+ max-width:100%!important;overflow-wrap:anywhere!important;word-break:normal!important;
+}
+#shop #products .blindbox-product{
+ grid-column:auto!important;
+ min-height:220px!important;
+ display:flex!important;flex-direction:column!important;
+ justify-content:space-between!important;align-items:stretch!important;
+ gap:18px!important;padding:18px 16px!important;
+ border:1.5px solid rgba(178,139,76,.58)!important;
+ border-radius:20px!important;
+ background:linear-gradient(145deg,#fffdf8 0%,#f6edda 100%)!important;
+ box-shadow:0 8px 24px rgba(145,111,58,.10),inset 0 1px 0 #fff!important;
+}
+#shop #products .blindbox-kicker{
+ display:inline-block!important;margin:0 0 10px!important;
+ color:#9a7b4d!important;font-size:9px!important;font-weight:700!important;
+ letter-spacing:.13em!important;line-height:1.4!important;
+}
+#shop #products .blindbox-product .name{
+ font-size:17px!important;line-height:1.35!important;font-weight:700!important;
+ color:#303b42!important;overflow-wrap:anywhere!important;
+}
+#shop #products .blindbox-product .desc{
+ font-size:12px!important;line-height:1.55!important;color:#8a8173!important;
+ margin-top:7px!important;overflow-wrap:anywhere!important;
+}
+#shop #products .blindbox-action{width:100%!important;min-width:0!important}
+#shop #products .blindbox-product .price{
+ font-size:19px!important;line-height:1.3!important;font-weight:700!important;
+ color:#9b7946!important;margin:0 0 12px!important;
+}
+#shop #products .blindbox-product .add{
+ display:flex!important;width:100%!important;min-width:0!important;
+ min-height:44px!important;padding:0 10px!important;
+ align-items:center!important;justify-content:center!important;
+ border:0!important;border-radius:999px!important;
+ background:linear-gradient(135deg,#b99a68,#987545)!important;
+ color:#fff!important;font-size:12px!important;font-weight:700!important;
+ white-space:normal!important;overflow-wrap:anywhere!important;
+ box-shadow:0 5px 14px rgba(154,119,65,.18)!important;
+}
+#shop #products .launch-notice{
+ grid-column:1/-1!important;width:100%!important;min-width:0!important;
+ box-sizing:border-box!important;overflow:hidden!important;
+ display:flex!important;flex-direction:row!important;align-items:center!important;
+ justify-content:space-between!important;gap:12px!important;
+ padding:20px 18px!important;min-height:130px!important;
+}
+#shop #products .launch-notice>div{min-width:0!important;max-width:100%!important}
+#shop #products .launch-notice .name{font-size:19px!important;line-height:1.4!important;overflow-wrap:anywhere!important}
+#shop #products .launch-notice .desc{font-size:12px!important;line-height:1.5!important;overflow-wrap:anywhere!important}
+#shop #products .launch-notice .launch-mark{flex:0 0 auto!important;max-width:42%!important;font-size:9px!important;padding:8px 10px!important;white-space:normal!important}
+@media(max-width:600px){
+ #shop #products{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+ #shop #products>.product{min-height:220px!important;padding:16px 13px!important}
+ #shop #products .blindbox-product{min-height:220px!important;padding:16px 13px!important}
+ #shop #products .blindbox-product .name{font-size:16px!important}
+ #shop #products .blindbox-product .price{font-size:18px!important}
+ #shop #products .blindbox-product .add{font-size:11px!important}
+ #shop #products .launch-notice{grid-column:1/-1!important;min-height:120px!important;padding:16px 14px!important}
+ #shop #products .launch-notice .name{font-size:16px!important}
+}
+</style>
+
 </body>
 <style id="tracking-plain-language-status">
 /* Replace the old step-by-step graphic with a clear live status and next-action explanation. */
