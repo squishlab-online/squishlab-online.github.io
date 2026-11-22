@@ -3730,24 +3730,18 @@ document.getElementById("config-close").addEventListener("click",closeProductShe
 configBackdrop.addEventListener("click",e=>{if(e.target===configBackdrop)closeProductSheet();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!configBackdrop.hidden)closeProductSheet();});
 
-let slAddedScreenTimer=null;
-function showAddedToBagScreen(){
- const screen=document.getElementById("sl-added-to-bag-screen");
- if(!screen)return;
- if(slAddedScreenTimer)clearTimeout(slAddedScreenTimer);
- screen.classList.add("is-visible");
- screen.setAttribute("aria-hidden","false");
- slAddedScreenTimer=setTimeout(()=>{
-  screen.classList.remove("is-visible");
-  screen.setAttribute("aria-hidden","true");
- },2200);
+let slProductAddedToastTimer=null;
+function showSlProductAddedToast(){
+  const toast=document.getElementById("sl-product-added-toast");
+  if(!toast)return;
+  if(slProductAddedToastTimer)clearTimeout(slProductAddedToastTimer);
+  toast.classList.add("is-visible");
+  toast.setAttribute("aria-hidden","false");
+  slProductAddedToastTimer=setTimeout(()=>{
+    toast.classList.remove("is-visible");
+    toast.setAttribute("aria-hidden","true");
+  },1600);
 }
-document.querySelector("#sl-added-to-bag-screen .sl-added-back")?.addEventListener("click",()=>{
- const screen=document.getElementById("sl-added-to-bag-screen");
- if(slAddedScreenTimer)clearTimeout(slAddedScreenTimer);
- screen.classList.remove("is-visible");
- screen.setAttribute("aria-hidden","true");
-});
 
 document.getElementById("config-add").addEventListener("click",(event)=>{
   event.preventDefault();
@@ -3777,7 +3771,7 @@ document.getElementById("config-add").addEventListener("click",(event)=>{
     crust,level:sheetProduct.level,colors,notes});
   renderCart();
   closeProductSheet();
-  showAddedToBagScreen();
+  showSlProductAddedToast();
 });
 
 renderProducts();renderCart();
@@ -5023,74 +5017,56 @@ function syncCheckoutTotal(){
 </style>
 
 
-<style id="sl-added-to-bag-screen-style">
-#sl-added-to-bag-screen{
- position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;
- align-items:center;justify-content:flex-start;
- padding:calc(22px + env(safe-area-inset-top)) 22px calc(112px + env(safe-area-inset-bottom));
- background:rgba(244,245,249,.97);
- -webkit-backdrop-filter:blur(28px) saturate(150%);
- backdrop-filter:blur(28px) saturate(150%);
- opacity:0;visibility:hidden;pointer-events:none;
- transition:opacity .24s ease,visibility .24s ease;
+<style id="sl-product-added-toast-style">
+#sl-product-added-toast{
+  position:fixed;
+  z-index:9999;
+  top:calc(14px + env(safe-area-inset-top));
+  left:50%;
+  transform:translate(-50%,-14px);
+  width:max-content;
+  max-width:calc(100vw - 36px);
+  min-height:54px;
+  padding:0 22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  border:1px solid rgba(145,151,163,.32);
+  border-radius:999px;
+  background:rgba(255,255,255,.88);
+  -webkit-backdrop-filter:blur(22px) saturate(160%);
+  backdrop-filter:blur(22px) saturate(160%);
+  box-shadow:0 8px 28px rgba(35,45,60,.12),inset 0 1px 0 rgba(255,255,255,.95);
+  color:#171c23;
+  font:600 14px/1.2 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;
+  letter-spacing:-.015em;
+  white-space:nowrap;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .22s ease,transform .22s ease,visibility .22s ease;
 }
-#sl-added-to-bag-screen.is-visible{opacity:1;visibility:visible;pointer-events:auto}
-#sl-added-to-bag-screen .sl-added-back{
- position:absolute;left:22px;top:calc(20px + env(safe-area-inset-top));
- width:54px;height:54px;border-radius:50%;
- border:1px solid rgba(140,148,160,.25);
- background:rgba(255,255,255,.78);color:#17191d;
- display:grid;place-items:center;font-size:29px;font-weight:300;
- box-shadow:0 4px 16px rgba(30,35,48,.06),inset 0 1px 0 #fff;
+#sl-product-added-toast.is-visible{
+  opacity:1;
+  visibility:visible;
+  transform:translate(-50%,0);
 }
-#sl-added-to-bag-screen .sl-added-pill{
- margin-top:105px;min-height:82px;padding:0 28px;
- display:flex;align-items:center;justify-content:center;gap:17px;
- border:1px solid rgba(145,151,163,.38);border-radius:999px;
- background:rgba(255,255,255,.74);
- box-shadow:0 8px 25px rgba(34,40,54,.055),inset 0 1px 0 #fff;
- color:#111318;font-size:clamp(16px,4.3vw,21px);font-weight:600;
- letter-spacing:-.025em;white-space:nowrap;
-}
-#sl-added-to-bag-screen .sl-added-check{
- width:42px;height:42px;border:3px solid #111318;border-radius:50%;
- display:grid;place-items:center;font-size:27px;line-height:1;font-weight:500;
- flex:none;
-}
-#sl-added-to-bag-screen .sl-added-spinner{
- position:absolute;left:50%;top:51%;width:38px;height:38px;
- transform:translate(-50%,-50%);
-}
-#sl-added-to-bag-screen .sl-added-spinner i{
- position:absolute;left:17px;top:0;width:4px;height:10px;border-radius:4px;
- background:#aeb0b7;transform-origin:2px 19px;
- animation:slAddedSpin .9s linear infinite;
-}
-#sl-added-to-bag-screen .sl-added-spinner i:nth-child(1){transform:rotate(0deg);opacity:1}
-#sl-added-to-bag-screen .sl-added-spinner i:nth-child(2){transform:rotate(45deg);opacity:.88}
-#sl-added-to-bag-screen .sl-added-spinner i:nth-child(3){transform:rotate(90deg);opacity:.76}
-#sl-added-to-bag-screen .sl-added-spinner i:nth-child(4){transform:rotate(135deg);opacity:.64}
-#sl-added-to-bag-screen .sl-added-spinner i:nth-child(5){transform:rotate(180deg);opacity:.52}
-#sl-added-to-bag-screen .sl-added-spinner i:nth-child(6){transform:rotate(225deg);opacity:.4}
-#sl-added-to-bag-screen .sl-added-spinner i:nth-child(7){transform:rotate(270deg);opacity:.3}
-#sl-added-to-bag-screen .sl-added-spinner i:nth-child(8){transform:rotate(315deg);opacity:.2}
-@keyframes slAddedSpin{to{rotate:360deg}}
-@media(max-width:600px){
- #sl-added-to-bag-screen .sl-added-pill{margin-top:105px;min-height:78px;padding:0 22px;gap:14px}
- #sl-added-to-bag-screen .sl-added-check{width:39px;height:39px;font-size:25px}
+#sl-product-added-toast .sl-toast-check{
+  width:25px;height:25px;flex:none;
+  border:2px solid currentColor;border-radius:50%;
+  display:grid;place-items:center;
+  font-size:17px;line-height:1;font-weight:600;
 }
 @media(prefers-reduced-motion:reduce){
- #sl-added-to-bag-screen,#sl-added-to-bag-screen .sl-added-spinner i{transition:none!important;animation:none!important}
+  #sl-product-added-toast{transition:none}
 }
 </style>
 
 
-<div id="sl-added-to-bag-screen" aria-live="polite" aria-hidden="true">
- <button class="sl-added-back" type="button" aria-label="返回">‹</button>
- <div class="sl-added-pill"><span class="sl-added-check" aria-hidden="true">✓</span><span>Product added to Bag</span></div>
- <div class="sl-added-spinner" aria-hidden="true">
-  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
- </div>
+<div id="sl-product-added-toast" role="status" aria-live="polite" aria-hidden="true">
+  <span class="sl-toast-check" aria-hidden="true">✓</span>
+  <span>Product added to Bag</span>
 </div>
 
 </body>
