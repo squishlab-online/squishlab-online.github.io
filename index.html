@@ -3729,6 +3729,26 @@ document.getElementById("blindbox-price").addEventListener("change",e=>{
 document.getElementById("config-close").addEventListener("click",closeProductSheet);
 configBackdrop.addEventListener("click",e=>{if(e.target===configBackdrop)closeProductSheet();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!configBackdrop.hidden)closeProductSheet();});
+
+let slAddedScreenTimer=null;
+function showAddedToBagScreen(){
+ const screen=document.getElementById("sl-added-to-bag-screen");
+ if(!screen)return;
+ if(slAddedScreenTimer)clearTimeout(slAddedScreenTimer);
+ screen.classList.add("is-visible");
+ screen.setAttribute("aria-hidden","false");
+ slAddedScreenTimer=setTimeout(()=>{
+  screen.classList.remove("is-visible");
+  screen.setAttribute("aria-hidden","true");
+ },2200);
+}
+document.querySelector("#sl-added-to-bag-screen .sl-added-back")?.addEventListener("click",()=>{
+ const screen=document.getElementById("sl-added-to-bag-screen");
+ if(slAddedScreenTimer)clearTimeout(slAddedScreenTimer);
+ screen.classList.remove("is-visible");
+ screen.setAttribute("aria-hidden","true");
+});
+
 document.getElementById("config-add").addEventListener("click",(event)=>{
   event.preventDefault();
   if(!sheetProduct)return;
@@ -3757,6 +3777,7 @@ document.getElementById("config-add").addEventListener("click",(event)=>{
     crust,level:sheetProduct.level,colors,notes});
   renderCart();
   closeProductSheet();
+  showAddedToBagScreen();
 });
 
 renderProducts();renderCart();
@@ -5000,6 +5021,77 @@ function syncCheckoutTotal(){
  #shop #products .launch-notice .name{font-size:16px!important}
 }
 </style>
+
+
+<style id="sl-added-to-bag-screen-style">
+#sl-added-to-bag-screen{
+ position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;
+ align-items:center;justify-content:flex-start;
+ padding:calc(22px + env(safe-area-inset-top)) 22px calc(112px + env(safe-area-inset-bottom));
+ background:rgba(244,245,249,.97);
+ -webkit-backdrop-filter:blur(28px) saturate(150%);
+ backdrop-filter:blur(28px) saturate(150%);
+ opacity:0;visibility:hidden;pointer-events:none;
+ transition:opacity .24s ease,visibility .24s ease;
+}
+#sl-added-to-bag-screen.is-visible{opacity:1;visibility:visible;pointer-events:auto}
+#sl-added-to-bag-screen .sl-added-back{
+ position:absolute;left:22px;top:calc(20px + env(safe-area-inset-top));
+ width:54px;height:54px;border-radius:50%;
+ border:1px solid rgba(140,148,160,.25);
+ background:rgba(255,255,255,.78);color:#17191d;
+ display:grid;place-items:center;font-size:29px;font-weight:300;
+ box-shadow:0 4px 16px rgba(30,35,48,.06),inset 0 1px 0 #fff;
+}
+#sl-added-to-bag-screen .sl-added-pill{
+ margin-top:105px;min-height:82px;padding:0 28px;
+ display:flex;align-items:center;justify-content:center;gap:17px;
+ border:1px solid rgba(145,151,163,.38);border-radius:999px;
+ background:rgba(255,255,255,.74);
+ box-shadow:0 8px 25px rgba(34,40,54,.055),inset 0 1px 0 #fff;
+ color:#111318;font-size:clamp(16px,4.3vw,21px);font-weight:600;
+ letter-spacing:-.025em;white-space:nowrap;
+}
+#sl-added-to-bag-screen .sl-added-check{
+ width:42px;height:42px;border:3px solid #111318;border-radius:50%;
+ display:grid;place-items:center;font-size:27px;line-height:1;font-weight:500;
+ flex:none;
+}
+#sl-added-to-bag-screen .sl-added-spinner{
+ position:absolute;left:50%;top:51%;width:38px;height:38px;
+ transform:translate(-50%,-50%);
+}
+#sl-added-to-bag-screen .sl-added-spinner i{
+ position:absolute;left:17px;top:0;width:4px;height:10px;border-radius:4px;
+ background:#aeb0b7;transform-origin:2px 19px;
+ animation:slAddedSpin .9s linear infinite;
+}
+#sl-added-to-bag-screen .sl-added-spinner i:nth-child(1){transform:rotate(0deg);opacity:1}
+#sl-added-to-bag-screen .sl-added-spinner i:nth-child(2){transform:rotate(45deg);opacity:.88}
+#sl-added-to-bag-screen .sl-added-spinner i:nth-child(3){transform:rotate(90deg);opacity:.76}
+#sl-added-to-bag-screen .sl-added-spinner i:nth-child(4){transform:rotate(135deg);opacity:.64}
+#sl-added-to-bag-screen .sl-added-spinner i:nth-child(5){transform:rotate(180deg);opacity:.52}
+#sl-added-to-bag-screen .sl-added-spinner i:nth-child(6){transform:rotate(225deg);opacity:.4}
+#sl-added-to-bag-screen .sl-added-spinner i:nth-child(7){transform:rotate(270deg);opacity:.3}
+#sl-added-to-bag-screen .sl-added-spinner i:nth-child(8){transform:rotate(315deg);opacity:.2}
+@keyframes slAddedSpin{to{rotate:360deg}}
+@media(max-width:600px){
+ #sl-added-to-bag-screen .sl-added-pill{margin-top:105px;min-height:78px;padding:0 22px;gap:14px}
+ #sl-added-to-bag-screen .sl-added-check{width:39px;height:39px;font-size:25px}
+}
+@media(prefers-reduced-motion:reduce){
+ #sl-added-to-bag-screen,#sl-added-to-bag-screen .sl-added-spinner i{transition:none!important;animation:none!important}
+}
+</style>
+
+
+<div id="sl-added-to-bag-screen" aria-live="polite" aria-hidden="true">
+ <button class="sl-added-back" type="button" aria-label="返回">‹</button>
+ <div class="sl-added-pill"><span class="sl-added-check" aria-hidden="true">✓</span><span>Product added to Bag</span></div>
+ <div class="sl-added-spinner" aria-hidden="true">
+  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+ </div>
+</div>
 
 </body>
 <style id="tracking-plain-language-status">
