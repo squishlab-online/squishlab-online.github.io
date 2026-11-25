@@ -3124,29 +3124,48 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 </section>
 
 <section class="section sl-tab-page" hidden id="checkout-page" data-sl-page="checkout">
-  <div class="section-head"><h2>填寫訂單資料</h2><small>CHECKOUT / 02</small></div>
-  <div class="checkout-shell">
-    <div class="checkout-progress" aria-label="訂單流程">
-      <span class="is-done"><i>1</i> 購物袋</span><span class="progress-line"></span>
-      <span class="is-current"><i>2</i> 顧客資料</span><span class="progress-line"></span>
-      <span><i>3</i> 完成訂單</span>
+  <div class="section-head"><h2>確認訂單</h2><small>CHECKOUT</small></div>
+  <div class="checkout-shell sl-checkout-shell">
+    <div class="sl-checkout-heading"><span>安全、簡單的訂購流程</span><h3 id="sl-checkout-title">選擇取貨方式</h3><p id="sl-checkout-subtitle">先告訴我們，你希望如何收到商品。</p></div>
+    <div class="checkout-progress sl-progress" aria-label="訂單流程">
+      <span class="is-current" data-step-indicator="1"><i>1</i> 取貨方式</span><span class="progress-line"></span>
+      <span data-step-indicator="2"><i>2</i> 顧客資料</span><span class="progress-line"></span>
+      <span data-step-indicator="3"><i>3</i> 確認訂單</span>
     </div>
-    <div class="checkout-summary">
-      <div><small>ORDER SUMMARY</small><strong>訂單商品小計</strong></div>
+    <div class="checkout-summary sl-checkout-mini-summary">
+      <div><small>YOUR ORDER</small><strong id="sl-checkout-item-count">0 件商品</strong></div>
       <b id="checkout-sum">RM 0.00</b>
-      <button type="button" id="back-to-bag">返回購物袋</button>
+      <button type="button" id="back-to-bag">編輯購物袋</button>
     </div>
-    <div class="panel checkout-panel">
-      <form id="checkout">
-        <div class="field"><label for="customer">姓名 *</label><input id="customer" placeholder="收件人姓名" required=""/></div>
-        <div class="field"><label for="contact">聯絡方式（WhatsApp / Instagram）*</label><input id="contact" placeholder="方便聯絡的方式" required=""/></div>
-        <div class="field"><label for="delivery">取貨方式 *</label><select id="delivery" required=""><option value="">請選擇</option><option>詩巫面交</option><option>郵寄</option></select></div>
-        <div class="field"><label for="address">郵寄地址（選擇郵寄時填寫）</label><textarea id="address" placeholder="收件地址"></textarea></div>
-        <div class="field"><label for="notes">其他備註／拼單贈品選擇</label><textarea id="notes" placeholder="可填寫拼單朋友姓名或其他訂單備註。"></textarea></div>
-        <button class="primary checkout-submit" type="submit">提交訂單 →</button>
-        <div aria-live="polite" id="status"></div><div class="order-id-confirmation" hidden="" id="order-id-confirmation"></div>
+    <div class="panel checkout-panel sl-checkout-panel">
+      <form id="checkout" novalidate>
+        <div class="sl-checkout-step is-active" data-checkout-step="1">
+          <div class="field"><label for="delivery">取貨方式 *</label>
+            <div class="sl-delivery-options">
+              <label class="sl-delivery-option"><input type="radio" name="delivery-choice" value="詩巫面交"><span class="sl-delivery-icon">⌖</span><span><b>詩巫面交</b><small>在詩巫安排面交取貨</small></span><i>✓</i></label>
+              <label class="sl-delivery-option"><input type="radio" name="delivery-choice" value="郵寄"><span class="sl-delivery-icon">↗</span><span><b>郵寄</b><small>寄送至你提供的地址</small></span><i>✓</i></label>
+            </div>
+            <select id="delivery" aria-label="取貨方式" tabindex="-1"><option value="">請選擇</option><option>詩巫面交</option><option>郵寄</option></select>
+          </div>
+          <div class="field sl-address-field" id="sl-address-field" hidden><label for="address">收件地址 *</label><textarea id="address" placeholder="請填寫完整收件地址"></textarea></div>
+          <div class="sl-checkout-actions"><button class="sl-secondary-action" type="button" id="sl-checkout-cancel">返回購物袋</button><button class="primary sl-next-action" type="button" data-next-step="2">繼續 →</button></div>
+        </div>
+        <div class="sl-checkout-step" data-checkout-step="2" hidden>
+          <div class="field"><label for="customer">姓名 *</label><input id="customer" autocomplete="name" placeholder="收件人姓名"/></div>
+          <div class="field"><label for="contact">聯絡方式（WhatsApp / Instagram）*</label><input id="contact" autocomplete="tel" placeholder="方便聯絡的方式"/></div>
+          <div class="field"><label for="notes">其他備註／拼單贈品選擇</label><textarea id="notes" placeholder="可填寫拼單朋友姓名或其他訂單備註。"></textarea></div>
+          <div class="sl-checkout-actions"><button class="sl-secondary-action" type="button" data-prev-step="1">返回</button><button class="primary sl-next-action" type="button" data-next-step="3">檢查訂單 →</button></div>
+        </div>
+        <div class="sl-checkout-step" data-checkout-step="3" hidden>
+          <div class="sl-review-block"><div class="sl-review-label">ORDER ITEMS</div><div id="sl-review-items"></div><div class="sl-review-total"><span>商品小計</span><strong id="sl-review-total">RM 0.00</strong></div></div>
+          <div class="sl-review-block"><div class="sl-review-label">DELIVERY & CONTACT</div><div id="sl-review-details"></div></div>
+          <div class="sl-manual-payment-note"><b>付款方式</b><p>提交訂單後，我們會透過你提供的聯絡方式確認訂單、運費及付款安排。此步驟不會即時扣款。</p></div>
+          <div class="sl-checkout-actions"><button class="sl-secondary-action" type="button" data-prev-step="2">返回修改</button><button class="primary checkout-submit sl-place-order" type="submit">提交訂單 →</button></div>
+        </div>
+        <div aria-live="polite" id="status" role="status"></div><div class="order-id-confirmation" hidden="" id="order-id-confirmation"></div>
       </form>
     </div>
+    <p class="sl-checkout-footnote">訂單提交後，我們會人工確認商品、運費及付款安排。商品小計不包含尚未確認的郵寄費用。</p>
   </div>
 </section>
 
@@ -5068,6 +5087,76 @@ function syncCheckoutTotal(){
   <span class="sl-toast-check" aria-hidden="true">✓</span>
   <span>Product added to Bag</span>
 </div>
+
+
+<style id="sl-apple-checkout-flow">
+.sl-checkout-shell{max-width:760px!important}.sl-checkout-heading{padding:12px 2px 22px}.sl-checkout-heading>span{font-size:11px;letter-spacing:.12em;color:#818b98}.sl-checkout-heading h3{font-size:clamp(30px,6vw,44px);font-weight:620;letter-spacing:-.045em;margin:10px 0 8px;color:#18212b}.sl-checkout-heading p{font-size:13px;color:#7b8794;line-height:1.8;margin:0}.sl-progress{margin:0 0 20px!important}.sl-progress span:not(.progress-line){font-size:11px}.sl-progress .is-current{color:#0878e8!important}.sl-progress .is-current i,.sl-progress .is-done i{background:#0878e8!important;border-color:#0878e8!important}.sl-checkout-mini-summary{border-radius:18px!important;margin-bottom:14px!important}.sl-checkout-mini-summary button{width:auto;grid-column:1/-1;min-height:34px;margin:7px 0 0;padding:0 12px;border:0;background:transparent;color:#0878e8;text-align:left;font-size:12px}.sl-checkout-panel{padding:clamp(22px,4vw,34px)!important;border-radius:24px!important}.sl-checkout-step[hidden]{display:none!important}.sl-checkout-step{animation:slCheckoutIn .34s cubic-bezier(.2,.75,.2,1)}@keyframes slCheckoutIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}.sl-delivery-options{display:grid;gap:11px}.sl-delivery-option{position:relative;display:grid;grid-template-columns:42px 1fr 24px;align-items:center;gap:13px;padding:17px;border:1px solid rgba(126,143,161,.22);border-radius:17px;background:rgba(255,255,255,.55);cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s}.sl-delivery-option input{position:absolute;opacity:0;pointer-events:none}.sl-delivery-option:has(input:checked){border-color:#1681ed;background:rgba(239,247,255,.9);box-shadow:0 0 0 2px rgba(22,129,237,.10)}.sl-delivery-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:rgba(226,235,245,.7);font-size:23px;color:#50657a}.sl-delivery-option b,.sl-delivery-option small{display:block}.sl-delivery-option b{font-size:14px;color:#263442}.sl-delivery-option small{font-size:11px;color:#8793a0;margin-top:5px}.sl-delivery-option>i{width:21px;height:21px;border:1px solid #c8d1da;border-radius:50%;display:grid;place-items:center;color:transparent;font-size:12px;font-style:normal}.sl-delivery-option:has(input:checked)>i{background:#0878e8;border-color:#0878e8;color:white}.sl-address-field{margin-top:18px}.sl-checkout-actions{display:grid;grid-template-columns:minmax(100px,.7fr) minmax(0,1.3fr);gap:10px;margin-top:26px}.sl-checkout-actions button{min-height:52px;border-radius:15px!important;margin:0!important}.sl-secondary-action{border:1px solid rgba(125,141,158,.25);background:rgba(255,255,255,.7);color:#536273;font-size:13px}.sl-next-action,.sl-place-order{width:100%;font-size:14px!important}.sl-review-block{padding:18px 0;border-bottom:1px solid rgba(125,141,158,.17)}.sl-review-label{font-size:10px;letter-spacing:.15em;color:#8a96a3;margin-bottom:14px}.sl-review-line{display:flex;justify-content:space-between;gap:15px;padding:8px 0;font-size:13px;color:#52606e}.sl-review-line small{display:block;color:#8b96a2;font-size:11px;margin-top:4px}.sl-review-total{display:flex;justify-content:space-between;border-top:1px solid rgba(125,141,158,.18);margin-top:10px;padding-top:15px;font-size:14px}.sl-review-total strong{font-size:19px;color:#253444}.sl-review-detail{font-size:13px;line-height:1.9;color:#52606e;margin:5px 0}.sl-review-detail b{color:#273644}.sl-manual-payment-note{margin-top:18px;padding:16px;border:1px solid rgba(125,141,158,.18);border-radius:16px;background:rgba(245,248,251,.68)}.sl-manual-payment-note b{font-size:13px;color:#354454}.sl-manual-payment-note p{font-size:12px;line-height:1.9;color:#778391;margin:7px 0 0}.sl-checkout-footnote{max-width:650px;margin:16px auto 0;font-size:10px;line-height:1.8;color:#8994a0;text-align:center}.sl-checkout-step .field label{display:block;margin-bottom:9px}.sl-checkout-step input:not([type=radio]),.sl-checkout-step textarea{width:100%}#delivery{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;left:-9999px!important}
+@media(max-width:600px){.sl-checkout-heading{padding:8px 2px 18px}.sl-progress{gap:5px!important}.sl-progress span:not(.progress-line){gap:4px;font-size:10px}.sl-progress i{width:20px!important;height:20px!important}.sl-checkout-mini-summary{padding:15px!important}.sl-checkout-panel{padding:20px!important}.sl-delivery-option{padding:14px;grid-template-columns:38px 1fr 22px}.sl-delivery-icon{width:36px;height:36px}.sl-checkout-actions{grid-template-columns:.72fr 1.28fr}}
+@media(prefers-reduced-motion:reduce){.sl-checkout-step{animation:none}}
+</style>
+<script id="sl-apple-checkout-controller">
+(()=>{
+ const form=document.getElementById('checkout');if(!form)return;
+ let step=1;
+ const steps=[...form.querySelectorAll('[data-checkout-step]')];
+ const title=document.getElementById('sl-checkout-title');
+ const subtitle=document.getElementById('sl-checkout-subtitle');
+ const titles={1:['選擇取貨方式','先告訴我們，你希望如何收到商品。'],2:['填寫聯絡資料','讓我們知道如何與你確認訂單。'],3:['檢查你的訂單','提交前，請確認以下商品與資料正確。']};
+ const delivery=document.getElementById('delivery');
+ const address=document.getElementById('address');
+ const addressField=document.getElementById('sl-address-field');
+ const status=document.getElementById('status');
+ function total(){return [...(typeof cart!=="undefined"?cart:[])].reduce((n,x)=>n+(Number(x.price)||0)*(Number(x.qty)||0),0)}
+ function moneyText(n){return 'RM '+Number(n||0).toFixed(2)}
+ function syncDelivery(){
+  const selected=form.querySelector('input[name="delivery-choice"]:checked');
+  delivery.value=selected?selected.value:'';
+  const mail=delivery.value==='郵寄';addressField.hidden=!mail;
+  address.required=mail;
+ }
+ function updateReview(){
+  const items=document.getElementById('sl-review-items');items.replaceChildren();
+  (typeof cart!=="undefined"?cart:[]).forEach(item=>{
+   const row=document.createElement('div');row.className='sl-review-line';
+   const left=document.createElement('div');left.textContent=item.name;
+   const spec=document.createElement('small');spec.textContent=(item.level==='blindbox'?'盲盒設定：'+(item.notes||'未設定'):'脆皮等級：'+(item.crust||'標準脆皮'))+(item.colors?' · '+item.colors:'');left.appendChild(spec);
+   const right=document.createElement('b');right.textContent=moneyText(item.price*item.qty)+' × '+item.qty;
+   row.append(left,right);items.appendChild(row);
+  });
+  if(!(typeof cart!=="undefined"?cart:[]).length){const e=document.createElement('p');e.textContent='購物袋目前沒有商品。';items.appendChild(e)}
+  document.getElementById('sl-review-total').textContent=moneyText(total());
+  document.getElementById('sl-checkout-item-count').textContent=(typeof cart!=="undefined"?cart:[]).reduce((n,x)=>n+(Number(x.qty)||0),0)+' 件商品';
+  const details=document.getElementById('sl-review-details');details.replaceChildren();
+  const pairs=[['取貨方式',delivery.value],...(delivery.value==='郵寄'?[['收件地址',address.value.trim()]]:[]),['姓名',document.getElementById('customer').value.trim()],['聯絡方式',document.getElementById('contact').value.trim()],['備註',document.getElementById('notes').value.trim()||'無']];
+  pairs.forEach(([k,v])=>{const p=document.createElement('p');p.className='sl-review-detail';const b=document.createElement('b');b.textContent=k+'：';p.append(b,document.createTextNode(v));details.appendChild(p)});
+ }
+ function setStep(next){
+  step=next;steps.forEach(el=>{const active=Number(el.dataset.checkoutStep)===step;el.hidden=!active;el.classList.toggle('is-active',active)});
+  form.querySelectorAll('[data-step-indicator]').forEach(el=>{const n=Number(el.dataset.stepIndicator);el.classList.toggle('is-current',n===step);el.classList.toggle('is-done',n<step)});
+  title.textContent=titles[step][0];subtitle.textContent=titles[step][1];
+  document.getElementById('checkout-page').scrollIntoView({behavior:'smooth',block:'start'});
+  if(step===3)updateReview();
+ }
+ function validateStep(){
+  status.textContent='';
+  if(step===1){syncDelivery();if(!delivery.value){status.textContent='請先選擇取貨方式。';return false}if(delivery.value==='郵寄'&&!address.value.trim()){status.textContent='請填寫完整收件地址。';address.focus();return false}}
+  if(step===2){const customer=document.getElementById('customer'),contact=document.getElementById('contact');if(!customer.value.trim()){status.textContent='請填寫收件人姓名。';customer.focus();return false}if(!contact.value.trim()){status.textContent='請填寫聯絡方式。';contact.focus();return false}}
+  return true;
+ }
+ form.querySelectorAll('[data-next-step]').forEach(btn=>btn.addEventListener('click',()=>{if(validateStep())setStep(Number(btn.dataset.nextStep))}));
+ form.querySelectorAll('[data-prev-step]').forEach(btn=>btn.addEventListener('click',()=>setStep(Number(btn.dataset.prevStep))));
+ form.querySelectorAll('input[name="delivery-choice"]').forEach(r=>r.addEventListener('change',syncDelivery));
+ document.getElementById('sl-checkout-cancel').addEventListener('click',()=>window.slNavigate?.('bag'));
+ document.getElementById('back-to-bag').addEventListener('click',()=>window.slNavigate?.('bag'));
+ document.getElementById('go-checkout')?.addEventListener('click',()=>setStep(1));
+ form.addEventListener('submit',e=>{if(step!==3){e.preventDefault();e.stopImmediatePropagation();status.textContent='請依序完成前面的訂單步驟。';return}if(!validateStep()){e.preventDefault();e.stopImmediatePropagation();return}syncDelivery();updateReview()},true);
+ const originalNavigate=window.slNavigate;
+ if(originalNavigate){window.slNavigate=function(tab,...args){if(tab==='checkout'){setStep(1);status.textContent='';}return originalNavigate.call(this,tab,...args)}}
+ const observer=new MutationObserver(()=>{if(!document.getElementById('checkout-page').hidden){document.getElementById('checkout-sum').textContent=moneyText(total());document.getElementById('sl-checkout-item-count').textContent=(typeof cart!=="undefined"?cart:[]).reduce((n,x)=>n+(Number(x.qty)||0),0)+' 件商品'}});
+ observer.observe(document.getElementById('sum'),{childList:true,subtree:true,characterData:true});
+ setStep(1);
+})();
+</script>
 
 </body>
 <style id="tracking-plain-language-status">
