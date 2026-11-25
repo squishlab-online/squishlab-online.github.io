@@ -2943,6 +2943,24 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 }
 </style>
 
+
+<style id="sl-gift-reward-style">
+.sl-gift-offer{margin:16px 0 4px;padding:16px 18px;border:1px solid rgba(190,157,99,.32);border-radius:18px;background:linear-gradient(120deg,rgba(255,250,237,.95),rgba(255,255,255,.92));box-shadow:0 8px 24px rgba(164,130,72,.08)}
+.sl-gift-offer[hidden],.sl-gift-backdrop[hidden]{display:none!important}
+.sl-gift-offer strong{display:block;font-size:13px;color:#80643a;margin-bottom:5px}
+.sl-gift-offer p{font-size:11px;line-height:1.7;color:#82765f;margin:0 0 10px}
+.sl-gift-offer button{border:1px solid rgba(172,135,75,.38);border-radius:999px;background:linear-gradient(135deg,#fff,#f4e8cf);color:#73572f;padding:10px 16px;font-size:11px;font-weight:650}
+.sl-gift-backdrop{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(20,27,34,.48);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);animation:slGiftFade .22s ease both}
+.sl-gift-sheet{position:relative;width:min(100%,620px);max-height:86vh;overflow:auto;padding:30px clamp(20px,4vw,36px) 24px;border:1px solid rgba(255,255,255,.95);border-radius:30px;background:linear-gradient(145deg,#fffefa,#f5f1e8);box-shadow:0 30px 100px rgba(12,22,34,.24);animation:slGiftRise .34s cubic-bezier(.2,.8,.2,1) both}
+.sl-gift-kicker{font-size:9px;letter-spacing:.22em;color:#a58a5d}.sl-gift-close{position:absolute;right:18px;top:15px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(120,110,90,.08);font-size:23px;color:#776c5b}
+.sl-gift-sparkle{text-align:center;margin:14px 0 2px;color:#c4a36a;font-size:34px;text-shadow:0 0 18px rgba(196,163,106,.55);animation:slGiftTwinkle 2.2s ease-in-out infinite}
+.sl-gift-sheet h3{text-align:center;font-size:clamp(22px,4vw,29px);font-weight:500;letter-spacing:.05em;color:#38352f;margin:4px 0 9px}.sl-gift-intro{text-align:center;max-width:450px;margin:0 auto 20px;font-size:12px;line-height:1.9;color:#777064}
+.sl-gift-tabs{display:flex;justify-content:center;gap:9px;margin:0 0 14px}.sl-gift-tabs span{padding:7px 13px;border-radius:999px;background:rgba(184,151,96,.11);color:#92764a;font-size:10px;letter-spacing:.06em}
+.sl-gift-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.sl-gift-choice{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;padding:13px 14px;border:1px solid rgba(183,159,119,.24);border-radius:15px;background:rgba(255,255,255,.78);color:#49443b;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}.sl-gift-choice:hover{transform:translateY(-2px);border-color:rgba(183,145,81,.55);box-shadow:0 8px 20px rgba(155,126,78,.10)}.sl-gift-choice b{font-size:12px;font-weight:550}.sl-gift-choice small{font-size:10px;color:#9a835e;white-space:nowrap}.sl-gift-foot{text-align:center;margin:17px 0 0;font-size:10px;line-height:1.8;color:#948a79}
+@keyframes slGiftFade{from{opacity:0}to{opacity:1}}@keyframes slGiftRise{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes slGiftTwinkle{0%,100%{opacity:.65;transform:scale(.94) rotate(-7deg)}50%{opacity:1;transform:scale(1.08) rotate(7deg)}}
+@media(max-width:520px){.sl-gift-sheet{padding:26px 16px 20px;border-radius:24px}.sl-gift-options{grid-template-columns:1fr}.sl-gift-choice{padding:12px 13px}}
+@media(prefers-reduced-motion:reduce){.sl-gift-backdrop,.sl-gift-sheet,.sl-gift-sparkle{animation:none!important}.sl-gift-choice{transition:none!important}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -3119,6 +3137,7 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
         <span class="bag-count" id="bag-count-label">0 件商品</span>
       </div>
       <div id="cart"><div class="empty">目前還沒有選購商品。</div></div>
+      <div id="sl-gift-offer" class="sl-gift-offer" hidden></div>
       <div class="total"><span>商品小計</span><b id="sum">RM 0.00</b></div>
       <p class="notice">商品小計只計算已選購商品的固定價格；郵寄費用將依訂單資料另行確認。</p>
       <button class="primary bag-continue" id="go-checkout" type="button">確認購物袋並繼續 →</button>
@@ -3255,6 +3274,18 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 <p class="config-footnote">基礎系列可指定不同區域的顏色；高級系列只需選擇脆皮等級。每件商品的設定會分開保存。</p>
 </section>
 </div>
+<div class="sl-gift-backdrop" id="sl-gift-backdrop" hidden aria-hidden="true">
+  <section class="sl-gift-sheet" role="dialog" aria-modal="true" aria-labelledby="sl-gift-title">
+    <div class="sl-gift-kicker">SQUISH LAB / A LITTLE GIFT</div>
+    <button class="sl-gift-close" id="sl-gift-close" type="button" aria-label="關閉">×</button>
+    <div class="sl-gift-sparkle" aria-hidden="true">✧</div>
+    <h3 id="sl-gift-title">恭喜達成滿額禮遇</h3>
+    <p class="sl-gift-intro">符合 RM15 滿額條件，可免費自選一件中階或高階捏捏。選好後，像一般商品一樣設定規格並加入購物袋。</p>
+    <div class="sl-gift-tabs"><span>中階捏捏</span><span>高階捏捏</span></div>
+    <div class="sl-gift-options" id="sl-gift-options"></div>
+    <p class="sl-gift-foot">爆漿脆皮鴨蛋不計入滿額金額，也不列入贈品選項。每張符合資格的訂單限選一件。</p>
+  </section>
+</div>
 <script>
 const products = {
  basic: [
@@ -3280,6 +3311,9 @@ Object.keys(products).forEach(category => {
 // Restore core shop state removed during the previous palette refactor.
 let category = "premium";
 let cart = [];
+let giftPrompted = false;
+let giftFlowActive = false;
+let giftPreviousCategory = "premium";
 
 const productColorRules = {
   "脆皮棉花糖":2,
@@ -3320,19 +3354,33 @@ function renderProducts(){
  notice.innerHTML='<div><div class="name">12月10日上新通知</div><div class="desc">新品即將上架 · 敬請期待</div></div><div class="launch-mark">COMING SOON</div>';
  root.appendChild(notice);
 }
+function qualifyingGiftSubtotal(){
+ return cart.filter(x=>!x.isGift&&x.name!=="爆漿脆皮鴨蛋").reduce((sum,x)=>sum+x.price*x.qty,0);
+}
 function renderCart(){
  const root=document.getElementById("cart");root.innerHTML="";
  if(!cart.length)root.innerHTML='<div class="empty">目前還沒有選購商品。</div>';
  cart.forEach((item,i)=>{
   const row=document.createElement("div");row.className="cart-row";
-  const details=[item.level==="blindbox"?`盲盒設定：${item.notes||"未設定"}`:`脆皮等級：${item.crust||"標準脆皮"}`,item.colors?`商品配色：${item.colors}`:"",item.notes?`備註：${item.notes}`:""].filter(Boolean).join("<br>");
-  row.innerHTML=`<div>${item.name}<br><small>${money(item.price)} / 個</small><div class="cart-spec">${details}</div></div><div class="qty"><button type="button" aria-label="減少">−</button><span>${item.qty}</span><button type="button" aria-label="增加">＋</button></div><div>${money(item.price*item.qty)}<br><button class="remove" type="button">移除</button></div>`;
+  const details=[item.isGift?"🎁 滿 RM15 贈品 · 免費自選":"",item.level==="blindbox"?`盲盒設定：${item.notes||"未設定"}`:`脆皮等級：${item.crust||"標準脆皮"}`,item.colors?`商品配色：${item.colors}`:"",item.notes?`備註：${item.notes}`:""].filter(Boolean).join("<br>");
+  const priceLabel=item.isGift?"免費贈品":money(item.price)+" / 個";
+  row.innerHTML=`<div>${item.name}<br><small>${priceLabel}</small><div class="cart-spec">${details}</div></div><div class="qty"><button type="button" aria-label="減少" ${item.isGift?"disabled":""}>−</button><span>${item.qty}</span><button type="button" aria-label="增加" ${item.isGift?"disabled":""}>＋</button></div><div>${item.isGift?"RM 0.00":money(item.price*item.qty)}<br><button class="remove" type="button">${item.isGift?"更換贈品":"移除"}</button></div>`;
   const buttons=row.querySelectorAll(".qty button");
-  buttons[0].onclick=()=>{item.qty--;if(item.qty<=0)cart.splice(i,1);renderCart();};
-  buttons[1].onclick=()=>{item.qty++;renderCart();};
-  row.querySelector(".remove").onclick=()=>{cart.splice(i,1);renderCart();};
+  buttons[0].onclick=()=>{if(item.isGift)return;item.qty--;if(item.qty<=0)cart.splice(i,1);renderCart();};
+  buttons[1].onclick=()=>{if(item.isGift)return;item.qty++;renderCart();};
+  row.querySelector(".remove").onclick=()=>{cart.splice(i,1);if(item.isGift)giftPrompted=true;renderCart();};
   root.appendChild(row);
  });
+ const giftSubtotal=qualifyingGiftSubtotal();
+ let hasGift=cart.some(x=>x.isGift);
+ if(giftSubtotal<15&&hasGift){cart=cart.filter(x=>!x.isGift);hasGift=false;giftPrompted=false;}
+ const offer=document.getElementById("sl-gift-offer");
+ if(offer){
+  offer.hidden=!(giftSubtotal>=15&&!hasGift);
+  if(!offer.hidden){offer.innerHTML='<strong>已解鎖 RM15 滿額禮遇</strong><p>爆漿脆皮鴨蛋不計入門檻。你可以免費自選一件中階或高階捏捏。</p><button type="button" id="sl-open-gift-picker">選擇我的免費贈品 →</button>';
+   document.getElementById("sl-open-gift-picker").onclick=showGiftPicker;
+  }
+ }
  document.getElementById("sum").textContent=money(cart.reduce((s,x)=>s+x.price*x.qty,0));
  const itemCount=cart.reduce((s,x)=>s+x.qty,0);
  const badge=document.getElementById("sl-bag-badge");
@@ -3341,7 +3389,40 @@ function renderCart(){
  if(countLabel)countLabel.textContent=itemCount+" 件商品";
  const checkoutSum=document.getElementById("checkout-sum");
  if(checkoutSum)checkoutSum.textContent=money(cart.reduce((s,x)=>s+x.price*x.qty,0));
+ if(giftSubtotal>=15&&!hasGift&&!giftPrompted){giftPrompted=true;setTimeout(showGiftPicker,280);}
 }
+function showGiftPicker(){
+ if(qualifyingGiftSubtotal()<15||cart.some(x=>x.isGift))return;
+ const backdrop=document.getElementById("sl-gift-backdrop");
+ const list=document.getElementById("sl-gift-options");list.replaceChildren();
+ [["intermediate","中階捏捏"],["premium","高階捏捏"]].forEach(([level,label])=>{
+  products[level].filter(([name])=>name!=="爆漿脆皮鴨蛋").forEach(([name,price])=>{
+   const button=document.createElement("button");button.type="button";button.className="sl-gift-choice";
+   const title=document.createElement("b");title.textContent=name;
+   const tag=document.createElement("small");tag.textContent=label+" · 免費";
+   button.append(title,tag);
+   button.addEventListener("click",()=>{
+    giftPreviousCategory=category;category=level;giftFlowActive=true;
+    backdrop.hidden=true;backdrop.setAttribute("aria-hidden","true");
+    openProductSheet(name,price);
+    if(sheetProduct){sheetProduct.isGift=true;sheetProduct.price=0;}
+    document.getElementById("config-price").textContent="免費贈品";
+    document.getElementById("basic-notes-field").hidden=false;
+    document.querySelector("#basic-notes-field label").textContent="贈品包裝／圖案備註（選填）";
+    document.getElementById("config-notes").placeholder="可填寫希望的圖案或包裝偏好。";
+    document.body.style.overflow="hidden";
+   });
+   list.appendChild(button);
+  });
+ });
+ backdrop.hidden=false;backdrop.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";
+}
+function closeGiftPicker(){
+ const backdrop=document.getElementById("sl-gift-backdrop");backdrop.hidden=true;backdrop.setAttribute("aria-hidden","true");document.body.style.overflow="";
+}
+document.getElementById("sl-gift-close").addEventListener("click",closeGiftPicker);
+document.getElementById("sl-gift-backdrop").addEventListener("click",e=>{if(e.target===e.currentTarget)closeGiftPicker();});
+
 document.querySelectorAll("#shop .category-submenu .tab").forEach(btn=>btn.addEventListener("click",(event)=>{
   event.preventDefault();
   const nextCategory=btn.getAttribute("data-cat");
@@ -3407,7 +3488,7 @@ document.getElementById("checkout").addEventListener("submit", e => {
   orderId,
   customer: document.getElementById("customer").value.trim(),
   contact: document.getElementById("contact").value.trim(),
-  items: cart.map(x => ({name:x.name,price:x.price,qty:x.qty,level:x.level||"",crust:x.crust||"標準脆皮",colors:x.colors||"",notes:x.notes||""})),
+  items: cart.map(x => ({name:x.name,price:x.price,qty:x.qty,level:x.level||"",crust:x.crust||"標準脆皮",colors:x.colors||"",notes:x.notes||"",isGift:!!x.isGift})),
   total: cart.reduce((sum,x) => sum + x.price*x.qty, 0),
   delivery,
   address,
@@ -3718,6 +3799,8 @@ function openProductSheet(name,price){
   document.getElementById("config-title").textContent=isBlindbox?"捏捏隨配盲盒設定":(category==="premium"?"高級捏捏規格":(category==="intermediate"?"中階捏物規格":"基礎捏捏客製化"));
   document.getElementById("config-price").textContent=money(sheetProduct.price);
   renderProductColorPickers(name);
+  document.querySelector("#basic-notes-field label").textContent="其他備註（選填）";
+  document.getElementById("config-notes").placeholder="其他製作要求，可在這裡補充。";
   if(isBlindbox){
     document.getElementById("basic-color-field").hidden=true;
     document.getElementById("basic-notes-field").hidden=true;
@@ -3745,6 +3828,7 @@ function closeProductSheet(){
   configBackdrop.setAttribute("aria-hidden","true");
   document.body.style.overflow="";
   sheetProduct=null;
+  if(giftFlowActive){giftFlowActive=false;category=giftPreviousCategory;}
 }
 document.getElementById("blindbox-price").addEventListener("change",e=>{
   if(sheetProduct && sheetProduct.level==="blindbox"){
@@ -3773,6 +3857,7 @@ document.getElementById("config-add").addEventListener("click",(event)=>{
   event.preventDefault();
   if(!sheetProduct)return;
   const isBlindbox=sheetProduct.level==="blindbox";
+  const isGift=!!sheetProduct.isGift;
   const crust=isBlindbox?"":document.querySelector('input[name="config-crust"]:checked')?.value;
   if(!isBlindbox&&!crust){alert("請選擇脆皮厚度。");return;}
 
@@ -3784,17 +3869,24 @@ document.getElementById("config-add").addEventListener("click",(event)=>{
   }).join("；"):"";
   const notes=isBlindbox
     ? `預算：RM ${Number(document.getElementById("blindbox-price").value).toFixed(2)}；內容比例：${document.getElementById("blindbox-ratio").value}`
-    : (requiredColors?document.getElementById("config-notes").value.trim():"");
+    : ((requiredColors||isGift)?document.getElementById("config-notes").value.trim():"");
   if(requiredColors&&selectedProductColors.some(x=>!x)){
     alert(`請選齊 ${requiredColors} 個顏色後再加入購物車。`);
     return;
   }
 
-  const existing=cart.find(x=>x.name===sheetProduct.name&&x.level===sheetProduct.level&&
-    x.crust===crust&&x.colors===colors&&x.notes===notes&&x.price===sheetProduct.price);
-  if(existing)existing.qty+=1;
-  else cart.push({name:sheetProduct.name,price:sheetProduct.price,qty:1,
-    crust,level:sheetProduct.level,colors,notes});
+  if(isGift){
+    if(qualifyingGiftSubtotal()<15){alert("目前購物袋未達 RM15 贈品門檻。");closeProductSheet();return;}
+    cart=cart.filter(x=>!x.isGift);
+    cart.push({name:sheetProduct.name,price:0,qty:1,crust,level:sheetProduct.level,colors,notes,isGift:true});
+    giftFlowActive=false;category=giftPreviousCategory;giftPrompted=true;
+  }else{
+    const existing=cart.find(x=>!x.isGift&&x.name===sheetProduct.name&&x.level===sheetProduct.level&&
+      x.crust===crust&&x.colors===colors&&x.notes===notes&&x.price===sheetProduct.price);
+    if(existing)existing.qty+=1;
+    else cart.push({name:sheetProduct.name,price:sheetProduct.price,qty:1,
+      crust,level:sheetProduct.level,colors,notes});
+  }
   renderCart();
   closeProductSheet();
   showSlProductAddedToast();
@@ -4690,8 +4782,8 @@ function syncCheckoutTotal(){
   const tbody=document.getElementById('sl-ceremony-items');tbody.replaceChildren();
   (Array.isArray(order.items)?order.items:[]).forEach(item=>{
    const tr=document.createElement('tr');const name=document.createElement('td');name.style.width='58%';
-   const title=document.createElement('span');title.className='sl-receipt-item-name';title.textContent=item.name||'SQUISH LAB item';name.appendChild(title);
-   const unit=document.createElement('small');unit.className='sl-receipt-item-spec';unit.textContent='RM '+Number(item.price||0).toFixed(2)+' / pc';name.appendChild(unit);
+   const title=document.createElement('span');title.className='sl-receipt-item-name';title.textContent=(item.name||'SQUISH LAB item')+(item.isGift?'（滿額贈品）':'');name.appendChild(title);
+   const unit=document.createElement('small');unit.className='sl-receipt-item-spec';unit.textContent=item.isGift?'FREE · 滿額贈品':'RM '+Number(item.price||0).toFixed(2)+' / pc';name.appendChild(unit);
    const specs=[item.level==='blindbox'?'盲盒設定：'+(item.notes||'未設定'):'',item.crust&&item.crust!=='標準脆皮'?item.crust:'',item.colors||'',item.level!=='blindbox'?(item.notes||''):''].filter(Boolean).join(' · ');
    if(specs){const small=document.createElement('small');small.className='sl-receipt-item-spec';small.textContent=specs;name.appendChild(small)}
    const qty=document.createElement('td');qty.textContent=String(item.qty||1);
