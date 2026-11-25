@@ -1232,6 +1232,10 @@ button:active,.hero-cta:active,.hero-secondary:active,.tab:active,.add:active,.p
 }
 
 
+/* Featured product recommendation label */
+.must-buy-tag{display:inline-block;margin:0 0 9px;padding:4px 9px;border:1px solid #d8c6a1;background:#f5f0e6;color:#78613d;font-size:10px;letter-spacing:.12em;line-height:1.4;border-radius:2px}
+@media(max-width:700px){.must-buy-tag{font-size:9px;padding:4px 7px;margin-bottom:7px}}
+
 /* v38: restore and protect the second-level product category menu */
 .category-submenu{display:flex!important;position:relative!important;z-index:120!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;gap:10px!important;flex-wrap:wrap!important;margin:20px 0 25px!important;padding:5px 0!important;}
 .category-submenu .tab{display:inline-flex!important;align-items:center!important;justify-content:center!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;min-height:44px!important;position:relative!important;z-index:121!important;}
@@ -3003,7 +3007,7 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 <button aria-selected="false" class="tab" data-cat="basic" id="tab-basic" role="tab" type="button">基礎捏捏</button>
 </div>
 <div class="grid" id="products">
-<article class="product"><div><div class="name">爆漿脆皮鴨蛋</div><div class="desc">高級系列</div></div><div><div class="price">RM 7.20</div><button class="add" type="button">加入購物車 ＋</button></div></article>
+<article class="product featured-product"><div><div class="name">爆漿脆皮鴨蛋</div><div class="desc">高級系列</div></div><div><div class="price">RM 6.88</div><button class="add" type="button">加入購物車 ＋</button></div></article>
 <article class="product"><div><div class="name">脆皮韓式辣炒年糕</div><div class="desc">高級系列</div></div><div><div class="price">RM 6.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
 <article class="product"><div><div class="name">脆皮桂花酒釀</div><div class="desc">高級系列</div></div><div><div class="price">RM 6.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
 <article class="product"><div><div class="name">脆皮抹茶條</div><div class="desc">高級系列</div></div><div><div class="price">RM 6.80</div><button class="add" type="button">加入購物車 ＋</button></div></article>
@@ -3264,7 +3268,7 @@ const products = {
  premium: [
   ["脆皮韓式辣炒年糕",6.8],["脆皮桂花酒釀",6.8],["脆皮抹茶條",6.8],
   ["脆皮冰沙球（4粒裝）",5.6],["脆皮芝士條（一袋三個）",5.6],["脆皮爆漿球",5.6],
-  ["彩虹年糕條",5.8],["爆漿脆皮鴨蛋",7.2]
+  ["彩虹年糕條",5.8],["爆漿脆皮鴨蛋",6.88]
  ]
 };
 
@@ -3298,6 +3302,8 @@ function renderProducts(){
  products[category].forEach(([name,price])=>{
   const el=document.createElement("article");el.className="product scroll-reveal is-visible";
   const categoryLabel = category==="basic" ? "基礎系列" : (category==="intermediate" ? "中階系列" : "高級系列");
+  const isFeatured = name === "爆漿脆皮鴨蛋";
+  if(isFeatured) el.classList.add("featured-product");
   el.innerHTML=`<div><div class="name"></div><div class="desc">${categoryLabel}</div></div><div><div class="price">${money(price)}</div><button class="add" type="button">加入購物車 ＋</button></div>`;
   el.querySelector('.name').textContent=name;
   el.querySelector("button").addEventListener("click",()=>openProductSheet(name,price));
@@ -4641,7 +4647,9 @@ function syncCheckoutTotal(){
 </style>
 <div class="sl-order-ceremony" id="sl-order-ceremony" hidden aria-hidden="true">
  <section class="sl-order-ceremony-card" role="dialog" aria-modal="true" aria-labelledby="sl-ceremony-title">
+  <div class="sl-ceremony-edition">A LITTLE THING, MADE WITH CARE <span>NO. 001</span></div>
   <div class="sl-ceremony-head"><div class="sl-ceremony-mark" aria-hidden="true">✓</div><div class="sl-ceremony-kicker">SQUISH LAB / ORDER SUBMITTED</div><h2 class="sl-ceremony-title" id="sl-ceremony-title">一份柔軟，正在為你準備。</h2><p class="sl-ceremony-copy" id="sl-ceremony-copy">感謝你的訂購。你的 SQUISH LAB 訂單已確認送出，接下來就讓我們把這份小小的期待，好好準備給你。</p></div>
+  <div class="sl-ceremony-timeline" aria-label="訂單後續流程"><div class="sl-ceremony-stage is-complete"><i>01</i><span data-ceremony-stage="received">訂單已收到</span></div><div class="sl-ceremony-stage"><i>02</i><span data-ceremony-stage="contact">聯絡確認訂單與付款</span></div><div class="sl-ceremony-stage"><i>03</i><span data-ceremony-stage="prepare">開始準備商品</span></div></div>
   <div class="sl-receipt" id="sl-receipt">
    <div class="sl-receipt-top"><div class="sl-receipt-brand">SQUISH LAB<br><span style="font-size:8px;font-weight:400;letter-spacing:.12em;color:#8d99a5">HANDMADE IN SIBU</span></div><div class="sl-receipt-meta"><span data-receipt-label="date">ORDER DATE</span><br><strong id="sl-ceremony-date"></strong></div></div>
    <div class="sl-receipt-id"><small data-receipt-label="order">ORDER NUMBER</small><strong id="sl-ceremony-order-id"></strong></div>
@@ -4649,7 +4657,7 @@ function syncCheckoutTotal(){
    <div class="sl-receipt-subtotal"><span data-receipt-label="subtotal">ITEMS SUBTOTAL</span><strong id="sl-ceremony-total"></strong></div>
    <div class="sl-receipt-details" id="sl-ceremony-details"></div>
   </div>
-  <div class="sl-ceremony-actions"><button type="button" class="sl-ceremony-track" id="sl-ceremony-track">查看訂單進度</button><button type="button" class="sl-ceremony-copyid" id="sl-ceremony-copy">複製訂單編號</button><a class="sl-ceremony-instagram" id="sl-ceremony-instagram" href="https://www.instagram.com/squishlab.my/" target="_blank" rel="noopener noreferrer">前往 Instagram 官方帳號 ↗</a><button type="button" class="sl-ceremony-close" id="sl-ceremony-close">返回 SQUISH LAB</button></div>
+  <div class="sl-ceremony-actions"><button type="button" class="sl-ceremony-track" id="sl-ceremony-track">查看訂單進度</button><button type="button" class="sl-ceremony-copyid" id="sl-ceremony-copy">複製訂單編號</button><button type="button" class="sl-ceremony-instagram" id="sl-ceremony-instagram">複製訂單明細並前往 IG 私訊 ↗</button><button type="button" class="sl-ceremony-close" id="sl-ceremony-close">返回 SQUISH LAB</button></div>
   <p class="sl-receipt-foot" id="sl-receipt-foot">商品小計不包含尚未確認的郵寄費用；我們會另行聯絡確認付款安排。</p>
  </section>
 </div>
@@ -4657,10 +4665,11 @@ function syncCheckoutTotal(){
 (()=>{
  const overlay=document.getElementById('sl-order-ceremony');if(!overlay)return;
  let activeOrderId='';
+ let activeOrderData={};
  const words={
-  'zh-Hant':{copy:'感謝你的訂購。你的 SQUISH LAB 訂單已成功提交，我們會仔細準備你的商品。',date:'訂單日期',order:'訂單編號',item:'商品',qty:'數量',line:'金額',subtotal:'商品小計',delivery:'取貨方式',customer:'顧客姓名',contact:'聯絡方式',notes:'備註',track:'查看訂單進度',copyBtn:'複製訂單編號',instagram:'前往 Instagram 官方帳號 ↗',close:'返回 SQUISH LAB',foot:'商品小計不包含尚未確認的郵寄費用；我們會另行聯絡確認付款安排。',postage:'郵寄',pickup:'詩巫面交',none:'無'},
-  'zh-Hans':{copy:'感谢您的订购。您的 SQUISH LAB 订单已成功提交，我们会仔细准备您的商品。',date:'订单日期',order:'订单编号',item:'商品',qty:'数量',line:'金额',subtotal:'商品小计',delivery:'取货方式',customer:'顾客姓名',contact:'联系方式',notes:'备注',track:'查询订单进度',copyBtn:'复制订单编号',instagram:'前往 Instagram 官方账号 ↗',close:'返回 SQUISH LAB',foot:'商品小计不包含尚未确认的邮寄费用；我们会另行联系确认付款安排。',postage:'邮寄',pickup:'诗巫面交',none:'无'},
-  'en':{copy:'Thank you for your order. Your SQUISH LAB order has been submitted. We will carefully prepare your items.',date:'ORDER DATE',order:'ORDER NUMBER',item:'ITEM',qty:'QTY',line:'AMOUNT',subtotal:'ITEMS SUBTOTAL',delivery:'DELIVERY',customer:'CUSTOMER',contact:'CONTACT',notes:'NOTES',track:'Track Order',copyBtn:'Copy Order ID',instagram:'Visit Official Instagram ↗',close:'Return to SQUISH LAB',foot:'The subtotal excludes unconfirmed postage. We will contact you to confirm payment arrangements.',postage:'Postage',pickup:'Sibu Meet-up',none:'None'}
+  'zh-Hant':{copy:'感謝你的訂購。你的 SQUISH LAB 訂單已成功提交，我們會仔細準備你的商品。',date:'訂單日期',order:'訂單編號',item:'商品',qty:'數量',line:'金額',subtotal:'商品小計',delivery:'取貨方式',customer:'顧客姓名',contact:'聯絡方式',notes:'備註',track:'查看訂單進度',copyBtn:'複製訂單編號',instagram:'複製訂單明細並前往 IG 私訊 ↗',instagramCopied:'訂單明細已複製，請在 IG 貼上並發送',close:'返回 SQUISH LAB',foot:'商品小計不包含尚未確認的郵寄費用；我們會另行聯絡確認付款安排。',postage:'郵寄',pickup:'詩巫面交',none:'無'},
+  'zh-Hans':{copy:'感谢您的订购。您的 SQUISH LAB 订单已成功提交，我们会仔细准备您的商品。',date:'订单日期',order:'订单编号',item:'商品',qty:'数量',line:'金额',subtotal:'商品小计',delivery:'取货方式',customer:'顾客姓名',contact:'联系方式',notes:'备注',track:'查询订单进度',copyBtn:'复制订单编号',instagram:'复制订单明细并前往 IG 私信 ↗',instagramCopied:'订单明细已复制，请在 IG 粘贴并发送',close:'返回 SQUISH LAB',foot:'商品小计不包含尚未确认的邮寄费用；我们会另行联系确认付款安排。',postage:'邮寄',pickup:'诗巫面交',none:'无'},
+  'en':{copy:'Thank you for your order. Your SQUISH LAB order has been submitted. We will carefully prepare your items.',date:'ORDER DATE',order:'ORDER NUMBER',item:'ITEM',qty:'QTY',line:'AMOUNT',subtotal:'ITEMS SUBTOTAL',delivery:'DELIVERY',customer:'CUSTOMER',contact:'CONTACT',notes:'NOTES',track:'Track Order',copyBtn:'Copy Order ID',instagram:'Copy Order Details & Open IG DM ↗',instagramCopied:'Order details copied. Paste and send in Instagram.',close:'Return to SQUISH LAB',foot:'The subtotal excludes unconfirmed postage. We will contact you to confirm payment arrangements.',postage:'Postage',pickup:'Sibu Meet-up',none:'None'}
  };
  const lang=()=>document.documentElement.lang||'zh-Hant';
  const t=key=>(words[lang()]||words['zh-Hant'])[key]||key;
@@ -4668,8 +4677,12 @@ function syncCheckoutTotal(){
  window.showSquishOrderCeremony=function(orderId,order){
   activeOrderId=String(orderId||'');
   if(typeof order!=='object'||!order)order={total:Number(order)||0,customer:''};
+  activeOrderData=order;
   document.getElementById('sl-ceremony-copy').textContent=t('copy');
   document.getElementById('sl-ceremony-title').textContent=lang()==='en'?'Your order is in the works.':(lang()==='zh-Hans'?'您的订单正在准备中。':'你的訂單正在準備中。');
+  document.querySelector('[data-ceremony-stage="received"]').textContent=t('received');
+  document.querySelector('[data-ceremony-stage="contact"]').textContent=t('contactStage');
+  document.querySelector('[data-ceremony-stage="prepare"]').textContent=t('prepare');
   document.getElementById('sl-ceremony-copy').textContent=t('copy');
   document.getElementById('sl-ceremony-order-id').textContent=activeOrderId;
   document.getElementById('sl-ceremony-date').textContent=new Intl.DateTimeFormat(lang()==='en'?'en-MY':(lang()==='zh-Hans'?'zh-CN':'zh-TW'),{year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -4697,6 +4710,35 @@ function syncCheckoutTotal(){
  function close(){overlay.hidden=true;overlay.setAttribute('aria-hidden','true');document.body.style.overflow=''}
  document.getElementById('sl-ceremony-close').addEventListener('click',close);overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
  document.getElementById('sl-ceremony-copy').addEventListener('click',async()=>{const btn=document.getElementById('sl-ceremony-copy');try{await navigator.clipboard.writeText(activeOrderId);btn.textContent=t('copyBtn')+' ✓'}catch(_){const f=document.createElement('textarea');f.value=activeOrderId;f.style.position='fixed';f.style.opacity='0';document.body.appendChild(f);f.select();try{document.execCommand('copy');btn.textContent=t('copyBtn')+' ✓'}catch(__){btn.textContent=activeOrderId}f.remove()}});
+ document.getElementById('sl-ceremony-instagram').addEventListener('click',async()=>{
+  const btn=document.getElementById('sl-ceremony-instagram');
+  const o=activeOrderData||{};const items=Array.isArray(o.items)?o.items:[];
+  const lines=items.map((item,i)=>{
+   const qty=Number(item.qty||1),price=Number(item.price||0);
+   const specs=[item.level==='blindbox'?'盲盒設定：'+(item.notes||'未設定'):'',item.crust&&item.crust!=='標準脆皮'?'脆皮：'+item.crust:'',item.colors?'配色：'+item.colors:'',item.level!=='blindbox'&&item.notes?'備註：'+item.notes:''].filter(Boolean);
+   return `${i+1}. ${item.name||'SQUISH LAB 商品'} × ${qty}｜RM ${(price*qty).toFixed(2)}${specs.length?'\n   '+specs.join('；'):''}`;
+  });
+  const message=[
+   '你好，我剛剛在 SQUISH LAB 網站提交了訂單，請協助確認：',
+   '',
+   `訂單編號：${activeOrderId}`,
+   '商品明細：',
+   ...(lines.length?lines:['（沒有讀取到商品明細，請按訂單編號核對）']),
+   '',
+   `商品總額：RM ${Number(o.total||0).toFixed(2)}`,
+   `取貨方式：${o.delivery||'未提供'}`,
+   `姓名：${o.customer||'未提供'}`,
+   `聯絡方式：${o.contact||'未提供'}`,
+   o.address?`收件地址：${o.address}`:'',
+   o.notes?`訂單備註：${o.notes}`:'',
+   '',
+   '麻煩確認訂單及後續付款安排，謝謝。'
+  ].filter(Boolean).join('\n');
+  // Open the official DM synchronously within the tap, then copy the complete message.
+  window.open('https://ig.me/m/squishlab.my','_blank','noopener,noreferrer');
+  try{await navigator.clipboard.writeText(message);btn.textContent=t('instagramCopied');}
+  catch(_){const f=document.createElement('textarea');f.value=message;f.style.position='fixed';f.style.opacity='0';document.body.appendChild(f);f.select();try{document.execCommand('copy');btn.textContent=t('instagramCopied');}catch(__){btn.textContent='請手動複製訂單明細';}f.remove();}
+ });
  document.getElementById('sl-ceremony-track').addEventListener('click',()=>{close();const tab=document.querySelector('.sl-nav-item[data-tab="tracking"]');if(tab)tab.click();const input=document.getElementById('tracking-number');if(input){input.value=activeOrderId;input.focus({preventScroll:true})}});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.hidden)close()});
 })();
@@ -5093,12 +5135,27 @@ function syncCheckoutTotal(){
   const pairs=[['取貨方式',delivery.value==='POSTAGE'?'郵寄':'詩巫面交'],...(delivery.value==='POSTAGE'?[['收件地址',address.value.trim()]]:[]),['姓名',document.getElementById('customer').value.trim()],['聯絡方式',document.getElementById('contact').value.trim()],['備註',document.getElementById('notes').value.trim()||'無']];
   pairs.forEach(([k,v])=>{const p=document.createElement('p');p.className='sl-review-detail';const b=document.createElement('b');b.textContent=k+'：';p.append(b,document.createTextNode(v));details.appendChild(p)});
  }
+ let transitionToken=0;
  function setStep(next){
-  step=next;steps.forEach(el=>{const active=Number(el.dataset.checkoutStep)===step;el.hidden=!active;el.classList.toggle('is-active',active)});
+  next=Math.max(1,Math.min(3,Number(next)||1));
+  const previous=step, token=++transitionToken;
+  const target=steps.find(el=>Number(el.dataset.checkoutStep)===next);
+  const current=steps.find(el=>Number(el.dataset.checkoutStep)===previous&&!el.hidden);
+  step=next;
   form.querySelectorAll('[data-step-indicator]').forEach(el=>{const n=Number(el.dataset.stepIndicator);el.classList.toggle('is-current',n===step);el.classList.toggle('is-done',n<step)});
   title.textContent=titles[step][0];subtitle.textContent=titles[step][1];
-  document.getElementById('checkout-page').scrollIntoView({behavior:'smooth',block:'start'});
   if(step===3)updateReview();
+  if(previous===next||!current||!target){steps.forEach(el=>{const active=Number(el.dataset.checkoutStep)===step;el.hidden=!active;el.classList.toggle('is-active',active)});return;}
+  current.classList.remove('sl-step-enter-next','sl-step-enter-prev');
+  current.classList.add(next>previous?'sl-step-exit-next':'sl-step-exit-prev');
+  window.setTimeout(()=>{
+   if(token!==transitionToken)return;
+   current.hidden=true;current.classList.remove('is-active','sl-step-exit-next','sl-step-exit-prev');
+   steps.forEach(el=>{if(el!==target)el.hidden=true;});
+   target.hidden=false;target.classList.add('is-active',next>previous?'sl-step-enter-next':'sl-step-enter-prev');
+   window.setTimeout(()=>target.classList.remove('sl-step-enter-next','sl-step-enter-prev'),520);
+  },170);
+  document.getElementById('checkout-page').scrollIntoView({behavior:'smooth',block:'start'});
  }
  function validateStep(){
   status.textContent='';
@@ -5120,6 +5177,91 @@ function syncCheckoutTotal(){
  setStep(1);
 })();
 </script>
+
+
+<style id="sl-order-ceremony-premium-ritual">
+.sl-order-ceremony{background:radial-gradient(ellipse at 50% 16%,rgba(219,231,244,.32),transparent 42%),rgba(13,21,30,.72)!important;backdrop-filter:blur(24px) saturate(125%)!important}
+.sl-order-ceremony-card{width:min(560px,100%)!important;border-radius:30px!important;padding:21px clamp(18px,4vw,34px) 25px!important;background:linear-gradient(155deg,#fff 0%,#fbfcfd 56%,#eef2f6 100%)!important;box-shadow:0 38px 130px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.25)!important;animation:slRitualArrive .78s cubic-bezier(.16,.82,.18,1) both!important}
+.sl-ceremony-edition{display:flex;justify-content:space-between;align-items:center;padding:0 1px 13px;border-bottom:1px solid #e8edf2;color:#9aa5af;font-size:8px;letter-spacing:.2em}
+.sl-ceremony-edition span{font-variant-numeric:tabular-nums;letter-spacing:.14em}
+.sl-ceremony-head{padding:22px 0 17px!important}
+.sl-ceremony-mark{width:62px!important;height:62px!important;margin-bottom:17px!important;background:linear-gradient(145deg,#f5f8fb,#dce7f1)!important;color:#344e67!important;box-shadow:0 0 0 7px rgba(223,233,242,.42),0 12px 28px rgba(68,97,127,.16)!important;animation:slSealArrive .9s .16s cubic-bezier(.2,.8,.2,1) both}
+.sl-ceremony-title{font-size:clamp(24px,5vw,31px)!important;letter-spacing:-.055em!important;font-weight:620!important}
+.sl-ceremony-copy{max-width:340px!important;font-size:12px!important;line-height:1.9!important}
+.sl-ceremony-timeline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0 2px 17px;padding:13px 5px 14px;border-top:1px solid #e5ebf0;border-bottom:1px solid #e5ebf0}
+.sl-ceremony-stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;color:#a0aab4;font-size:9px;line-height:1.55;padding:0 5px}
+.sl-ceremony-stage:not(:last-child):after{content:"";position:absolute;top:10px;left:calc(50% + 18px);width:calc(100% - 30px);height:1px;background:#dfe6ed}
+.sl-ceremony-stage i{width:21px;height:21px;display:grid;place-items:center;border:1px solid #d9e1e9;border-radius:50%;font-style:normal;font-size:8px;color:#98a4af;background:#fff;z-index:1}
+.sl-ceremony-stage.is-complete{color:#526a80;font-weight:650}
+.sl-ceremony-stage.is-complete i{color:#fff;background:#526a80;border-color:#526a80;box-shadow:0 0 0 4px #e9eff5}
+.sl-receipt{position:relative!important;border-radius:17px!important;border-color:#e1e7ed!important;box-shadow:0 8px 24px rgba(40,57,75,.045),inset 0 1px 0 #fff!important;animation:slReceiptReveal .8s .28s cubic-bezier(.16,.82,.18,1) both}
+.sl-receipt:after{content:"";display:block;height:5px;margin:13px -15px -16px;background:radial-gradient(circle at 5px 0,#eef2f6 4px,transparent 4.5px) 0 0/10px 10px repeat-x;opacity:.95}
+.sl-receipt-table td{padding-top:12px!important;padding-bottom:12px!important}
+.sl-receipt-subtotal strong{font-variant-numeric:tabular-nums;letter-spacing:-.025em}
+.sl-ceremony-actions{gap:10px!important;margin-top:17px}
+.sl-ceremony-actions button,.sl-ceremony-actions a{min-height:48px!important;border-radius:999px!important;font-size:11px!important;letter-spacing:.015em;transition:transform .2s,box-shadow .2s,background .2s}
+.sl-ceremony-actions button:active,.sl-ceremony-actions a:active{transform:scale(.975)}
+.sl-ceremony-track{background:linear-gradient(110deg,#273b50,#172737)!important;box-shadow:0 9px 22px rgba(35,54,74,.2)!important}
+.sl-ceremony-instagram{background:#fff!important;border-color:#dce3ea!important}
+.sl-receipt-foot{margin-top:15px!important;font-size:9px!important;letter-spacing:.015em}
+@keyframes slRitualArrive{0%{opacity:0;transform:translateY(24px) scale(.975);filter:blur(5px)}70%{opacity:1;transform:translateY(-2px) scale(1.002);filter:blur(0)}100%{opacity:1;transform:none}}
+@keyframes slSealArrive{0%{opacity:0;transform:scale(.65) rotate(-16deg)}65%{opacity:1;transform:scale(1.08) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes slReceiptReveal{0%{opacity:0;transform:translateY(15px);clip-path:inset(0 0 100% 0)}100%{opacity:1;transform:none;clip-path:inset(0 0 0 0)}}
+@media(max-width:420px){.sl-ceremony-edition{font-size:7px}.sl-ceremony-stage{font-size:8px;padding:0 2px}.sl-ceremony-timeline{margin-bottom:13px}.sl-order-ceremony-card{max-height:94dvh!important}}
+@media(prefers-reduced-motion:reduce){.sl-order-ceremony-card,.sl-ceremony-mark,.sl-receipt{animation:none!important}}
+</style>
+
+
+<style id="sl-featured-sparkle-and-checkout-motion">
+/* Featured item: no text badge — a luminous, polished highlight around the product itself. */
+#products .featured-product{
+  position:relative!important;isolation:isolate;overflow:hidden!important;
+  border:1px solid rgba(196,160,87,.62)!important;
+  background:radial-gradient(ellipse at 50% 0%,rgba(255,244,204,.92),transparent 54%),linear-gradient(145deg,#fffefa 0%,#fff 48%,#fbf5e8 100%)!important;
+  box-shadow:0 0 0 1px rgba(255,224,151,.42),0 8px 24px rgba(184,143,66,.12),0 0 30px rgba(255,219,129,.24),inset 0 1px 0 #fff!important;
+  animation:featuredGlow 3.8s ease-in-out infinite;
+}
+#products .featured-product:before{
+  content:"";position:absolute;z-index:-1;inset:-45% -70%;pointer-events:none;
+  background:linear-gradient(112deg,transparent 38%,rgba(255,255,255,.05) 44%,rgba(255,255,255,.88) 50%,rgba(255,238,187,.28) 54%,transparent 62%);
+  transform:translateX(-62%) rotate(8deg);animation:featuredSweep 4.8s 1s ease-in-out infinite;
+}
+#products .featured-product:after{
+  content:"✦";position:absolute;top:17px;right:18px;z-index:2;pointer-events:none;
+  color:#c59b45;font-size:22px;line-height:1;text-shadow:0 0 5px #fff,0 0 12px rgba(255,205,91,.95),0 0 25px rgba(245,191,74,.72);
+  animation:featuredTwinkle 2.1s ease-in-out infinite;
+}
+#products .featured-product .name{position:relative;color:#47391e;text-shadow:0 1px 0 #fff,0 0 16px rgba(245,207,125,.3)}
+#products .featured-product .price{color:#a77a25!important;text-shadow:0 0 14px rgba(255,210,110,.35)}
+#products .featured-product .add{border-color:rgba(169,126,43,.42)!important;background:linear-gradient(135deg,#fff9e9,#f4e4bb)!important;color:#6e501d!important;box-shadow:0 4px 14px rgba(181,140,58,.13)!important}
+#products .featured-product .add:hover{box-shadow:0 7px 22px rgba(181,140,58,.25),0 0 18px rgba(255,215,123,.35)!important;transform:translateY(-2px)}
+@keyframes featuredGlow{0%,100%{box-shadow:0 0 0 1px rgba(255,224,151,.36),0 8px 24px rgba(184,143,66,.10),0 0 22px rgba(255,219,129,.18),inset 0 1px 0 #fff}50%{box-shadow:0 0 0 1px rgba(255,224,151,.78),0 12px 30px rgba(184,143,66,.18),0 0 38px rgba(255,219,129,.42),inset 0 1px 0 #fff}}
+@keyframes featuredSweep{0%,22%{transform:translateX(-62%) rotate(8deg);opacity:0}38%{opacity:.95}60%,100%{transform:translateX(62%) rotate(8deg);opacity:0}}
+@keyframes featuredTwinkle{0%,100%{opacity:.48;transform:scale(.78) rotate(-12deg)}50%{opacity:1;transform:scale(1.2) rotate(12deg)}}
+/* Apple-like checkout progression: directional slide, soft focus and a fluid progress rail. */
+.sl-progress{position:relative;display:flex;align-items:center;justify-content:space-between;gap:9px;padding:0 2px 7px!important}
+.sl-progress .progress-line{height:2px!important;flex:1;min-width:12px;background:linear-gradient(90deg,#dce3eb,#edf1f5)!important;border-radius:99px;overflow:hidden}
+.sl-progress .progress-line:after{content:"";display:block;width:0;height:100%;background:linear-gradient(90deg,#9cc9fa,#0878e8);transition:width .58s cubic-bezier(.2,.75,.2,1)}
+.sl-progress [data-step-indicator="1"].is-done~.progress-line:nth-of-type(2):after,.sl-progress [data-step-indicator="2"].is-current~.progress-line:nth-of-type(2):after,.sl-progress [data-step-indicator="2"].is-done~.progress-line:nth-of-type(4):after,.sl-progress [data-step-indicator="3"].is-current~.progress-line:nth-of-type(4):after{width:100%}
+.sl-progress [data-step-indicator]{transition:color .35s ease,transform .35s cubic-bezier(.2,.75,.2,1)}
+.sl-progress [data-step-indicator].is-current{transform:translateY(-2px) scale(1.035)}
+.sl-checkout-panel{overflow:hidden;box-shadow:0 18px 55px rgba(30,50,75,.075),inset 0 1px 0 rgba(255,255,255,.9)!important}
+.sl-checkout-step{will-change:opacity,transform,filter;backface-visibility:hidden}
+.sl-checkout-step.sl-step-exit-next{animation:slStepExitNext .17s ease both}
+.sl-checkout-step.sl-step-exit-prev{animation:slStepExitPrev .17s ease both}
+.sl-checkout-step.sl-step-enter-next{animation:slStepEnterNext .48s cubic-bezier(.16,.78,.2,1) both}
+.sl-checkout-step.sl-step-enter-prev{animation:slStepEnterPrev .48s cubic-bezier(.16,.78,.2,1) both}
+@keyframes slStepExitNext{to{opacity:0;transform:translate3d(-18px,0,0) scale(.99);filter:blur(3px)}}
+@keyframes slStepExitPrev{to{opacity:0;transform:translate3d(18px,0,0) scale(.99);filter:blur(3px)}}
+@keyframes slStepEnterNext{from{opacity:0;transform:translate3d(24px,5px,0) scale(.99);filter:blur(4px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes slStepEnterPrev{from{opacity:0;transform:translate3d(-24px,5px,0) scale(.99);filter:blur(4px)}to{opacity:1;transform:none;filter:blur(0)}}
+.sl-checkout-actions button{transition:transform .28s cubic-bezier(.2,.75,.2,1),box-shadow .28s ease,background .28s ease!important}
+.sl-checkout-actions button:active{transform:scale(.975)!important}
+.sl-delivery-option{transition:transform .28s cubic-bezier(.2,.75,.2,1),border-color .28s ease,background .28s ease,box-shadow .28s ease!important}
+.sl-delivery-option:has(input:checked){transform:translateY(-1px)}
+@media(max-width:600px){#products .featured-product:after{top:13px;right:13px;font-size:20px}.sl-checkout-panel{border-radius:22px!important}}
+@media(prefers-reduced-motion:reduce){#products .featured-product,#products .featured-product:before,#products .featured-product:after{animation:none!important}.sl-checkout-step,.sl-progress .progress-line:after{animation:none!important;transition:none!important}}
+</style>
 
 </body>
 <style id="tracking-plain-language-status">
