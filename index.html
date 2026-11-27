@@ -3046,6 +3046,29 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
  
 }
 </style>
+
+<style id="sl-global-hidden-fix">
+[hidden], [hidden=""], [aria-hidden="true"][hidden] { display:none !important; }
+</style>
+
+
+<style id="sl-feature-discovery-styles">
+.sl-feature-discovery{margin:12px 0 42px;padding:clamp(22px,4vw,38px)!important;border:1px solid rgba(255,255,255,.95);border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(231,237,244,.86));box-shadow:0 18px 48px rgba(47,61,78,.09)}
+.sl-discovery-top{display:flex;justify-content:space-between;gap:12px;font-size:9px;letter-spacing:.2em;color:#8a96a3}
+.sl-discovery-top b{font-weight:500;color:#a0aab4}
+.sl-feature-discovery h2{font-size:clamp(25px,5vw,38px);letter-spacing:-.04em;margin:18px 0 9px;color:#263443}
+.sl-feature-discovery>p{font-size:13px;line-height:1.9;color:#778492;margin:0 0 22px}
+.sl-discovery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sl-discovery-grid a{position:relative;display:flex;flex-direction:column;gap:6px;min-height:98px;padding:16px;border:1px solid rgba(148,162,177,.2);border-radius:17px;background:rgba(255,255,255,.82);color:#354454;text-decoration:none;transition:transform .2s,border-color .2s}
+.sl-discovery-grid a:active{transform:scale(.98)}
+.sl-discovery-grid a>span{font-size:9px;letter-spacing:.16em;color:#a1acb7}
+.sl-discovery-grid a>b{font-size:15px;font-weight:600}
+.sl-discovery-grid a>small{font-size:10px;color:#8793a0}
+.sl-discovery-cta{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:14px;padding:16px 19px;border:0;border-radius:999px;background:#354555;color:#fff;font-size:13px;font-weight:600}
+.sl-discovery-cta span{font-size:19px}
+@media(min-width:760px){.sl-discovery-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.sl-discovery-grid a{min-height:112px}}
+</style>
+
 </head>
 <body>
 <div class="wrap">
@@ -3089,6 +3112,23 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 </div>
 <div class="hero-bottom"><span>SCROLL TO EXPLORE</span><span>01 — 05</span></div>
 </section>
+
+<section class="section sl-feature-discovery" id="sl-feature-discovery">
+ <div class="sl-discovery-top"><span>NEW AT SQUISH LAB</span><b>STUDIO / 2026</b></div>
+ <h2>不只是選購捏捏。</h2>
+ <p>探索新品掉落、作品檔案、實驗室日誌、保養指南與專屬訂製服務。</p>
+ <div class="sl-discovery-grid">
+  <a href="#sl-drop" data-feature-jump="sl-drop"><span>01</span><b>新品掉落</b><small>查看新品上架倒數</small></a>
+  <a href="#sl-archive" data-feature-jump="sl-archive"><span>02</span><b>作品檔案館</b><small>瀏覽工作室作品</small></a>
+  <a href="#sl-journal" data-feature-jump="sl-journal"><span>03</span><b>實驗室日誌</b><small>了解材料與製作</small></a>
+  <a href="#sl-care" data-feature-jump="sl-care"><span>04</span><b>保養指南</b><small>學會照顧你的捏捏</small></a>
+  <a href="#sl-community" data-feature-jump="sl-community"><span>05</span><b>買家靈感牆</b><small>分享收藏與照片</small></a>
+  <a href="#sl-custom" data-feature-jump="sl-custom"><span>06</span><b>私人訂製</b><small>提交你的設計想法</small></a>
+  <a href="#sl-membership" data-feature-jump="sl-membership"><span>07</span><b>會員集點</b><small>查看簽到與點數</small></a>
+ </div>
+ <button type="button" class="sl-discovery-cta" id="sl-open-studio">探索完整工作室功能 <span>↗</span></button>
+</section>
+
 <section class="sl-launch-feature" aria-label="12月10日新品上架宣傳">
   <div class="sl-launch-copy">
     <div class="sl-launch-kicker">SQUISH LAB / UPCOMING DROP</div>
@@ -4584,7 +4624,7 @@ const SL_TRANSLATIONS = {"12月10日新品上架。":"New arrivals on December 1
  const sections=[...main.querySelectorAll(":scope > section")];
  const byId=id=>document.getElementById(id);
  const groups={
-   home:[...main.querySelectorAll(":scope > .hero.page-intro, :scope > .sl-launch-feature")],
+   home:[...main.querySelectorAll(":scope > .hero.page-intro, :scope > .sl-launch-feature"), byId("sl-feature-discovery")],
    products:[byId("shop")],
    brand:[
      byId("brand-orbit"),
@@ -6199,6 +6239,23 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
 <style id="sl-remove-favorites-and-gift-meter">
 #sl-favorites-toggle,#sl-favorites-view,.sl-fav-button,.sl-gift-progress,.sl-gift-progress-track{display:none!important}
 </style>
+
+<script id="sl-feature-discovery-controller">
+(()=>{
+ const go=(id)=>{
+  if(typeof window.slNavigate==="function")window.slNavigate("brand");
+  setTimeout(()=>{
+   const target=document.getElementById(id);
+   if(target)target.scrollIntoView({behavior:"smooth",block:"start"});
+  },120);
+ };
+ document.querySelectorAll("[data-feature-jump]").forEach(a=>{
+  a.addEventListener("click",e=>{e.preventDefault();go(a.dataset.featureJump)});
+ });
+ document.getElementById("sl-open-studio")?.addEventListener("click",()=>go("sl-feature-hub"));
+})();
+</script>
+
 </body>
 <style id="tracking-plain-language-status">
 /* Replace the old step-by-step graphic with a clear live status and next-action explanation. */
