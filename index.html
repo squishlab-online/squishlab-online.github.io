@@ -3421,7 +3421,22 @@ main#top > section[hidden] { display:none !important; }
 </div>
 
       <div id="sl-gift-offer" class="sl-gift-offer" hidden></div>
-      <div class="total"><span>商品小計</span><b id="sum">RM 0.00</b></div>
+      <section class="sl-packaging-choice" aria-label="包裝方式">
+        <div class="sl-packaging-heading"><b>選擇包裝方式</b><small>PACKAGING</small></div>
+        <label class="sl-packaging-option is-selected" data-packaging-card="standard">
+          <input type="radio" name="sl-packaging" value="standard" checked>
+          <span class="sl-packaging-radio" aria-hidden="true"></span>
+          <span class="sl-packaging-copy"><strong>普通包裝</strong><small>標準牛皮紙袋／紙箱</small></span>
+          <b class="sl-packaging-price">免費</b>
+        </label>
+        <label class="sl-packaging-option" data-packaging-card="gift">
+          <input type="radio" name="sl-packaging" value="gift">
+          <span class="sl-packaging-radio" aria-hidden="true"></span>
+          <span class="sl-packaging-copy"><strong>禮盒包裝</strong><small>精緻包裝＋更多贈品</small></span>
+          <b class="sl-packaging-price">+ RM 6.90</b>
+        </label>
+      </section>
+      <div class="total"><span>訂單小計</span><b id="sum">RM 0.00</b></div>
       <p class="notice">商品小計只計算已選購商品的固定價格；郵寄費用將依訂單資料另行確認。</p>
       <button class="primary bag-continue" id="go-checkout" type="button">確認購物袋並繼續 →</button>
       <button class="bag-back-shopping" id="back-to-products" type="button">繼續選購</button>
@@ -3775,7 +3790,9 @@ document.getElementById("checkout").addEventListener("submit", e => {
   customer: document.getElementById("customer").value.trim(),
   contact: document.getElementById("contact").value.trim(),
   items: cart.map(x => ({name:x.name,price:x.price,qty:x.qty,level:x.level||"",crust:x.crust||"標準脆皮",colors:x.colors||"",notes:x.notes||"",isGift:!!x.isGift})),
-  total: cart.reduce((sum,x) => sum + x.price*x.qty, 0),
+  packaging: window.slPackagingOption === "gift" ? "禮盒包裝" : "普通包裝",
+  packagingFee: window.slPackagingOption === "gift" ? 6.9 : 0,
+  total: cart.reduce((sum,x) => sum + x.price*x.qty, 0) + (window.slPackagingOption === "gift" ? 6.9 : 0),
   delivery,
   deliveryFee: delivery === "Grab 本地派送" ? (cart.reduce((sum,x)=>sum+(x.isGift?0:x.price*x.qty),0)>=39?0:null) : null,
   address,
@@ -5514,7 +5531,7 @@ function syncCheckoutTotal(){
  const address=document.getElementById('address');
  const addressField=document.getElementById('sl-address-field');
  const status=document.getElementById('status');
- function total(){return [...(typeof cart!=="undefined"?cart:[])].reduce((n,x)=>n+(Number(x.price)||0)*(Number(x.qty)||0),0)}
+ function total(){const itemsTotal=[...(typeof cart!=="undefined"?cart:[])].reduce((n,x)=>n+(Number(x.price)||0)*(Number(x.qty)||0),0);return itemsTotal+(window.slPackagingOption==="gift"?6.9:0)}
  function moneyText(n){return window.slCurrency?window.slCurrency.format(n):'RM '+Number(n||0).toFixed(2)}
  function syncDelivery(){
   const selected=form.querySelector('input[name="delivery-choice"]:checked');
@@ -5537,7 +5554,7 @@ function syncCheckoutTotal(){
   document.getElementById('sl-checkout-item-count').textContent=(typeof cart!=="undefined"?cart:[]).reduce((n,x)=>n+(Number(x.qty)||0),0)+' 件商品';
   const details=document.getElementById('sl-review-details');details.replaceChildren();
   const deliveryLabel=delivery.value==='POSTAGE'?'郵寄':(delivery.value==='GRAB_LOCAL'?'Grab 本地派送':'詩巫面交');
-  const pairs=[['取貨方式',deliveryLabel],...(delivery.value==='POSTAGE'||delivery.value==='GRAB_LOCAL'?[['收件地址',address.value.trim()]]:[]),...(delivery.value==='GRAB_LOCAL'?[['派送費',total()>=39?'商品滿 RM39，免派送費':'由顧客自付，確認訂單時另行核算']]:[]),['姓名',document.getElementById('customer').value.trim()],['聯絡方式',document.getElementById('contact').value.trim()],['備註',document.getElementById('notes').value.trim()||'無']];
+  const pairs=[['包裝方式',window.slPackagingOption==='gift'?'禮盒包裝（精緻包裝＋更多贈品，+ RM 6.90）':'普通包裝（標準牛皮紙袋／紙箱）'],['取貨方式',deliveryLabel],...(delivery.value==='POSTAGE'||delivery.value==='GRAB_LOCAL'?[['收件地址',address.value.trim()]]:[]),...(delivery.value==='GRAB_LOCAL'?[['派送費',total()>=39?'商品滿 RM39，免派送費':'由顧客自付，確認訂單時另行核算']]:[]),['姓名',document.getElementById('customer').value.trim()],['聯絡方式',document.getElementById('contact').value.trim()],['備註',document.getElementById('notes').value.trim()||'無']];
   pairs.forEach(([k,v])=>{const p=document.createElement('p');p.className='sl-review-detail';const b=document.createElement('b');b.textContent=k+'：';p.append(b,document.createTextNode(v));details.appendChild(p)});
  }
  let transitionToken=0;
@@ -6300,6 +6317,127 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
  }
  nav.addEventListener("click",()=>setTimeout(sync,0),true);
  sync();
+})();
+</script>
+
+
+<style id="sl-packaging-choice-style">
+.sl-packaging-choice{margin:22px 0 20px;padding:17px;border:1px solid #e5e5e1;border-radius:22px;background:rgba(250,250,247,.82)}
+.sl-packaging-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sl-packaging-heading b{font-size:15px;color:#292b2f}
+.sl-packaging-heading small{font-size:9px;letter-spacing:.2em;color:#9a9b97}
+.sl-packaging-option{display:flex;align-items:center;gap:12px;min-height:72px;padding:13px 14px;margin-top:9px;border:1px solid #e2e3df;border-radius:17px;background:#fff;cursor:pointer;transition:border-color .18s,background .18s,box-shadow .18s}
+.sl-packaging-option.is-selected{border-color:#9aab9d;background:#f7f9f5;box-shadow:0 4px 16px rgba(62,80,65,.07)}
+.sl-packaging-option input{position:absolute;opacity:0;pointer-events:none}
+.sl-packaging-radio{width:19px;height:19px;flex:0 0 19px;border:1.5px solid #aeb4ad;border-radius:50%;position:relative}
+.sl-packaging-option.is-selected .sl-packaging-radio{border-color:#667d6d}
+.sl-packaging-option.is-selected .sl-packaging-radio:after{content:"";position:absolute;inset:4px;border-radius:50%;background:#667d6d}
+.sl-packaging-copy{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.sl-packaging-copy strong{font-size:15px;color:#292b2f}
+.sl-packaging-copy small{font-size:12px;color:#858983;line-height:1.4}
+.sl-packaging-price{font-size:13px;color:#4f6255;white-space:nowrap}
+@media(max-width:430px){.sl-packaging-choice{padding:14px}.sl-packaging-option{padding:12px 11px}.sl-packaging-copy strong{font-size:14px}.sl-packaging-copy small{font-size:11px}.sl-packaging-price{font-size:12px}}
+</style>
+<script id="sl-packaging-choice-controller">
+(()=>{
+ const root=document.getElementById("bag-page");
+ if(!root)return;
+ window.slPackagingOption="standard";
+ const radios=[...root.querySelectorAll('input[name="sl-packaging"]')];
+ const fee=()=>window.slPackagingOption==="gift"?6.9:0;
+ const currency=n=>window.slCurrency?window.slCurrency.format(n):"RM "+Number(n||0).toFixed(2);
+ const cartTotal=()=>((typeof cart!=="undefined"?cart:[]).reduce((sum,item)=>sum+(Number(item.price)||0)*(Number(item.qty)||0),0));
+ function refresh(){
+  root.querySelectorAll("[data-packaging-card]").forEach(card=>{
+   const selected=card.dataset.packagingCard===window.slPackagingOption;
+   card.classList.toggle("is-selected",selected);
+   const radio=card.querySelector("input");if(radio)radio.checked=selected;
+  });
+  const sum=document.getElementById("sum");
+  if(sum)sum.textContent=currency(cartTotal()+fee());
+  const checkoutSum=document.getElementById("checkout-sum");
+  if(checkoutSum)checkoutSum.textContent=currency(cartTotal()+fee());
+  const reviewTotal=document.getElementById("sl-review-total");
+  if(reviewTotal)reviewTotal.textContent=currency(cartTotal()+fee());
+ }
+ radios.forEach(radio=>radio.addEventListener("change",()=>{
+  window.slPackagingOption=radio.value;
+  refresh();
+ }));
+ const originalRender=window.renderCart;
+ if(typeof originalRender==="function"){
+  window.renderCart=function(...args){
+   const result=originalRender.apply(this,args);
+   refresh();
+   return result;
+  };
+ }
+ const originalNavigate=window.slNavigate;
+ if(typeof originalNavigate==="function"&&!window.__slPackagingNavigateWrapped){
+  window.slNavigate=function(tab,...args){
+   const result=originalNavigate.call(this,tab,...args);
+   if(tab==="checkout")refresh();
+   return result;
+  };
+  window.__slPackagingNavigateWrapped=true;
+ }
+ refresh();
+})();
+</script>
+
+
+<style id="sl-checkout-visibility-hotfix">
+/* Explicitly expose checkout only while the checkout tab is active. */
+body[data-sl-page="checkout"] #checkout-page{
+ display:block!important;visibility:visible!important;opacity:1!important;
+ height:auto!important;min-height:60vh!important;overflow:visible!important;
+}
+body[data-sl-page="checkout"] #checkout-page[hidden]{display:block!important}
+body[data-sl-page="checkout"] #bag-page,
+body[data-sl-page="checkout"] #shop,
+body[data-sl-page="checkout"] #tracking{display:none!important}
+#checkout-page .sl-checkout-step:not([hidden]){display:block!important;visibility:visible!important;opacity:1!important}
+#checkout-page .sl-checkout-heading,
+#checkout-page .checkout-progress,
+#checkout-page .checkout-summary,
+#checkout-page .checkout-panel{visibility:visible!important;opacity:1!important}
+</style>
+<script id="sl-checkout-visibility-hotfix-controller">
+(()=>{
+ const checkout=document.getElementById("checkout-page");
+ const bag=document.getElementById("bag-page");
+ const main=document.getElementById("top");
+ const button=document.getElementById("go-checkout");
+ const nav=document.getElementById("sl-bottom-nav");
+ if(!checkout||!main||!button)return;
+ function showCheckout(){
+  document.body.dataset.slPage="checkout";
+  [...main.children].filter(el=>el.tagName==="SECTION").forEach(el=>{
+   const show=el===checkout;
+   el.hidden=!show;
+   el.setAttribute("aria-hidden",show?"false":"true");
+   if(show){el.style.setProperty("display","block","important");}
+   else{el.style.setProperty("display","none","important");}
+  });
+  checkout.hidden=false;
+  checkout.removeAttribute("aria-hidden");
+  if(bag){bag.hidden=true;bag.style.setProperty("display","none","important");}
+  nav?.querySelectorAll(".sl-nav-item").forEach(item=>{
+   const active=item.dataset.tab==="bag";
+   item.classList.toggle("is-active",active);
+   if(active)item.setAttribute("aria-current","page");
+   else item.removeAttribute("aria-current");
+  });
+  document.getElementById("checkout-page").scrollIntoView({behavior:"smooth",block:"start"});
+ }
+ button.addEventListener("click",()=>{
+  if(typeof cart!=="undefined"&&!cart.length)return;
+  setTimeout(showCheckout,0);
+  setTimeout(showCheckout,80);
+ },true);
+ window.addEventListener("pageshow",()=>{
+  if(document.body.dataset.slPage==="checkout")showCheckout();
+ });
 })();
 </script>
 
