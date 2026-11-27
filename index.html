@@ -6404,45 +6404,6 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
 })();
 </script>
 
-
-<script id="sl-checkout-navigation-authoritative-fix">
-(()=>{
-  const button=document.getElementById("go-checkout");
-  if(!button || button.dataset.slCheckoutGuard==="1") return;
-  button.dataset.slCheckoutGuard="1";
-  // Capture on the button itself, before legacy bubble handlers can interfere.
-  button.addEventListener("click",event=>{
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    const items=(typeof cart!=="undefined" && Array.isArray(cart))?cart:[];
-    if(!items.length){
-      window.alert("請先選購商品，再繼續結帳。");
-      return;
-    }
-    // The checkout controller's slNavigate wrapper resets the checkout to step 1.
-    if(typeof window.slNavigate==="function") window.slNavigate("checkout");
-    // Enforce the intended page state in case an older controller has stale state.
-    const main=document.getElementById("top");
-    const checkout=document.getElementById("checkout-page");
-    if(main && checkout){
-      [...main.children].filter(el=>el.tagName==="SECTION").forEach(section=>{
-        const active=section===checkout;
-        section.hidden=!active;
-        section.setAttribute("aria-hidden",active?"false":"true");
-      });
-      document.body.dataset.slPage="checkout";
-    }
-    document.querySelectorAll("#sl-bottom-nav .sl-nav-item").forEach(item=>{
-      const active=item.dataset.tab==="bag";
-      item.classList.toggle("is-active",active);
-      if(active)item.setAttribute("aria-current","page");
-      else item.removeAttribute("aria-current");
-    });
-    window.scrollTo({top:0,behavior:"smooth"});
-  },true);
-})();
-</script>
-
 </body>
 <style id="tracking-plain-language-status">
 /* Replace the old step-by-step graphic with a clear live status and next-action explanation. */
