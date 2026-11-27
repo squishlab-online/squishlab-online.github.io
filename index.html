@@ -3065,29 +3065,6 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 @media(min-width:760px){.sl-discovery-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.sl-discovery-grid a{min-height:112px}}
 </style>
 
-
-<style id="sl-tracking-page-isolation">
-/* The order-tracking screen must never appear inside another tab. */
-body:not([data-sl-page="tracking"]) main#top > #tracking,
-body[data-sl-page]:not([data-sl-page="tracking"]) main#top > #tracking {
-  display:none !important;
-  visibility:hidden !important;
-  height:0 !important;
-  min-height:0 !important;
-  margin:0 !important;
-  padding:0 !important;
-  overflow:hidden !important;
-}
-body[data-sl-page="tracking"] main#top > #tracking {
-  display:block !important;
-  visibility:visible !important;
-  height:auto !important;
-  min-height:65vh !important;
-  overflow:visible !important;
-}
-main#top > section[hidden] { display:none !important; }
-</style>
-
 </head>
 <body>
 <div class="wrap">
@@ -6293,34 +6270,6 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
 </script>
 
 
-<script id="sl-tracking-page-isolation-controller">
-(()=>{
- const tracking=document.getElementById("tracking");
- const nav=document.getElementById("sl-bottom-nav");
- if(!tracking||!nav)return;
- const sync=()=>{
-  const active=document.body.dataset.slPage||"home";
-  const show=active==="tracking";
-  tracking.hidden=!show;
-  tracking.setAttribute("aria-hidden",show?"false":"true");
-  if(!show){tracking.style.setProperty("display","none","important");}
-  else{tracking.style.removeProperty("display");}
- };
- const original=window.slNavigate;
- if(typeof original==="function"&&!window.__slTrackingGuardWrapped){
-  window.slNavigate=function(tab,...args){
-   const result=original.call(this,tab,...args);
-   sync();
-   return result;
-  };
-  window.__slTrackingGuardWrapped=true;
- }
- nav.addEventListener("click",()=>setTimeout(sync,0),true);
- sync();
-})();
-</script>
-
-
 <style id="sl-packaging-choice-style">
 .sl-packaging-choice{margin:22px 0 20px;padding:17px;border:1px solid #e5e5e1;border-radius:22px;background:rgba(250,250,247,.82)}
 .sl-packaging-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
@@ -6382,62 +6331,6 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
   window.__slPackagingNavigateWrapped=true;
  }
  refresh();
-})();
-</script>
-
-
-<style id="sl-checkout-visibility-hotfix">
-/* Explicitly expose checkout only while the checkout tab is active. */
-body[data-sl-page="checkout"] #checkout-page{
- display:block!important;visibility:visible!important;opacity:1!important;
- height:auto!important;min-height:60vh!important;overflow:visible!important;
-}
-body[data-sl-page="checkout"] #checkout-page[hidden]{display:block!important}
-body[data-sl-page="checkout"] #bag-page,
-body[data-sl-page="checkout"] #shop,
-body[data-sl-page="checkout"] #tracking{display:none!important}
-#checkout-page .sl-checkout-step:not([hidden]){display:block!important;visibility:visible!important;opacity:1!important}
-#checkout-page .sl-checkout-heading,
-#checkout-page .checkout-progress,
-#checkout-page .checkout-summary,
-#checkout-page .checkout-panel{visibility:visible!important;opacity:1!important}
-</style>
-<script id="sl-checkout-visibility-hotfix-controller">
-(()=>{
- const checkout=document.getElementById("checkout-page");
- const bag=document.getElementById("bag-page");
- const main=document.getElementById("top");
- const button=document.getElementById("go-checkout");
- const nav=document.getElementById("sl-bottom-nav");
- if(!checkout||!main||!button)return;
- function showCheckout(){
-  document.body.dataset.slPage="checkout";
-  [...main.children].filter(el=>el.tagName==="SECTION").forEach(el=>{
-   const show=el===checkout;
-   el.hidden=!show;
-   el.setAttribute("aria-hidden",show?"false":"true");
-   if(show){el.style.setProperty("display","block","important");}
-   else{el.style.setProperty("display","none","important");}
-  });
-  checkout.hidden=false;
-  checkout.removeAttribute("aria-hidden");
-  if(bag){bag.hidden=true;bag.style.setProperty("display","none","important");}
-  nav?.querySelectorAll(".sl-nav-item").forEach(item=>{
-   const active=item.dataset.tab==="bag";
-   item.classList.toggle("is-active",active);
-   if(active)item.setAttribute("aria-current","page");
-   else item.removeAttribute("aria-current");
-  });
-  document.getElementById("checkout-page").scrollIntoView({behavior:"smooth",block:"start"});
- }
- button.addEventListener("click",()=>{
-  if(typeof cart!=="undefined"&&!cart.length)return;
-  setTimeout(showCheckout,0);
-  setTimeout(showCheckout,80);
- },true);
- window.addEventListener("pageshow",()=>{
-  if(document.body.dataset.slPage==="checkout")showCheckout();
- });
 })();
 </script>
 
