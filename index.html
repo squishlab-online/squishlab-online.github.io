@@ -3047,10 +3047,6 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 }
 </style>
 
-<style id="sl-global-hidden-fix">
-[hidden], [hidden=""], [aria-hidden="true"][hidden] { display:none !important; }
-</style>
-
 
 <style id="sl-feature-discovery-styles">
 .sl-feature-discovery{margin:12px 0 42px;padding:clamp(22px,4vw,38px)!important;border:1px solid rgba(255,255,255,.95);border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(231,237,244,.86));box-shadow:0 18px 48px rgba(47,61,78,.09)}
@@ -3067,6 +3063,29 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 .sl-discovery-cta{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:14px;padding:16px 19px;border:0;border-radius:999px;background:#354555;color:#fff;font-size:13px;font-weight:600}
 .sl-discovery-cta span{font-size:19px}
 @media(min-width:760px){.sl-discovery-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.sl-discovery-grid a{min-height:112px}}
+</style>
+
+
+<style id="sl-tracking-page-isolation">
+/* The order-tracking screen must never appear inside another tab. */
+body:not([data-sl-page="tracking"]) main#top > #tracking,
+body[data-sl-page]:not([data-sl-page="tracking"]) main#top > #tracking {
+  display:none !important;
+  visibility:hidden !important;
+  height:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+body[data-sl-page="tracking"] main#top > #tracking {
+  display:block !important;
+  visibility:visible !important;
+  height:auto !important;
+  min-height:65vh !important;
+  overflow:visible !important;
+}
+main#top > section[hidden] { display:none !important; }
 </style>
 
 </head>
@@ -4621,7 +4640,7 @@ const SL_TRANSLATIONS = {"12月10日新品上架。":"New arrivals on December 1
 (()=>{
  const main=document.getElementById("top");
  const nav=document.getElementById("sl-bottom-nav");
- const sections=[...main.querySelectorAll(":scope > section")];
+ const sections=[...main.children].filter(el=>el.tagName==="SECTION");
  const byId=id=>document.getElementById(id);
  const groups={
    home:[...main.querySelectorAll(":scope > .hero.page-intro, :scope > .sl-launch-feature"), byId("sl-feature-discovery")],
@@ -6253,6 +6272,34 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
   a.addEventListener("click",e=>{e.preventDefault();go(a.dataset.featureJump)});
  });
  document.getElementById("sl-open-studio")?.addEventListener("click",()=>go("sl-feature-hub"));
+})();
+</script>
+
+
+<script id="sl-tracking-page-isolation-controller">
+(()=>{
+ const tracking=document.getElementById("tracking");
+ const nav=document.getElementById("sl-bottom-nav");
+ if(!tracking||!nav)return;
+ const sync=()=>{
+  const active=document.body.dataset.slPage||"home";
+  const show=active==="tracking";
+  tracking.hidden=!show;
+  tracking.setAttribute("aria-hidden",show?"false":"true");
+  if(!show){tracking.style.setProperty("display","none","important");}
+  else{tracking.style.removeProperty("display");}
+ };
+ const original=window.slNavigate;
+ if(typeof original==="function"&&!window.__slTrackingGuardWrapped){
+  window.slNavigate=function(tab,...args){
+   const result=original.call(this,tab,...args);
+   sync();
+   return result;
+  };
+  window.__slTrackingGuardWrapped=true;
+ }
+ nav.addEventListener("click",()=>setTimeout(sync,0),true);
+ sync();
 })();
 </script>
 
