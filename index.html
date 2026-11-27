@@ -6346,6 +6346,44 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
 })();
 </script>
 
+
+<script id="sl-checkout-navigation-guard">
+(() => {
+  const button = document.getElementById("go-checkout");
+  if (!button || button.dataset.checkoutGuardBound === "1") return;
+  button.dataset.checkoutGuardBound = "1";
+
+  // This button has one job only: enter the checkout tab.
+  // Run at target-capture phase so older or duplicated bubble handlers
+  // cannot redirect or overwrite the intended navigation.
+  button.addEventListener("click", event => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    const items = Array.isArray(window.cart) ? window.cart :
+      (typeof cart !== "undefined" && Array.isArray(cart) ? cart : []);
+    if (!items.length) {
+      window.alert("請先選購商品，再繼續結帳。");
+      return;
+    }
+
+    if (typeof window.slNavigate === "function") {
+      window.slNavigate("checkout");
+    } else {
+      const bag = document.getElementById("bag-page");
+      const checkout = document.getElementById("checkout-page");
+      if (bag) { bag.hidden = true; bag.setAttribute("aria-hidden", "true"); }
+      if (checkout) {
+        checkout.hidden = false;
+        checkout.setAttribute("aria-hidden", "false");
+      }
+      document.body.dataset.slPage = "checkout";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, true);
+})();
+</script>
+
 </body>
 <style id="tracking-plain-language-status">
 /* Replace the old step-by-step graphic with a clear live status and next-action explanation. */
