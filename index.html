@@ -3065,6 +3065,18 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
 @media(min-width:760px){.sl-discovery-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.sl-discovery-grid a{min-height:112px}}
 </style>
 
+
+<style id="sl-universal-hidden-state-fix">
+/* Tab routing relies on the HTML hidden attribute; keep it stronger than .section display rules. */
+[hidden],
+[hidden=""],
+section[hidden],
+div[hidden],
+form[hidden] {
+  display: none !important;
+}
+</style>
+
 </head>
 <body>
 <div class="wrap">
@@ -6509,3 +6521,46 @@ html, body { overscroll-behavior-y: none; }
   document.addEventListener('pointercancel',()=>{down=null},{capture:true,passive:true});
 })();
 </script>
+
+
+<script id="sl-tab-state-normalizer">
+(()=>{
+  const main=document.getElementById("top");
+  if(!main) return;
+  const knownTabs=new Set(["home","products","brand","guide","bag","checkout","tracking"]);
+  const apply=()=>{
+    const active=document.body.dataset.slPage || "home";
+    if(!knownTabs.has(active)) return;
+    const sections=[...main.children].filter(el=>el.tagName==="SECTION");
+    // The original controller owns the group membership; this pass enforces its hidden state.
+    sections.forEach(section=>{
+      const shouldHide=section.hidden;
+      if(shouldHide){
+        section.setAttribute("hidden","");
+        section.setAttribute("aria-hidden","true");
+      }else{
+        section.removeAttribute("hidden");
+        section.setAttribute("aria-hidden","false");
+      }
+    });
+  };
+  // Normalize initial state and after every navigation, including wrapped calls.
+  apply();
+  const original=window.slNavigate;
+  if(typeof original==="function" && !window.__slTabNormalizerWrapped){
+    window.slNavigate=function(tab,...args){
+      const result=original.call(this,tab,...args);
+      apply();
+      requestAnimationFrame(apply);
+      setTimeout(apply,80);
+      return result;
+    };
+    window.__slTabNormalizerWrapped=true;
+  }
+  document.getElementById("sl-bottom-nav")?.addEventListener("click",()=>{
+    requestAnimationFrame(apply);
+    setTimeout(apply,80);
+  },true);
+})();
+</script>
+
