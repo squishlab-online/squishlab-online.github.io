@@ -3077,6 +3077,63 @@ form[hidden] {
 }
 </style>
 
+
+<style id="sl-sage-ivory-theme">
+:root{
+ --ink:#303a32;
+ --muted:#858d80;
+ --line:rgba(126,143,119,.22);
+ --paper:#f5f2e9;
+ --white:#fffdf7;
+ --red:#879982;
+ --glass-bg:rgba(250,249,241,.72);
+ --glass-border:rgba(255,255,248,.94);
+ --glass-shadow:0 8px 28px rgba(68,82,65,.07),inset 0 1px 0 rgba(255,255,255,.96);
+}
+html,body{
+ background:linear-gradient(145deg,#eef0e7 0%,#f7f4eb 48%,#e8ede4 100%);
+ color:var(--ink);
+}
+body{background-attachment:fixed}
+header,.section-head{border-color:rgba(126,143,119,.24)}
+.promo,.story-inner,.product,.panel,.bag-panel,.checkout-panel{
+ background:rgba(255,253,247,.86);
+ border-color:rgba(145,158,135,.25);
+}
+.story-inner,.promo,.product,.panel,.bag-panel,.checkout-panel{
+ box-shadow:0 18px 52px rgba(70,83,67,.05);
+}
+.primary,.tab.active,.choice label:has(input:checked){
+ background:linear-gradient(135deg,#9eae98 0%,#7f927e 100%);
+ color:#fffdf7;
+ border-color:rgba(116,139,113,.4);
+}
+.primary:hover{background:linear-gradient(135deg,#aab9a3 0%,#899d87 100%)}
+.tab,.add,.qty button,.remove,.choice label{
+ color:var(--ink);
+ border-color:rgba(132,150,126,.28);
+ background:rgba(255,253,247,.76);
+}
+.add:hover,.tab:not(.active):hover,.choice label:hover{
+ background:rgba(255,255,249,.98);
+}
+.sl-packaging-choice{
+ background:linear-gradient(135deg,rgba(235,239,229,.97),rgba(255,253,246,.98));
+ border-color:rgba(137,155,130,.3);
+}
+.sl-packaging-option.is-selected{
+ background:rgba(231,237,225,.9);
+ border-color:rgba(126,151,119,.56);
+}
+.sl-packaging-radio{border-color:#91a28b}
+.sl-packaging-option.is-selected .sl-packaging-radio{
+ background:#91a28b;
+ box-shadow:inset 0 0 0 4px #f8f6ee;
+}
+.sl-packaging-price,.story-index,.eyebrow{color:#849780}
+input:focus,textarea:focus,select:focus{border-color:#9aaa91}
+</style>
+
 </head>
 <body>
 <div class="wrap">
@@ -3093,11 +3150,11 @@ form[hidden] {
 <h1><svg class="sl-title-svg" viewBox="0 0 390 88" role="img" aria-label="捏物研室" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="slTitleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#292b25"/>
-      <stop offset="34%" stop-color="#75816d"/>
-      <stop offset="52%" stop-color="#b4bda9"/>
-      <stop offset="72%" stop-color="#7f8b76"/>
-      <stop offset="100%" stop-color="#292b25"/>
+      <stop offset="0%" stop-color="#f6f1e4"/>
+      <stop offset="24%" stop-color="#dfe8d8"/>
+      <stop offset="48%" stop-color="#9eae98"/>
+      <stop offset="72%" stop-color="#e9eee2"/>
+      <stop offset="100%" stop-color="#f6f1e4"/>
       <animate attributeName="x1" values="0%;100%;0%" dur="8s" repeatCount="indefinite"/>
       <animate attributeName="x2" values="100%;200%;100%" dur="8s" repeatCount="indefinite"/>
     </linearGradient>
@@ -3410,21 +3467,7 @@ form[hidden] {
 </div>
 
       <div id="sl-gift-offer" class="sl-gift-offer" hidden></div>
-      <section class="sl-packaging-choice" aria-label="包裝方式">
-        <div class="sl-packaging-heading"><b>選擇包裝方式</b><small>PACKAGING</small></div>
-        <label class="sl-packaging-option is-selected" data-packaging-card="standard">
-          <input type="radio" name="sl-packaging" value="standard" checked>
-          <span class="sl-packaging-radio" aria-hidden="true"></span>
-          <span class="sl-packaging-copy"><strong>普通包裝</strong><small>標準牛皮紙袋／紙箱</small></span>
-          <b class="sl-packaging-price">免費</b>
-        </label>
-        <label class="sl-packaging-option" data-packaging-card="gift">
-          <input type="radio" name="sl-packaging" value="gift">
-          <span class="sl-packaging-radio" aria-hidden="true"></span>
-          <span class="sl-packaging-copy"><strong>禮盒包裝</strong><small>精緻包裝＋更多贈品</small></span>
-          <b class="sl-packaging-price">+ RM 6.90</b>
-        </label>
-      </section>
+
       <div class="total"><span>訂單小計</span><b id="sum">RM 0.00</b></div>
       <p class="notice">商品小計只計算已選購商品的固定價格；郵寄費用將依訂單資料另行確認。</p>
       <button class="primary bag-continue" id="go-checkout" type="button">確認購物袋並繼續 →</button>
@@ -3450,6 +3493,21 @@ form[hidden] {
     <div class="panel checkout-panel sl-checkout-panel">
       <form id="checkout" novalidate>
         <div class="sl-checkout-step is-active" data-checkout-step="1">
+      <section class="sl-packaging-choice" aria-label="包裝方式">
+        <div class="sl-packaging-heading"><b>選擇包裝方式</b><small>PACKAGING</small></div>
+        <label class="sl-packaging-option is-selected" data-packaging-card="standard">
+          <input type="radio" name="sl-packaging" value="standard" checked>
+          <span class="sl-packaging-radio" aria-hidden="true"></span>
+          <span class="sl-packaging-copy"><strong>普通包裝</strong><small>標準牛皮紙袋／紙箱</small></span>
+          <b class="sl-packaging-price">免費</b>
+        </label>
+        <label class="sl-packaging-option" data-packaging-card="gift">
+          <input type="radio" name="sl-packaging" value="gift">
+          <span class="sl-packaging-radio" aria-hidden="true"></span>
+          <span class="sl-packaging-copy"><strong>禮盒包裝</strong><small>精緻包裝＋更多贈品</small></span>
+          <b class="sl-packaging-price">+ RM 6.90</b>
+        </label>
+      </section>
           <div class="field"><label for="delivery">取貨方式 *</label>
             <div class="sl-delivery-options">
               <label class="sl-delivery-option"><input type="radio" name="delivery-choice" value="SIBU_PICKUP"><span class="sl-delivery-icon">⌖</span><span><b>詩巫面交</b><small>在詩巫安排面交取貨</small></span><i>✓</i></label>
@@ -6301,7 +6359,7 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
 </style>
 <script id="sl-packaging-choice-controller">
 (()=>{
- const root=document.getElementById("bag-page");
+ const root=document.getElementById("checkout-page");
  if(!root)return;
  window.slPackagingOption="standard";
  const radios=[...root.querySelectorAll('input[name="sl-packaging"]')];
@@ -6315,7 +6373,7 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
    const radio=card.querySelector("input");if(radio)radio.checked=selected;
   });
   const sum=document.getElementById("sum");
-  if(sum)sum.textContent=currency(cartTotal()+fee());
+  if(sum)sum.textContent=currency(cartTotal());
   const checkoutSum=document.getElementById("checkout-sum");
   if(checkoutSum)checkoutSum.textContent=currency(cartTotal()+fee());
   const reviewTotal=document.getElementById("sl-review-total");
@@ -6343,44 +6401,6 @@ footer{border-top:1px solid var(--line)!important;background:transparent!importa
   window.__slPackagingNavigateWrapped=true;
  }
  refresh();
-})();
-</script>
-
-
-<script id="sl-checkout-navigation-guard">
-(() => {
-  const button = document.getElementById("go-checkout");
-  if (!button || button.dataset.checkoutGuardBound === "1") return;
-  button.dataset.checkoutGuardBound = "1";
-
-  // This button has one job only: enter the checkout tab.
-  // Run at target-capture phase so older or duplicated bubble handlers
-  // cannot redirect or overwrite the intended navigation.
-  button.addEventListener("click", event => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-
-    const items = Array.isArray(window.cart) ? window.cart :
-      (typeof cart !== "undefined" && Array.isArray(cart) ? cart : []);
-    if (!items.length) {
-      window.alert("請先選購商品，再繼續結帳。");
-      return;
-    }
-
-    if (typeof window.slNavigate === "function") {
-      window.slNavigate("checkout");
-    } else {
-      const bag = document.getElementById("bag-page");
-      const checkout = document.getElementById("checkout-page");
-      if (bag) { bag.hidden = true; bag.setAttribute("aria-hidden", "true"); }
-      if (checkout) {
-        checkout.hidden = false;
-        checkout.setAttribute("aria-hidden", "false");
-      }
-      document.body.dataset.slPage = "checkout";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, true);
 })();
 </script>
 
@@ -6506,6 +6526,87 @@ html, body { overscroll-behavior-y: none; }
   }
 }
 </style>
+<style id="sl-sage-green-real-visual-overrides">
+:root{
+ --sl-sage:#879982;--sl-sage-deep:#667b68;--sl-sage-soft:#dce5d8;
+ --sl-sage-pale:#eef2e9;--sl-ivory:#faf9f4;--sl-ink:#303a32;
+ --paper:#f5f6ef;--white:#fbfcf8;--ink:#303a32;--muted:#788477;--line:rgba(113,132,112,.24);
+ --glass-bg:rgba(248,250,244,.72)
+}
+html{background:#f2f4ec!important}
+body{
+ background:radial-gradient(ellipse at 12% 8%,rgba(255,255,255,.98),transparent 36%),
+ radial-gradient(ellipse at 88% 28%,rgba(205,219,198,.72),transparent 42%),
+ radial-gradient(ellipse at 45% 92%,rgba(224,231,216,.72),transparent 40%),
+ linear-gradient(145deg,#f6f7f1 0%,#e8eee4 52%,#f8f7f1 100%)!important;
+ color:var(--sl-ink)!important;background-attachment:fixed!important
+}
+body:before{background:radial-gradient(circle at 8% 24%,rgba(135,153,130,.12),transparent 22%),radial-gradient(circle at 92% 72%,rgba(168,187,160,.14),transparent 24%)!important}
+header{
+ background:rgba(247,249,242,.78)!important;border-color:rgba(255,255,255,.94)!important;
+ box-shadow:0 12px 34px rgba(79,99,77,.09),inset 0 1px 0 #fff!important
+}
+.logo,.sl-logo-cn{color:#667b68!important}.sl-logo-en{color:#8b9987!important}
+header select{background:rgba(255,255,255,.74)!important;border-color:rgba(125,146,120,.28)!important;color:#3d493e!important}
+.sl-desktop-nav button,nav a{color:#5c6e5d!important}
+.hero.page-intro{
+ background:linear-gradient(135deg,rgba(251,252,247,.96) 0%,rgba(239,243,233,.94) 48%,rgba(226,234,222,.88) 100%)!important;
+ border:1px solid rgba(255,255,255,.96)!important;border-radius:38px!important;
+ box-shadow:0 22px 65px rgba(76,97,73,.10),inset 0 1px 0 #fff!important
+}
+.hero:before{border-color:rgba(125,150,120,.23)!important;box-shadow:0 0 0 18px rgba(125,150,120,.035),0 0 0 42px rgba(125,150,120,.025)!important}
+.hero:after{background:radial-gradient(circle,rgba(165,188,157,.24),rgba(165,188,157,0) 70%)!important}
+.hero .eyebrow,.eyebrow,.story-index,.story-meta,.section-head small,.orbit-kicker{color:#748873!important}
+.live-dot{background:#879982!important;box-shadow:0 0 0 5px rgba(135,153,130,.16),0 0 15px rgba(135,153,130,.2)!important}
+.hero h1{color:#303a32!important;text-shadow:0 2px 10px rgba(117,139,111,.16)!important}.sl-title-svg text{filter:drop-shadow(0 2px 2px rgba(113,132,108,.12))}
+.hero-en{color:#71866f!important}
+.hero p,.hero p span,.hero-secondary{color:#657364!important}
+.hero-cta,.primary,button.primary{
+ background:linear-gradient(135deg,#93a58d 0%,#71866f 100%)!important;color:#fff!important;
+ border:1px solid rgba(255,255,255,.9)!important;
+ box-shadow:0 12px 30px rgba(100,126,96,.22),inset 0 1px 1px rgba(255,255,255,.42)!important
+}
+.hero-secondary,button,.tab,.add,.remove,.qty button,nav a,input[type=submit]{
+ border-color:rgba(119,143,114,.28)!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.9),rgba(232,239,227,.76))!important;
+ color:#536653!important;box-shadow:0 8px 22px rgba(76,99,74,.08),inset 0 1px 1px rgba(255,255,255,.96)!important
+}
+.tab.active{background:#758a73!important;color:white!important;border-color:#758a73!important}
+.primary:hover,.hero-cta:hover{background:linear-gradient(135deg,#7f947b,#637a65)!important}
+.hero .hero-bottom{color:#849282!important;border-color:rgba(118,141,112,.32)!important}
+.sphere-field:before{background:radial-gradient(circle,rgba(178,199,168,.48),rgba(208,221,199,.24) 45%,transparent 72%)!important}
+.light-orb{
+ background:radial-gradient(circle at 31% 25%,#fff 0 7%,rgba(255,255,255,.97) 8% 15%,rgba(216,229,207,.9) 29%,rgba(151,177,143,.58) 52%,rgba(119,151,111,.13) 72%,transparent 74%)!important;
+ border-color:rgba(255,255,255,.9)!important;
+ box-shadow:inset -8px -10px 18px rgba(91,121,87,.16),0 0 22px rgba(139,169,130,.28),0 0 54px rgba(164,190,154,.22)!important
+}
+.sphere-core-glow{background:rgba(181,202,170,.48)!important}
+.sphere-caption,.sphere-caption b{color:#788a75!important}
+.sl-feature-discovery,.promo,.panel,.product,.story-inner,.glass-panel,.tracking-card,.diy-book,.diy-canvas-wrap{
+ border-color:rgba(255,255,255,.94)!important;
+ background:rgba(249,251,245,.76)!important;
+ box-shadow:0 18px 48px rgba(79,101,76,.09),inset 0 1px 0 rgba(255,255,255,.98)!important
+}
+.sl-feature-discovery{background:linear-gradient(135deg,rgba(250,252,246,.97),rgba(229,237,224,.92))!important}
+.sl-feature-discovery h2,.sl-discovery-grid b,.section h2,.story h2,.panel h3{color:#3d4b3d!important}
+.sl-discovery-grid a{background:rgba(255,255,255,.64)!important;border-color:rgba(125,148,120,.22)!important}
+.sl-discovery-grid a span,.sl-discovery-grid small{color:#82917e!important}
+#sl-scroll-progress{background:rgba(117,140,111,.12)!important}
+#sl-scroll-progress span{background:linear-gradient(90deg,#cbd8c3,#82977d,#aabda1)!important;box-shadow:0 0 12px rgba(119,148,112,.3)!important}
+.orbit-kicker,.orbit-title,.orbit-page>p,.orbit-scroll-mark{color:#758873!important}
+.orbit-halo{background:radial-gradient(circle,rgba(174,197,164,.34),rgba(255,255,255,.04) 68%)!important;box-shadow:0 0 55px rgba(130,157,122,.16)!important}
+.orbit-logo{background:radial-gradient(circle at 32% 25%,#fbfff7,#cbd9c3 52%,#82977b)!important;box-shadow:0 8px 30px rgba(93,120,87,.2),inset 0 2px 8px rgba(255,255,255,.9)!important}
+.orbit-ring{background:linear-gradient(100deg,rgba(116,145,109,.12),#dce8d5 27%,#849b7e 48%,#f5f8f0 65%,rgba(116,145,109,.12) 92%) border-box!important}
+.orbit-star{background:#9caf94!important;box-shadow:0 0 12px rgba(137,164,127,.45)!important}
+.sl-launch-feature{background:linear-gradient(120deg,#e9eee4,#f9faf5 58%,#dce6d8)!important;border-color:rgba(255,255,255,.95)!important}
+.sl-launch-kicker,.sl-launch-note{color:#758873!important}
+.sl-launch-date{color:#647a63!important}
+input,textarea,select{background:rgba(255,255,255,.82)!important;border-color:rgba(124,145,119,.28)!important;color:#3e4a3e!important}
+.diy-book{background:linear-gradient(110deg,#f9faf5 0%,#e9eee5 48%,#f9faf5 100%)!important}
+.diy-sample{background:radial-gradient(ellipse at 48% 75%,rgba(119,145,112,.15),transparent 55%),linear-gradient(135deg,#e9eee4,#fafbf7)!important}
+@media(max-width:700px){.hero.page-intro{border-radius:30px!important;padding:54px 5% 76px!important}.hero-cta{background:linear-gradient(135deg,#93a58d,#71866f)!important}}
+</style>
+
 </html>
 
 <style id="sl-grab-local-delivery-style">
